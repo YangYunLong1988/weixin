@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <script type='text/javascript'>window.BWEUM||(BWEUM={});BWEUM.info = {"stand":true,"agentType":"browser","agent":"bi-collector.oneapm.com/static/js/bw-send-411.4.5.js","beaconUrl":"bi-collector.oneapm.com/beacon","licenseKey":"mYF7B~e73nNvIjMv","applicationID":2273714};</script><script type="text/javascript" src="//bi-collector.oneapm.com/static/js/bw-loader-411.4.5.js"></script>
+    <title>票务交易系统</title>
+    <link rel="stylesheet" type="text/css" href="../scss/base.scss">
+    <link rel="stylesheet" type="text/css" href="../scss/ticket_buy_qrcode.scss">
+</head>
+
+<body>
+	<div id="page">
+		<div class="tip">微信扫一扫支付</div>
+		<div class="qrcode">
+			<img src="/product/getQr?qrcode=$qrcode" width="300" height="300">
+		</div>
+		<div class="tip">因您的页面无法识别二维码，请保存二维码至相册，打开微信识别支付。</div>
+		<a href="javascript:void(0)" onclick="weixin.checkPayStatus($orderId)" class="success">支付完成</a>
+	</div>
+	<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript" src="../js/weixin.js"></script>
+<script type="text/javascript">
+
+</script>
+</body>
+
+</html>

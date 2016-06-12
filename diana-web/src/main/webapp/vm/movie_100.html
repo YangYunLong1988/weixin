@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <script type='text/javascript'>
+    window.BWEUM || (BWEUM = {});
+    BWEUM.info = {
+        "stand": true,
+        "agentType": "browser",
+        "agent": "bi-collector.oneapm.com/static/js/bw-send-411.4.5.js",
+        "beaconUrl": "bi-collector.oneapm.com/beacon",
+        "licenseKey": "mYF7B~e73nNvIjMv",
+        "applicationID": 2273714
+    };
+    </script>
+    <script type="text/javascript" src="//bi-collector.oneapm.com/static/js/bw-loader-411.4.5.js"></script>
+    <title>票务交易系统</title>
+    <link rel="stylesheet" type="text/css" href="../scss/base.scss">
+    <link rel="stylesheet" type="text/css" href="../scss/movie_100.scss">
+    <link rel="stylesheet" type="text/css" href="../scss/gift.scss">
+</head>
+
+<body>
+    <div id="banner"><img src="data:image/gif;base64,$product.titleImgBase64" width="100%" height="100%"></div>
+    <div id="fix_b" style="display:none"></div>
+    <div id="fix_l">
+        <div class="tab">
+            <a id="tab1" class="tab1_on" href="javascript:void(0)" onclick="toActivity()"></a>
+            <a id="tab2" class="tab2_off" href="javascript:void(0)" onclick="toMovie()"></a>
+            <a id="tab3" class="tab3_off" href="javascript:void(0)" onclick="toGift()"></a>
+        </div>
+    </div>
+    <div class="activity" id="activity">
+        <div class="introduction">购买电影宝的用户即可享受电影票兑换权益，兑换成功后电影方将会提供专属权益和特权。</div>
+        <div class="tequan4">
+            <a class="tequan2_a1"><span class="tequan_span">超值好礼</span></a>
+            <a class="tequan2_a2">购票成功的用户即可获得超值大礼</a>
+        </div>
+        <div class="tequan5">
+            <a class="tequan2_a1"><span class="tequan_span">购票优惠</span></a>
+            <a class="tequan2_a2">百元即可获得两张电影票+超值大礼</a>
+        </div>
+        <div class="tequan2">
+            <a class="tequan2_a1">主创<span class="tequan_span">签名剧照</span></a>
+            <a class="tequan2_a2">主创签名赠送，独家珍藏，机会难得</a>
+        </div>
+        <div class="tequan3">
+            <a class="tequan2_a1">电影首映<span class="tequan_span">入场券</span></a>
+            <a class="tequan2_a2">亲见偶像明星，现场互动</a>
+        </div>
+        <div class="tequanremind">更多惊喜持续更新中...</div>
+    </div>
+    <div class="movie" id="movie" style="display:none">
+        <a class="film" id="film0" href="javascript:void(0)" onclick="toGetFilm(0)"></a>
+        <!-- <a class="film" id="film1" href="javascript:void(0)" onclick="toGetFilm(1)"></a> -->
+        <!-- <a class="film" id="film2" href="javascript:void(0)" onclick="toGetFilm(2)"></a> -->
+        <!-- <a class="film" id="film3" href="javascript:void(0)" onclick="toGetFilm(3)"></a> -->
+        <div class="tip0">精彩影片不断更新中...</div>
+    </div>
+    <div class="gift" id="gift" style="display:none"></div>
+    <div class="clear"></div>
+    <div class="white_padding"></div>
+    <a id="get_btn" class="get_btn" href="javascript:void(0)" onclick="toGet()"></a>
+    <div id="dialog" style="display:none" onclick="toCloseMore()"></div>
+    <div id="dc" style="display:none">
+        <div id="dc_title">电影介绍
+            <a href="javascript:void(0)" onclick="toCloseMore()"></a>
+        </div>
+        <div id="dc_content"></div>
+    </div>
+    <form id="subForm" action="/product/buyTicket/pay/$product.id" method="get">
+        <input type="hidden" name="productId" id="productId" value="$product.id">
+    </form>
+</body>
+
+</html>
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript" src="../js/config.js"></script>
+<script type="text/javascript">
+//表示是否产品售罄
+var isOff = !$product.isAvailable;
+var hasGift = false; //是否有礼品
+if ($product.giftNum > 0) {
+    hasGift = true;
+}
+
+function toGet() {
+    if (isOff) {
+        return;
+    };
+    if (hasGift) {
+        common.goto('$domain/gift/giftChoosePre?productId=$product.id');
+    } else {
+        common.generateOrder($product.id);
+    }
+}
+
+function start() {
+    fillGiftData();
+    if (isOff) {
+        $("#get_btn").removeClass("get_btn").addClass("get_btn_off");
+    };
+}
+
+function fillGiftData() {
+    var html = "";
+    for (var i = 0; i < movie_gifts.length; i++) {
+        var data = movie_gifts[i];
+        html += '<a class="' + data.icon + ' f' + (i % 3) + '" href="javascript:void(0)" onclick="toDetail(' + i + ')">';
+        html += '<div class="p3">' + data.name1 + '<br>' + data.name2 + '</div>';
+        html += '<div class="p4">礼品价值<span>¥' + data.price + '</span></div>';
+        html += '</a>';
+    }
+    for (var i = 0; i < (3 - (movie_gifts.length % 3)) % 3; i++) {
+        html += '<a class="f1"></a>';
+    };
+    html += '<div class="clear"></div>';
+    $("#gift").html(html);
+}
+
+function toActivity() {
+    $("#tab1").removeClass('tab1_off').addClass('tab1_on');
+    $("#tab2").removeClass('tab2_on').addClass('tab2_off');
+    $("#tab3").removeClass('tab3_on').addClass('tab3_off');
+    $("#activity").show();
+    $("#movie").hide();
+    $("#gift").hide();
+}
+
+function toMovie() {
+    $("#tab1").removeClass('tab1_on').addClass('tab1_off');
+    $("#tab2").removeClass('tab2_off').addClass('tab2_on');
+    $("#tab3").removeClass('tab3_on').addClass('tab3_off');
+    $("#activity").hide();
+    $("#movie").show();
+    $("#gift").hide();
+}
+
+function toGift() {
+    $("#tab1").removeClass('tab1_on').addClass('tab1_off');
+    $("#tab2").removeClass('tab2_on').addClass('tab2_off');
+    $("#tab3").removeClass('tab3_off').addClass('tab3_on');
+    $("#activity").hide();
+    $("#movie").hide();
+    $("#gift").show();
+}
+
+function toDetail(index) {
+    var gift = movie_gifts[index];
+    if (gift.code == "mm14") {
+        common.goto("$domain/gift/mm14?orderId=1&productId=0&index=0");
+    } else {
+        common.goto("$domain/gift/detail?index=" + index);
+    }
+}
+
+function toGetFilm(i) {
+    $("#dialog").show();
+    $("#dc_content").html(movie_intros[i].more);
+    var obj = $("#dc").show();
+    var height = obj.height();
+    obj.css("bottom", -height);
+    obj.animate({
+        "bottom": 0
+    }, 200);
+}
+
+function toCloseMore() {
+    $("#dialog").hide();
+    $("#dc").hide()
+}
+
+$(document).scroll(function(event) {
+    var c = $(this);
+    if (c.scrollTop() > 135) {
+        $("#fix_b").show();
+        $("#fix_l").addClass('fix_l');
+    } else {
+        $("#fix_b").hide();
+        $("#fix_l").removeClass('fix_l');
+    }
+});
+start();
+</script>

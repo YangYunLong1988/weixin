@@ -1,0 +1,156 @@
+@import "compass/css3";
+@import "_config.scss";
+#no_order {
+    position: absolute;
+    width: 32rem;
+    top: 6.2rem;
+    left: 0;
+    text-align: center;
+    #img {
+        height: 6rem;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 5.9rem 6rem;
+    }
+    .img0 {
+        background-image: url(../img/diana/no_order@2x.png);
+    }
+    .img1 {
+        background-image: url(../img/diana/verify_order@2x.png);
+    }
+    .txt {
+        margin-top: 2.3rem;
+        font-size: 1.4rem;
+        color: $color_9;
+    }
+}
+
+#list {
+    i {
+        display: block;
+        background: #fb0100;
+        border-radius: 50%;
+        width: 0.8rem;
+        height: 0.8rem;
+        top: 1.7rem;
+        right: 2.5rem;
+        position: absolute;
+    }
+    .item {
+        display: block;
+        margin-top: 1rem;
+        height: 11rem;
+        background-color: $color_white;
+        background-position: 30.6rem 1.4rem;
+        background-repeat: no-repeat;
+        background-size: 0.75rem 1.4rem;
+        background-image: url(../img/diana/right@2x.png);
+        .line0 {
+            position: relative;
+            margin-top: 1rem;
+            width: 32rem;
+            height: 8rem;
+        }
+        .poster {
+            position: absolute;
+            width: 6.4rem;
+            height: 6.4rem;
+            top: 1.4rem;
+            left: 1.4rem;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: 6.4rem 6.4rem;
+        }
+        #poster0 {
+            background-image: url(../img/diana/oreder_0@2x.png);
+        }
+        #poster1 {
+            background-image: url(../img/diana/oreder_1@2x.png);
+        }
+        #poster2 {
+            background-image: url(../img/diana/oreder_2@2x.png);
+        }
+        .cc {
+            position: absolute;
+            top: 1.4rem;
+            left: 9.2rem;
+        }
+        .title {
+            margin-bottom: 0.9rem;
+            font-size: 1.4rem;
+            color: $color_3;
+        }
+        .orderid {
+            font-size: 1.2rem;
+            color: $color_6;
+        }
+        .count {
+            font-size: 1.2rem;
+            color: $color_6;
+        }
+        .money {
+            margin-left: 0.9rem;
+            font-size: 1.2rem;
+            color: $color_6;
+        }
+        .date {
+            display: block;
+            margin-top: 1.1rem;
+            font-size: 1.2rem;
+            color: $color_9;
+        }
+        .time {
+            margin-left: 0.9rem;
+            font-size: 1.2rem;
+            color: $color_9;
+        }
+    }
+}
+
+.to_pay {
+    display: inline-block;
+    width: 7rem;
+    height: 2.5rem;
+    background-color: $color_2;
+    border: 0.1rem solid $color_2;
+    border-radius: 0.4rem;
+    text-align: center;
+    font-size: 1.2rem;
+    color: $color_white;
+    line-height: 2.5rem;
+}
+
+.cancel_pay {
+    display: inline-block;
+    width: 7rem;
+    height: 2.5rem;
+    background-color: $color_white;
+    border: 0.1rem solid $color_2;
+    border-radius: 0.4rem;
+    text-align: center;
+    font-size: 1.2rem;
+    color: $color_2;
+    line-height: 2.5rem;
+}
+
+.amount {
+    height: 2.5rem;
+    text-align: center;
+    font-size: 1.2rem;
+    line-height: 2.5rem;
+    text-decoration: none;
+}
+
+.bar {
+    background: white;
+    height: 3rem;
+    width: 100%;
+    padding-right: 1.5rem;
+    padding-top: 3px;
+    border-top: 0.1rem solid #ccc;
+    text-align: right;
+}
+
+.surplus_time {
+    color: #e77600;
+}

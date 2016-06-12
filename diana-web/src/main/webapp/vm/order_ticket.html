@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <script type='text/javascript'>window.BWEUM||(BWEUM={});BWEUM.info = {"stand":true,"agentType":"browser","agent":"bi-collector.oneapm.com/static/js/bw-send-411.4.5.js","beaconUrl":"bi-collector.oneapm.com/beacon","licenseKey":"mYF7B~e73nNvIjMv","applicationID":2273714};</script><script type="text/javascript" src="//bi-collector.oneapm.com/static/js/bw-loader-411.4.5.js"></script>
+    <title>票务交易系统</title>
+    <link rel="stylesheet" type="text/css" href="../scss/base.scss">
+    <link rel="stylesheet" type="text/css" href="../scss/ticket_order.scss">
+</head>
+
+<body>
+    <form id="orderForm" method="post" action="/product/ticketBuy">
+        <input type="hidden" name="id" value="$id">
+        <input type="hidden" name="time" value="$time">
+        <input type="hidden" name="area" value="$area">
+        <input type="hidden" name="isDelivery" value="0">
+        <div class="option option1">
+            <div class="poster">
+                <img src="../img/diana/poster@2x.png" width="100%" height="100%">
+            </div>
+            <div class="content">
+                <div id="ticket_title"></div>
+                <div class="ticket_pa">
+                    <span id="ticket_price"></span>
+                    <span id="ticket_area"></span>
+                    <span id="ticket_count"></span>
+                </div>
+                <div class="left1">时间<span id="ticket_time"></span></div>
+                <div class="left1">场馆<span id="ticket_place"></span></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="line4 l2">
+            <span class="left3">配送方式</span>
+            <span class="right" id="delivery">快递</span>
+            <div class="clear"></div>
+        </div>
+        <div class="line4">
+            <span class="left3" id="person">取&nbsp;&nbsp;件&nbsp;人</span>
+            <span class="right" id="name"></span>
+            <div class="clear"></div>
+        </div>
+        <div class="line4">
+            <span class="left3">手机号码</span>
+            <span class="right" id="phone"></span>
+            <div class="clear"></div>
+        </div>
+        <div id="addressW" class="line4">
+            <span class="left3">地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址</span>
+            <span class="right" id="address"></span>
+            <div class="clear"></div>
+        </div>
+        <div id="receive" class="line3" style="display:none">
+            <span id="ticket_receive_place">取票地址：</span>
+            <span id="ticket_receive_time">取票时间：</span>
+        </div>
+        <div class="line5 l2">
+            <span class="left3">订单金额</span>
+            <span class="right" id="money"></span>
+            <div class="clear"></div>
+        </div>
+    </form>
+</body>
+
+</html>
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript">
+var choice_num = 1;
+var order = null;
+
+function start() {
+    common.post("/order/getOrderTicket", {
+        id: $id,
+    }, function(result) {
+        order = result.data;
+        $("#ticket_title").html(order.name);
+        $("#ticket_price").html('￥' + order.area.price + '<span>.00</span>');
+        $("#ticket_area").html(order.area.value);
+        $("#ticket_count").html(order.count + "张");
+        $("#ticket_time").html(order.time.value);
+        $("#ticket_place").html(order.scene);
+        $("#ticket_receive_place").html("取票地址：" + order.diyAddress);
+        $("#ticket_receive_time").html("取票时间：" + order.diyTime);
+        $("#name").html(order.deliveryAddress.person);
+        $("#phone").html(order.deliveryAddress.phone);
+        $("#address").html(order.deliveryAddress.address);
+        $("#money").html("¥" + order.money + "<span>.00</span>");
+        if (!order.delivery) {
+            $("#delivery").html("快递");
+            $("#person").html("收&nbsp;&nbsp;件&nbsp;人");
+            $("#receive").hide();
+            $("#addressW").show();
+        } else {
+            $("#delivery").html("上门自取");
+            $("#person").html("取&nbsp;&nbsp;件&nbsp;人");
+            $("#receive").show();
+            $("#addressW").hide();
+        }
+    });
+}
+start();
+</script>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>票务交易系统</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <script type='text/javascript'>window.BWEUM||(BWEUM={});BWEUM.info = {"stand":true,"agentType":"browser","agent":"bi-collector.oneapm.com/static/js/bw-send-411.4.5.js","beaconUrl":"bi-collector.oneapm.com/beacon","licenseKey":"mYF7B~e73nNvIjMv","applicationID":2273714};</script><script type="text/javascript" src="//bi-collector.oneapm.com/static/js/bw-loader-411.4.5.js"></script>
+    <link rel="stylesheet" type="text/css" href="../scss/base.scss">
+    <link rel="stylesheet" type="text/css" href="../scss/movie_transform.scss">
+</head>
+
+<body>
+    <div class="line"></div>
+    <div class="option">
+        <div class="title">购买数量</div>
+        <div class="value">
+            <a id="sum" href="javascript:void(0)" onclick="toSum()"></a>
+            <span id="buy_count">2</span>
+            <a id="sub" href="javascript:void(0)" onclick="toSub()"></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="line"></div>
+    <div class="option">
+        <div class="title">总计</div>
+        <div class="value">
+            <div>
+                <span id="total">￥288<span>.00</span></span>
+                <br>
+                <span id="tip_count">(4张电影票)</span>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="line"></div>
+    <div class="option">
+        <div class="title">剩余可投金额</div>
+        <div class="value">
+            <div id="surplus">￥80<span>.46</span></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="tip">
+        <a class="on" href="javascript:void(0)" onclick="toCheck(this)">兑换前请仔细阅读</a>
+        <a class="protocol" href="javascript:void(0)" onclick="toLookup()">《兑换规则》</a>
+    </div>
+    <a href="javascript:void(0)" id="next" class="next_on" onclick="toNext()">确定</a>
+</body>
+
+</html>
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript">
+var isCheck = true;
+var old_count;
+
+function toCheck(obj) {
+    isCheck = !isCheck;
+    if (isCheck) {
+        $(obj).removeClass('off').addClass('on');
+        $("#next").removeClass("next_off").addClass('next_on');
+    } else {
+        $(obj).removeClass('on').addClass('off');
+        $("#next").removeClass('next_on').addClass("next_off");
+    };
+}
+
+function toLookup() {
+    common.showAlert("查看协议");
+}
+
+function toSub() {
+    old_count = $("#buy_count").text() * 1;
+    if (old_count > 1) {
+        $("#buy_count").text(old_count - 1);
+    };
+}
+
+function toSum() {
+    old_count = $("#buy_count").text() * 1;
+    if (old_count < 2) {
+        $("#buy_count").text(old_count + 1);
+    };
+}
+
+function toNext() {
+    common.showAlert("下一步");
+}
+</script>

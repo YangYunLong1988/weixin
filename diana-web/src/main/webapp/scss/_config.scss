@@ -1,0 +1,26 @@
+$color_white:#FFFFFF;
+$color_black:#000000;
+$color_gray:#EEEEEE; //选框背景灰
+$color_line:#E6E6E6; //页面边框色
+$color_background:#EFF1F5; //页面背景色
+$color_0:#29B4EB; //主色调 蓝色
+$color_1:#436187; //辅助色1 墨蓝色
+$color_2:#E77600; //辅助色2 橙色
+$color_3:#333333; //文字注释1 黑色
+$color_6:#666666; //文字注释2 灰色
+$color_9:#999999; //文字注释3 浅灰色
+//左右内边距
+@mixin block {
+    display: block;
+    padding-left: 1.1rem;
+    padding-right: 1.1rem;
+}
+
+//背景图
+@mixin image-set($bg, $bg2x) {
+    background-image: url($bg);
+    background-image: -webkit-image-set(url($bg) 1x, url($bg2x) 2x);
+    background-image: -moz-image-set(url($bg) 1x, url($bg2x) 2x);
+    background-image: -ms-image-set(url($bg) 1x, url($bg2x) 2x);
+    background-image: -o-image-set(url($bg) 1x, url($bg2x) 2x);
+}

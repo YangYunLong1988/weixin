@@ -1,0 +1,360 @@
+@import "compass/css3";
+@import "_config.scss";
+.line {
+    height: 1rem;
+}
+
+.top_border {
+    border-top: 0.1rem solid $color_background;
+}
+
+.bottom_border {
+    border-bottom: 0.1rem solid $color_background;
+}
+
+.option {
+    display: block;
+    background-color: $color_white;
+    padding-left: 1.4rem;
+    padding-right: 1.4rem;
+    padding-top: 0.9rem;
+    padding-bottom: 0.9rem;
+    line-height: 2rem;
+    .title {
+        float: left;
+        color: $color_6;
+    }
+    .value {
+        float: right;
+        color: $color_2;
+    }
+    #product_name {
+        text-align: justify;
+        text-justify: inter-ideograph;
+    }
+    #price {
+        float: right;
+        color: $color_2;
+        span {
+            font-size: 1rem;
+        }
+    }
+    #sub {
+        float: right;
+        width: 2.2rem;
+        height: 2.2rem;
+        display: inline-block;
+        background-size: 2.2rem 2.2rem;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-image: url(../img/diana/sub@2x.png);
+    }
+    #buy_count {
+        float: right;
+        color: #E77600;
+        text-align: center;
+        display: inline-block;
+    }
+    #sum {
+        float: right;
+        width: 2.2rem;
+        height: 2.2rem;
+        display: inline-block;
+        background-size: 2.2rem 2.2rem;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-image: url(../img/diana/sum@2x.png);
+    }
+    #total {
+        float: right;
+        color: $color_2;
+        text-align: right;
+        span {
+            font-size: 1rem;
+        }
+        .ticket_count {
+            color: $color_6;
+            font-size: 1.2rem;
+        }
+    }
+    .code_detail {
+        float: right;
+        display: inline-block;
+        #code_t1 {
+            color: $color_9;
+        }
+        #code_t2 {
+            color: $color_2;
+        }
+        #code_t3 {
+            color: $color_2;
+            border-left: 0.1rem solid $color_9;
+            padding-left: 0.5rem;
+            text-decoration: underline;
+        }
+        #code_t4 {
+            color: $color_9;
+            border-left: 0.1rem solid $color_9;
+            padding-left: 0.5rem;
+            text-decoration: underline;
+        }
+    }
+    .button0 {
+        float: right;
+        display: inline-block;
+        width: 0.8rem;
+        height: 2rem;
+        background-size: 0.8rem 1.4rem;
+        background-image: url(../img/diana/right@2x.png);
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    %button1 {
+        float: right;
+        display: inline-block;
+        width: 1.8rem;
+        height: 2rem;
+        background-size: 1.8rem 1.8rem;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    .choose_on {
+        @extend %button1;
+        background-image: url(../img/pay/check@2x.png);
+    }
+    .choose_off {
+        @extend %button1;
+        background-image: url(../img/pay/uncheck@2x.png);
+    }
+    %pay {
+        padding-left: 2.8rem;
+        background-size: 2rem 2rem;
+        background-repeat: no-repeat;
+    }
+    #weixin {
+        @extend %pay;
+    }
+    #quick {
+        @extend %pay;
+    }
+    #alipay {
+        @extend %pay;
+        background-image: url(../img/pay/pay_alipay@2x.png);
+    }
+    #code {
+        @extend %pay;
+        background-image: url(../img/pay/pay_code@2x.png);
+    }
+}
+
+#pay_weixin {
+    .on {
+        background-image: url(../img/pay/pay_weixin@2x.png);
+    }
+    .off {
+        background-image: url(../img/pay/pay_weixin_off@2x.png);
+    }
+}
+
+#pay_quick {
+    .on {
+        background-image: url(../img/pay/pay_quick@2x.png);
+    }
+    .off {
+        background-image: url(../img/pay/pay_quick_off@2x.png);
+    }
+}
+
+.tip,
+#limit {
+    height: 3.2rem;
+    line-height: 3.2rem;
+    margin-left: 1.4rem;
+    color: $color_6;
+    font-size: 1.2rem;
+    span {
+        color: $color_2;
+    }
+}
+
+#code_pop {
+    width: 32rem;
+    margin: auto;
+    left: 0;
+    right: 0;
+    .cp_tip {
+        color: $color_6;
+        font-size: 1.2rem;
+        span {
+            font-size: 1rem;
+            color: $color_2;
+        }
+    }
+    #code_none {
+        text-align: center;
+        color: $color_9;
+        height: 10rem;
+        background-size: 6.4rem 5.3rem;
+        background-image: url(../img/exchangecode/no_ticket@2x.png);
+        background-repeat: no-repeat;
+        background-position: center;
+        padding-top: 8rem;
+    }
+    #code_list {
+        text-align: center;
+        overflow: scroll;
+        height: 30rem;
+        .code_0 {
+            background-image: url(../img/pay/code_0@2x.png);
+        }
+        .code_1 {
+            background-image: url(../img/pay/code_1@2x.png);
+        }
+        a {
+            display: inline-block;
+            width: 26rem;
+            height: 4.9rem;
+            background-size: 26rem 4.9rem;
+            margin-bottom: 1rem;
+            color: $color_white;
+            line-height: 4.9rem;
+            text-align: left;
+            .cp_money {
+                display: inline-block;
+                width: 6.4rem;
+                font-size: 2.1rem;
+                padding-left: 0.8rem;
+                span {
+                    font-size: 1.2rem;
+                }
+            }
+            .cp_text {
+                display: inline-block;
+                width: 19.2rem;
+                font-size: 1.4rem;
+                text-align: center;
+            }
+        }
+    }
+    #code_bar {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+    }
+    #cp_cancel {
+        text-align: center;
+        text-decoration: underline;
+        color: $color_2;
+    }
+    .cp_bind {
+        color: $color_2;
+    }
+}
+
+#codeInput {
+    width: 24rem;
+    border: 0;
+}
+
+#scan {
+    text-align: center;
+    span {
+        display: inline-block;
+        color: $color_6;
+        text-align: center;
+        height: 2rem;
+        background-size: 2rem 1.7rem;
+        background-image: url(../img/diana/scan@2x.png);
+        background-position: left center;
+        background-repeat: no-repeat;
+        padding-left: 2.8rem;
+    }
+}
+
+%check {
+    padding-left: 2rem;
+    color: $color_3;
+    font-size: 1.2rem;
+    background-size: 1.4rem 1.4rem;
+    background-repeat: no-repeat;
+    background-position: 0 center;
+}
+
+.check_on {
+    @extend %check;
+    background-image: url(../img/diana/check@2x.png);
+}
+
+.check_off {
+    @extend %check;
+    background-image: url(../img/diana/check_0@2x.png);
+}
+
+.protocol {
+    color: $color_2;
+    font-size: 1.2rem;
+}
+
+.blank {
+    height: 5rem;
+}
+
+#protocol {
+    position: fixed;
+    margin: auto;
+    left: 0;
+    right: 0;
+    width: 32rem;
+    color: #333;
+    background-color: $color_white;
+    padding: 1rem;
+    font-size: 1.1rem;
+    line-height: 1.6rem;
+    overflow: scroll;
+    a {
+        float: right;
+        display: inline-block;
+        width: 1.6rem;
+        height: 1.6rem;
+        background-size: 1.6rem 1.6rem;
+        background-image: url(../img/close@2x.png);
+    }
+    div {
+        font-size: 1.1rem;
+    }
+    .p_title_16 {
+        font-weight: bold;
+        font-size: 1.6rem;
+        line-height: 3rem;
+        text-align: center;
+    }
+    .p_title_14 {
+        font-weight: bold;
+        font-size: 1.4rem;
+        line-height: 2rem;
+        text-align: center;
+    }
+    .c_0 {}
+    .c_1 {
+        text-indent: 2rem;
+    }
+    .c_2 {
+        font-size: 1.1rem;
+        text-align: right;
+    }
+    .c_3 {
+        font-size: 1.1rem;
+    }
+    .blank {
+        height: 1rem;
+    }
+    table {
+        background-color: #CCC;
+        td {
+            background-color: $color_white;
+        }
+        width: 100%;
+        text-align: center;
+    }
+}

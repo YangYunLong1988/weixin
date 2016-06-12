@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+		
+		
+		
+		<div class="col-md-12 main">
+          	<div class="panel panel-primary" style="margin-top:20px;">
+				  <div class="panel-heading">电影票类订单</div>
+				  <div class="panel-body">
+				    
+				  </div>
+		         	<div style="overflow-x:auto;">
+			            <table class="dataTable striped border bordered hovered cell-hovered display movieOrderTab TBstyle">
+			              <thead>
+			                <tr>
+			                  <th>订单编号</th>
+			                  <th>绑定手机</th>
+			                  <th>所属渠道</th>
+			                  <th class="pay-name">购买产品</th>
+			                  <th>订单金额(元)</th>
+			                  <th>支付金额(元)</th>
+			                  <th>代金券金额(元)</th>
+			                  <th>订单状态</th>
+			                  <th>提交时间</th>
+			                  <th>票数</th>
+			                  <th>领取礼品</th>
+			                  <th>操作</th>
+			                </tr>
+			              </thead>
+			              <tbody></tbody>
+			            </table>
+		          </div>
+			</div>
+        </div>
+     
+    <div class="clearfix"></div>
+	<button type="submit" class="btn btn-primary btn-back" onclick="back('/user/userList')"> 返  回 </button>
+    <script src="/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+    <script src="/js/bootstrap-datetimepicker.zh-CN.js" type="text/javascript"></script>
+    <script src="/js/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="/js/dateTable-Tools.js" type="text/javascript"></script>
+    <script src="/js/public.js"></script>
+    <script type="text/javascript">
+   
+		 	
+	      
+	      
+		 //初始化订单数据
+	     function initData() {
+	        var id = '$userid';
+			$('.movieOrderTab').DataTable({
+				"oLanguage" : myDataTable.getOLanguage() ,
+				//"aaSorting": [[ 4, "desc" ]],//设置第5个元素为默认排序 
+				"pagingType" : "full_numbers", //分页样式
+				"bFilter" : false,//开启搜索过滤
+				"data-searching" : false,//开启搜索
+				"bAutoWidth" : false, //自动宽度
+				"bPaginate" : true, //是否显示分页工具
+				"ordering" : false, //禁用排序功能
+				"bLengthChange": false, //改变每页显示数据数
+				"aLengthMenu" : [ [ 10, 20, 30 ], [ 10, 20, 30 ] ],//定义每页显示数据数量
+				//"iDisplayLength":30,//默认显示条数
+				"processing" : true,//是否显示处理状态(排序的时候，数据很多耗费时间长的话，也会显示这个)
+				"serverSide" : true,//是否开启服务器模式
+				"ajax" : {
+					"url" : "/user/loadUserOrder?id="+id+"&type=movie",
+					"type" : "post",
+					"dataType" : 'json',
+					//"success": fnCallback,  
+					"timeout" : 15000,   
+					"error" : handleAjaxError
+				},
+				"columns" : [
+						
+						{
+							"data" : "id",
+							"render" : myDataTable.getRender()
+						},
+						{
+							"data" : "mobile",
+							"render" : myDataTable.getRender()
+						},
+						{
+							"data" : "platform",
+							"render" : myDataTable.getRender()
+						},
+						{
+							"data" : "productName",
+							"render" : function(data, type, row) {
+								return '<span class="text-overflow">'+ data + '</span>';
+							}
+						},
+						{
+							"data" : "amount",
+							"render" : myDataTable.getRender()
+						},
+						{
+							"data" : "payAmount",
+							"render" : myDataTable.getRender()
+						},
+						{
+							"data" : "cardStockAmount",
+							"render" : myDataTable.getRender()
+						},
+						{
+							"data" : "status",
+							"render" : myDataTable.getRender()
+						},
+						{
+							"data" : "createdDate",
+							//格式化时间
+							"render" : myDataTable.getRenderOfDateYMDHMS()
+						},
+						{
+							"data" : "alreadyConversion",
+							"render" : function(data, type, row) {
+								if (data != null) {
+									return data;
+								} else {
+									return 0;
+								}
+							 }
+						},
+						{
+							"data" : "gift",
+							"render" : function(data, type, row) {
+								if (data != null) {
+									return data;
+								} else {
+									return 0;
+								}
+							 }
+						},
+						{
+							"data" : "id",
+							"render" : function(data, type, row) {
+								var linkText = "查看出票";
+								var linkOrder = "查看礼品";
+								return '<a href="#" onclick="findTicket('
+											+ row.id
+											+ ')" style="color: blue;">'
+											+ linkText + '</a>'+'&nbsp;&nbsp;<a href="#" onclick="findGift('
+											+ row.id
+											+ ')" style="color: blue;">'
+											+ linkOrder + '</a>';
+						}
+						
+						} ],
+				"retrieve" : true
+				});
+				
+			}
+		
+		
+	      $(function(){
+			initData();
+		 })
+
+         //查询出票信息
+         function findTicket(orderId){
+             load("/order/orderTicketList/"+orderId+"/movie");
+         }
+
+	     //查找用户礼品记录信息
+	     function findGift(orderId){
+	     	var userId = '$userid';
+	     	load("/user/userGiftList/"+userId+"/"+orderId);
+	     }
+	      
+    </script>
+  </body>
+</html>

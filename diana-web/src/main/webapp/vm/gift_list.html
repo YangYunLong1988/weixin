@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <script type='text/javascript'>window.BWEUM||(BWEUM={});BWEUM.info = {"stand":true,"agentType":"browser","agent":"bi-collector.oneapm.com/static/js/bw-send-411.4.5.js","beaconUrl":"bi-collector.oneapm.com/beacon","licenseKey":"mYF7B~e73nNvIjMv","applicationID":2273714};</script><script type="text/javascript" src="//bi-collector.oneapm.com/static/js/bw-loader-411.4.5.js"></script>
+    <title>票务交易系统</title>
+    <link rel="stylesheet" type="text/css" href="../scss/base.scss">
+    <link rel="stylesheet" type="text/css" href="../scss/gift_list.scss">
+    <link rel="stylesheet" type="text/css" href="../scss/gift.scss">
+</head>
+
+<body>
+    <div class="page" id="list">
+        <div id="nogift">
+            <div class="img"></div>
+            <div class="txt">暂时没有礼品</div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript" src="../js/config.js"></script>
+<script type="text/javascript">
+var movieGiftList = null;
+
+function start() {
+    loadMovieGift();
+}
+
+function loadMovieGift() {
+    common.post("/gift/getList", {
+        orderId: "$orderId"
+    }, function(result) {
+        movieGiftList = result.data;
+        if (movieGiftList.length > 0) {
+            $("#nogift").hide();
+        }
+
+        var container = $("#list");
+        for (var i = 0; i < movieGiftList.length; i++) {
+            var item = movieGiftList[i];
+            if (item.selected) {
+                var data = getMovieGiftData(item.gift);
+                if (data != null) {
+                    var icon = data.icon2;
+                    var html = '<a href="javascript:void(0)" onclick="toEnterMovie(' + i + ')" class="gift">';
+                    html += '<div class="icon ' + icon + '"></div>';
+                    html += '<div class="name">' + data.name1 + data.name2 + '</div>';
+                    html += '<div class="tip">';
+                    html += '<span class="left"><span class="red">1</span>份</span>';
+                    html += '<span class="right"></span>';
+                    html += '</div>';
+                    html += '</a>';
+                    var one = $(html);
+                    container.append(one);
+                }
+            } else {
+                var html = '<a href="javascript:void(0)" onclick="toEnterMovie(' + i + ')" class="gift">';
+                html += '<div class="icon unknow"></div>';
+                html += '<div class="name">电影礼品</div>';
+                html += '<div class="tip">';
+                html += '<span class="left"><span class="red">1</span>份</span>';
+                html += '<span class="right"><span class="red">未领取</span></span>';
+                html += '</div>';
+                html += '</a>';
+                var unknow = $(html);
+                container.append(unknow);
+            }
+        };
+    });
+}
+
+function getMovieGiftData(code) {
+    for (var i = 0; i < movie_gifts.length; i++) {
+        var item = movie_gifts[i];
+        if (item.code == code) {
+            return item;
+        }
+    };
+    return null;
+}
+
+function toEnterMovie(i) {
+    var item = movieGiftList[i];
+    if (item.selected) {
+        common.goto("/gift/address?index=-1&id=" + item.id + "&orderId=$orderId");
+    } else {
+        common.goto("/gift/choose?id=" + item.id + "&orderId=$orderId");
+    }
+}
+start();
+</script>

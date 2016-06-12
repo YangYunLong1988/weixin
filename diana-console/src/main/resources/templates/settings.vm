@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<header>
+    <title>票务交易系统--系统设置</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/bootstrap-switch.min.css" />
+</header>
+<body>
+    <main id="content" role="main">
+        <div id="content" class="bs-docs-header">
+            <div class="container">
+                <h1>票务系统系统设置</h1>
+            </div>
+        </div>
+        <form id="settingsForm" method="post">
+        <div class="container">
+            <div class="row">
+            #foreach( $settings in $settingsList )
+            <div class="col-sm-6 col-lg-4">
+                <h2 class="h4">$!settings.title：</h2>
+                <p>
+                #if ($settings.value == "off")
+                    <input id="$settings.key" name="$settings.key" value="$settings.value" type="checkbox" />
+                #else
+                    <input id="$settings.key" name="$settings.key" value="$settings.value" type="checkbox" checked />
+                #end
+                </p>
+               <span>$settings.description</span>
+                <div id="alert-$settings.key" class="alert" role="alert">...</div>
+            </div>
+            #end
+            </div>
+        </div>
+        </form>
+    </main>
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap-switch.min.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("input[type='checkbox'], input[type='radio']").bootstrapSwitch();
+            $("input[type='checkbox'], input[type='radio']").on('switchChange.bootstrapSwitch', function(event, state) {
+                var alert = $('#alert-'+$(this).attr("id"));
+                if(state){
+                    $(this).val("on").attr("checked");
+                }else{
+                    $(this).val("off").removeAttr("checked");
+                }
+
+                $.ajax({
+                    type: "post",
+                    async: true,
+                    url: "/settings/save",
+                    dataType : "json",
+                    data :{
+                        key :$(this).attr('name') ,
+                        value : $(this).val()
+                    },
+                    success: function (result) {
+                        alert.show();
+                        alert.addClass('alert-success');
+                        alert.html(result.messages);
+                        cleanAlert(alert);
+                    },
+                    error: function (xhr, status, error) {
+                        alert.show();
+                        alert.addClass('alert-warning');
+                        if(xhr.status && xhr.status == 400){
+                            alert(xhr.responseText);
+                        }else{
+                            alert("服务器异常，请稍后再试！");
+                        }
+                        cleanAlert(alert);
+                    }
+                });
+
+            });
+            $('.alert').hide();
+        });
+
+        function cleanAlert(alert){
+            setTimeout(function () {
+                alert.hide();
+                alert.html('');
+            },1000);
+        }
+    </script>
+</body>
+</html>

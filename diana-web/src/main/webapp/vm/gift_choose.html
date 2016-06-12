@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <script type='text/javascript'>
+    window.BWEUM || (BWEUM = {});
+    BWEUM.info = {
+        "stand": true,
+        "agentType": "browser",
+        "agent": "bi-collector.oneapm.com/static/js/bw-send-411.4.5.js",
+        "beaconUrl": "bi-collector.oneapm.com/beacon",
+        "licenseKey": "mYF7B~e73nNvIjMv",
+        "applicationID": 2273714
+    };
+    </script>
+    <script type="text/javascript" src="//bi-collector.oneapm.com/static/js/bw-loader-411.4.5.js"></script>
+    <title>票务交易系统</title>
+    <link rel="stylesheet" type="text/css" href="../scss/base.scss">
+    <link rel="stylesheet" type="text/css" href="../scss/gift_choose.scss">
+    <link rel="stylesheet" type="text/css" href="../scss/gift.scss">
+</head>
+
+<body>
+    <div class="blank"></div>
+    <div class="explain">请选择您喜欢的礼品</div>
+    <div class="gift" id="gift"></div>
+</body>
+
+</html>
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript" src="../js/config.js"></script>
+<script type="text/javascript">
+var cur_index = null;
+var orderId = '$!orderId';
+
+
+function start(data) {
+    fillGiftData();
+}
+
+function showNotification(index) {
+    cur_index = index;
+    toDetail();
+}
+
+function toDetail() {
+    var gift = movie_gifts[cur_index];
+    if (gift.code == "mm57") {
+        common.goto("/gift/mm57?productId=0&orderId=$orderId&index=" + cur_index);
+    } else if (gift.code == "mm14") {
+        common.goto("/gift/mm14?productId=0&orderId=$orderId&index=" + cur_index);
+    } else if (gift.code == "mm21") {
+        common.showAlert("该礼品已经没有库存。");
+    } else {
+        common.goto("/gift/address?id=$id&index=" + cur_index + "&orderId=$orderId");
+    }
+}
+
+function fillGiftData() {
+    var html = "";
+    var count = 0;
+    for (var i = 0; i < movie_gifts.length; i++) {
+        var data = movie_gifts[i];
+        if (data.isNull) {
+            continue;
+        }
+        html += '<a class="' + data.img + ' f' + (count % 2) + '" href="javascript:void(0)" onclick="showNotification(' + i + ')">';
+        html += '<div class="p3">' + data.name1 + data.name2 + '</div>';
+        html += '<div class="p4">礼品价值 <span>¥' + data.price + '</span></div>';
+        html += '</a>';
+        count++;
+    }
+    for (var i = 0; i < (2 - (count % 2)) % 2; i++) {
+        html += '<a class="f1"></a>';
+    };
+    html += '<div class="clear"></div>';
+    $("#gift").html(html);
+}
+start();
+</script>

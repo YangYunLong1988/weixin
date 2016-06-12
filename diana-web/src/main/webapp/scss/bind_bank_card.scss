@@ -1,0 +1,176 @@
+@import "compass/css3";
+@import "_config.scss";
+.line {
+    clear: both;
+    height: 1rem;
+}
+
+input {
+    float: left;
+    border: 0;
+    outline: 0;
+    font-size: 1.4rem;
+    width: 18rem;
+    height: 4rem;
+    font-size: 1.4rem;
+    background-color: transparent;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.op {
+    height: 4.4rem;
+    line-height: 4.4rem;
+    padding-left: 1.4rem;
+    padding-right: 1.4rem;
+    font-size: 1.4rem;
+    color: $color_3;
+    background-color: $color_white;
+    .title {
+        float: left;
+        width: 7rem;
+    }
+    .arrow {
+        float: right;
+        width: 0.75rem;
+        height: 4.4rem;
+        background-size: 0.75rem 1.4rem;
+        background-repeat: no-repeat;
+        background-position: right center;
+        background-image: url(../img/diana/right@2x.png);
+    }
+    #tokenCode {
+        float: left;
+        width: 10rem;
+    }
+    #codeBtn {
+        float: right;
+        display: block;
+        width: 9.2rem;
+        text-align: right;
+        color: #E77600;
+    }
+}
+
+.tip {
+    clear: both;
+    height: 3rem;
+    line-height: 3rem;
+    padding-left: 1.4rem;
+    font-size: 1.4rem;
+    color: $color_6;
+}
+
+.blank {
+    height: 8rem;
+}
+
+#bank_choose {
+    position: fixed;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 100%;
+    width: 32rem;
+    height: 100%;
+    background-color: $color_white;
+    #bank_search {
+        width: 32rem;
+        height: 3.6rem;
+        padding-left: 1rem;
+        border-bottom: 0.1rem solid #CCC;
+    }
+    #bank_options {
+        position: absolute;
+        margin: auto;
+        left: 0;
+        right: 0;
+        top: 4rem;
+        bottom: 0;
+        overflow: scroll;
+        a {
+            display: block;
+            line-height: 4rem;
+            font-size: 1.2rem;
+            border-bottom: 0.1rem solid #EEE;
+            padding-left: 1.4rem;
+            color: $color_6;
+        }
+    }
+}
+
+#branch_choose {
+    position: fixed;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 100%;
+    width: 32rem;
+    height: 100%;
+    background-color: $color_white;
+    #branch_bar {
+        height: 7.9rem;
+        border-bottom: 0.1rem solid #EEE;
+        .bar_left {
+            float: left;
+            width: 24rem;
+            .bar_0 {
+                height: 3.9rem;
+                color: #CCC;
+                border-bottom: 0.1rem solid #EEE;
+                a {
+                    display: block;
+                    float: left;
+                    height: 3.9rem;
+                    line-height: 3.9rem;
+                    text-align: left;
+                    color: $color_3;
+                }
+                #province {
+                    width: 9rem;
+                    margin-left: 1rem;
+                    text-align: center;
+                }
+                #city {
+                    width: 10rem;
+                    margin-left: 0;
+                    text-align: center;
+                }
+            }
+            #branch {
+                width: 23rem;
+                height: 3.6rem;
+                margin-left: 1rem;
+            }
+        }
+        #branch_ok {
+            float: right;
+            width: 4.8rem;
+            height: 7.9rem;
+            background-size: 4.8rem 2.6rem;
+            background-image: url(../img/ok@2x.png);
+            background-repeat: no-repeat;
+            background-position: center center;
+            margin-right: 1rem;
+        }
+        .on {
+            border-bottom: 0.2rem solid $color_2;
+        }
+    }
+    #branch_options {
+        position: absolute;
+        margin: auto;
+        left: 0;
+        right: 0;
+        top: 8rem;
+        bottom: 0;
+        overflow: scroll;
+        a {
+            display: block;
+            line-height: 4rem;
+            font-size: 1.2rem;
+            border-bottom: 0.1rem solid #EEE;
+            padding-left: 1.4rem;
+            color: $color_6;
+        }
+    }
+}

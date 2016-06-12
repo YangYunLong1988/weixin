@@ -1,0 +1,27 @@
+@import "compass/css3";
+@import "_config.scss";
+#page {
+    .qrcode {
+        text-align: center;
+        padding: 1rem;
+    }
+    .tip {
+        text-align: center;
+        line-height: 2rem;
+    }
+    h2 {
+        text-align: center;
+    }
+    .success {
+        display: block;
+        width: 29.8rem;
+        height: 4rem;
+        line-height: 4rem;
+        margin: 2rem 1.1rem;
+        text-align: center;
+        letter-spacing: 0.2rem;
+        color: $color_white;
+        background-color: #E77600;
+        border-radius: 0.5rem;
+    }
+}

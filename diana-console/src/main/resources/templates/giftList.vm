@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+	<body> 		
+ 		<div class="col-md-12 main">
+          	<div class="panel panel-primary" style="margin-top:20px;">
+				  <div class="panel-heading">礼品查询</div>
+				  <div class="panel-body">
+				    	<form method="post" id="fm">
+			  
+							  <div class="form-group pull-left col-sm-2">
+							    <label for="exampleInputEmail2">手机号码：</label>
+							    <input type="tel" class="form-control mobile" placeholder="手机号码" name="mobile">
+							  </div> 
+							  <div class="form-group pull-left col-sm-2">
+							    <label for="exampleInputEmail2">订单编号：</label>
+							    <input type="text" class="form-control id" placeholder="订单编号" name="id">
+							  </div> 
+							  
+							 <div class="clearfix"></div>
+							  <div class="form-group pull-left col-sm-2">
+							    <label for="exampleInputName2">统计日期：</label>
+							    <input type="text" class="form-control beginDate input-date" placeholder="开始日期" name="beginDate" readonly>
+							    <a class="icon-remove date-clear" id="beginDate" href="#"></a>
+							  </div>
+							  <div class="form-group pull-left col-sm-2">
+							    <label for="exampleInputEmail2"></label>
+							    <input type="text" class="form-control endDate input-date" placeholder="结束日期" name="endDate" readonly>
+							    <a class="icon-remove date-clear" id="endDate" href="#"></a>
+							  </div>
+							  
+						 </form>
+				          &nbsp;<button type="submit" class="btn btn-primary btn-query query changeId" id="movie"> 查 询 </button>
+							  <button type="submit" class="btn btn-primary btn-query" onclick="exportExcel('/gift/exportGiftExcel?type=movie&'+$('#fm').serialize())"> 导 出 </button>
+				  </div>
+				          <div class="clearfix"></div>
+				  
+				   <!--电影类订单-->
+		         	<div style="overflow-x:auto;">
+			            <table class="dataTable striped border bordered hovered cell-hovered display movie TBstyle">
+			               <thead>
+			            	  <th>手机号码</th>
+			            	  <th>礼品编号</th>
+			                  <th>订单编号</th>
+			                  <th class="pay-name">购买产品</th>
+			                  <th>礼品提交时间</th>
+			                  <th>订单提交时间</th>
+			                  <th>领取礼品数量</th>
+			                  <th>礼品类型</th>
+			                  <th>礼品数量</th>
+			                  <th>取件人</th>
+			                  <th>取件人手机</th>
+			                  <th>配送地址</th>
+			                  <th>操作</th>
+			              </thead>
+			              <thead></tbody>
+			            </table>
+			
+			
+		          </div>
+			</div>
+        </div>
+ 		
+     	<!--编辑配送信息模态框-->
+	<div class="modal fade" id="package-modal" tabindex="-1" role="dialog" aria-labelledby="packageModalLabel" aria-hidden="true">
+		<div class="modal-dialog"  style="width:650px">
+			<div class="modal-content">
+				<div class="modal-header bg-primary">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="packageModalLabel">修改配送信息</h4>
+				</div>
+				</br>
+				<div class="form-group">
+					<div class="col-sm-4">
+					<label class="control-label">订单编号：</label><span id="orderId"></span>
+					</div>
+					<div class="col-sm-8">
+					<label  class="control-label">选择礼品：</label><span id="giftName"></span>
+					</div>
+				</div>
+				<form role="form"  action="/package/orderPackageModify" method="get" id="gift-form">
+							<input type="hidden" id="orderIdInput" name="orderIdInput">
+					<div class="modal-body">
+						<div class="form-group">
+							<label for="package-name" class="control-label">取件人：</label> 
+							<input type="text" class="form-control" name="packageName" id="package-name" maxlength="10" required>
+							<div class="help-block with-errors"></div>
+						</div>
+						<div class="form-group">
+							<label for="package-tel" class="control-label">取件人手机:</label> 
+							<input type="text" class="form-control" name="packageTel" id="package-tel" pattern="^(13|15|18)\d{9}$" placeholder="手机" data-error="请输入正确的手机号码" maxlength="11" required>
+							<div class="help-block with-errors"></div>
+						</div>
+						<div class="row">
+							<div class="col-sm-3 form-group">
+								<label for="package-privince" class="control-label">省:</label> 
+								<select class="form-control" name="packagePrivince" id="package-privince" style="width:185px;"></select>
+								<div class="help-block with-errors"></div>
+							</div>
+							<div class="col-sm-3 form-group">
+								<label for="package-city" class="control-label">市:</label> 
+								<select class="form-control" name="packageCity" id="package-city" style="width:185px;" data-error="请选择城市" required></select>
+								<div class="help-block with-errors"></div>
+							</div>
+							<div class="col-sm-3 form-group">
+								<label for="package-area" class="control-label">区/县:</label> 
+								<select class="form-control" name="packageArea" id="package-area" style="width:185px;" data-error="请选择区县" required></select>
+								<div class="help-block with-errors"></div>
+							</div>
+						</div>			
+						<div class="form-group">
+							<label for="package-tetail-address" class="control-label">配送地址:</label> 
+							<input type="text" class="form-control" name="packageTetailAddress" id="package-tetail-address" maxlength="50" required>
+							<div class="help-block with-errors"></div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						<button type="submit" class="btn btn-primary" id="gift-Property-Ok">确定</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+     
+
+    <script src="/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+    <script src="/js/bootstrap-datetimepicker.zh-CN.js" type="text/javascript"></script>
+    <script src="/js/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="/js/dateTable-Tools.js" type="text/javascript"></script>
+    <script src="/js/jquery.form.js" type="text/javascript"></script>
+    <script src="/js/public.js"></script>
+    <script src="/js/city.js"></script>
+    <script src="/js/validator.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+	     var gProvince, gCity, gArea;
+	     
+function openProvince() {
+    var html = "";
+    for (var i = 0; i < citys.length; i++) {
+        var item = citys[i];
+        html += '<option value=' + i + '>' + item.name + '</option>';
+    };
+
+    $("#package-privince").empty().append(html);
+    
+}
+
+
+$("#package-privince").change(function(){
+ var htmlBegain="<option value=''>== 请选择 ==</option>";
+ gProvince=citys[$(this).val()];
+     if (gProvince) {
+        var html = "";
+        for (var i = 0; i < gProvince.children.length; i++) {
+            var item = gProvince.children[i];
+            html += '<option value=' + i + '>' + item.name + '</option>';
+        };
+        $("#package-city").empty().append(htmlBegain).append(html);
+        openArea();
+    }; 
+});
+
+
+$("#package-city").change(openArea);
+
+function openArea() {
+ var htmlBegain="<option value=''>== 请选择 ==</option>";
+ $("#package-area").empty().append(htmlBegain);
+ gCity=gProvince.children[$("#package-city").val()];
+    if (gCity) {
+        var html = "";
+        for (var i = 0; i < gCity.children.length; i++) {
+            var item = gCity.children[i];
+            html += '<option value=' + i + '>' + item.name + '</option>';
+        };
+        $("#package-area").empty().append(htmlBegain).append(html);
+    };
+}
+
+		 //初始化电影订单数据
+	     function initData() {
+			var type=$(".changeId").attr('id');
+			$('.movie').DataTable({
+					"oLanguage" : myDataTable.getOLanguage() ,
+					//"aaSorting": [[ 4, "desc" ]],//设置第5个元素为默认排序 
+					"pagingType" : "full_numbers", //分页样式
+					"bFilter" : false,//开启搜索过滤
+					"data-searching" : false,//开启搜索
+					"bAutoWidth" : false, //自动宽度
+					"bPaginate" : true, //是否显示分页工具
+					"ordering" : false, //禁用排序功能
+					"bLengthChange": false, //改变每页显示数据数
+					"aLengthMenu" : [ [ 10, 20, 30 ], [ 10, 20, 30 ] ],//定义每页显示数据数量
+					//"iDisplayLength":30,//默认显示条数
+					"processing" : true,//是否显示处理状态(排序的时候，数据很多耗费时间长的话，也会显示这个)
+					"serverSide" : true,//是否开启服务器模式
+					"ajax" : {
+						"url" : encodeURI("/gift/loadGiftList?mobile="+$('.mobile').val()+"&id="+ $('.id').val()+"&beginDate="+$('.beginDate').val()+"&endDate="+$('.endDate').val()),
+						"type" : "post",
+						"dataType" : 'json',
+						//"success": fnCallback,  
+						"timeout" : 15000,   
+						"error" : handleAjaxError
+					},
+					"columns" : [
+							
+							{
+								"data" : "mobile",
+								"render" : myDataTable.getRender()
+							},
+							{
+								"data" : "id",
+								"render" : myDataTable.getRender()
+							},
+							{
+								"data" : "orderId",
+								"render" : myDataTable.getRender()
+							},
+							{
+								"data" : "productName",
+								"render" : function(data, type, row) {
+									return '<span class="text-overflow">'+ data + '</span>';
+								}
+							},
+							{
+								"data" : "giftCreatedDate",
+								//格式化时间
+								"render" : myDataTable.getRenderOfDateYMDHMS()
+							},
+							{
+								"data" : "createdDate",
+								//格式化时间
+								"render" : myDataTable.getRenderOfDateYMDHMS()
+							},
+							{
+								"data" : "receiveGiftNum",
+								"render" : myDataTable.getRender()
+							},
+							{
+								"data" : "giftName",
+								"render" : myDataTable.getRender()
+							},
+							{
+								"data" : "giftNum",
+								"render" : myDataTable.getRender()
+							},
+							{
+								"data" : "recipients",
+								"render" : myDataTable.getRender()
+							},
+							{
+								"data" : "recipientsMobile",
+								"render" : myDataTable.getRender()
+							},
+							{
+								"data" : "address",
+								"render" : function(data, type, row) {
+									if (data) {
+										return '<span class="text-overflow">' + data + '</span>';
+									} else {
+										return '<span class="text-overflow"></span>';
+									}
+                                }
+							},
+							{
+								"data" : "id",
+								"render" : function(data, type, row) {
+									var linkText = "修改配送信息";
+									if(row.giftCreateDateIsToday){
+											return '<button style="text-align:center;" type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#package-modal" data-orderid="'+row.orderId+'" data-name="'+row.recipients+'" data-tel="'+row.recipientsMobile+'" data-province="'+row.province+'" data-city="'+row.city+'" data-area="'+row.area+'" data-detail="'+row.detailAddress+'" data-gift="'+row.giftName+'">'
+												+ linkText + '</button>';
+										}else{
+											return '<button style="text-align:center;" disabled="disabled" type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#package-modal" data-orderid="'+row.orderId+'" data-name="'+row.recipients+'" data-tel="'+row.recipientsMobile+'" data-province="'+row.province+'" data-city="'+row.city+'" data-area="'+row.area+'" data-detail="'+row.detailAddress+'" data-gift="'+row.giftName+'">'
+												+ linkText + '</button>';										
+										}
+									}
+							}],
+					"retrieve" : true
+					});
+			
+			
+			
+		 }
+		
+		
+	      $(function(){
+			initData();
+		 })
+	     //查询出票信息
+	     function findTicket(orderId){
+	     	load("/order/orderTicketList/"+orderId+"/movie");
+	     }
+	     //查询礼品信息
+	     function findGift(orderId){
+	     	load("/order/orderGiftList/"+orderId);
+	     }
+	     $('#package-modal').on('show.bs.modal', function(event) {
+			var button = $(event.relatedTarget);
+			var modal = $(this);
+			openProvince();
+			modal.find('#orderId').text(button.data('orderid'))
+			modal.find('#orderIdInput').val(button.data('orderid'));
+			modal.find('#package-name').val(button.data('name'));
+			modal.find('#package-tel').val(button.data('tel'));
+			
+			$("#package-privince option").each(function (){
+				 		var txt = $(this).text();
+					    if(txt==button.data('province')){
+						$(this).attr("selected", true);
+						$("#package-privince").trigger("change");
+						}
+					 });
+			
+			//modal.find('#package-privince').val(button.data('province'));
+			$("#package-city option").each(function (){
+				 		var txt = $(this).text();
+					    if(txt==button.data('city')){
+						$(this).attr("selected", true);
+						$("#package-city").trigger("change");
+						}
+					 });
+			
+			//modal.find('#package-city').val(button.data('city'));
+			$("#package-area option").each(function (){
+				 		var txt = $(this).text();
+					    if(txt==button.data('area')){
+						$(this).attr("selected", true);
+						}
+					 });
+			
+			//modal.find('#package-area').val(button.data('area'));
+			modal.find('#package-tetail-address').val(button.data('detail'));
+			modal.find('#giftName').text(button.data('gift'))
+			modal.find('#gift-form').validator();
+		});
+		
+		$("#package-modal").on("hide.bs.modal",function() {
+			$(this).find(".has-error").removeClass("has-error");
+			$(this).find(".with-errors").html("");
+		});
+		
+	   	//修改配送信息	
+		$('#gift-Property-Ok').click(function() {
+			var frm = $('#gift-form');
+			frm.submit(function(ev) {
+				if (ev.isDefaultPrevented()) {
+					// handle the invalid form...
+				} else {
+					// everything looks good!
+					var obj=serializeObject(frm);
+					console.info(obj);
+					obj.packagePrivince=$("#package-privince").find("option:selected").text();
+					obj.packageCity=$("#package-city").find("option:selected").text();
+					obj.packageArea=$("#package-area").find("option:selected").text();
+					console.info(obj);
+					$.ajax({
+						type : frm.attr('method'),
+						url : frm.attr('action'),
+						data : obj,
+						success : function(data) {
+							if (data.type=='SUCCESS') {
+								$('#gift-Property-Ok').unbind('click');
+								$('#package-modal').modal('hide');
+								setTimeout(returnToGiftList,200);
+							} else {
+								info(data.firstMessage);
+							}
+						},
+						error: function (msg) {
+                			info('保存失败！');
+            			}
+					});
+
+					ev.preventDefault();
+				}
+
+			});
+		});
+		
+		function returnToGiftList () {
+			load('/gift/giftList');
+		}
+		
+        function orderList(type){
+		  	load('/order/orderList?type='+type);
+		}
+		//查询二级渠道
+		function querySub(){
+			$(".subPlatform").val("");
+			if($(".platform").val()=="ALL_PLATFORM"){
+				$(".subPlatform").parent().hide();
+				return;
+			}
+			$.getJSON("/channel/getSubChannel?platform="+$(".platform").val(), function(data){
+			  if(data.length>0){
+			  	$(".subPlatform").empty();
+			  	$(".subPlatform").append("<option value=''>全部</option>");
+				  for(var i=0;i<data.length;i++){
+				  	$(".subPlatform").append("<option value='"+data[i].code+"'>"+data[i].name+"</option>");
+				  }
+				  $(".subPlatform").parent().show();
+			  }else{
+			  	$(".subPlatform").parent().hide();
+			  }
+			});
+		}
+    </script>
+  </body>
+</html>

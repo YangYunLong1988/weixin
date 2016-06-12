@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <script type='text/javascript'>
+    window.BWEUM || (BWEUM = {});
+    BWEUM.info = {
+        "stand": true,
+        "agentType": "browser",
+        "agent": "bi-collector.oneapm.com/static/js/bw-send-411.4.5.js",
+        "beaconUrl": "bi-collector.oneapm.com/beacon",
+        "licenseKey": "mYF7B~e73nNvIjMv",
+        "applicationID": 2273714
+    };
+    </script>
+    <script type="text/javascript" src="//bi-collector.oneapm.com/static/js/bw-loader-411.4.5.js"></script>
+    <title>单张贵族</title>
+    <link rel="stylesheet" type="text/css" href="../scss/base.scss">
+    <style type="text/css">
+    .page {
+        width: 32rem;
+        height: 50.4rem;
+        background-size: 32rem 50.4rem;
+        background-image: url(../img/diana/single@2x.jpg);
+    }
+    
+    .page div {
+        text-align: center;
+        padding-top: 15rem;
+        font-size: 1.2rem;
+    }
+    
+    span {
+        color: #E77600;
+        font-size: 1.4rem;
+    }
+    </style>
+</head>
+
+<body>
+    <div class='page'>
+        <div>价值<span>¥$product.price</span></div>
+    </div>
+    <a id="next" class="next_on" href="javascript:void(0)" onclick="toGet()">立即购买</a>
+</body>
+
+</html>
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript">
+//表示是否产品售罄
+var isOff = !$product.isAvailable;
+
+function toGet() {
+    if (isOff) {
+        return;
+    };
+    common.generateOrder($product.id);
+}
+
+function start() {
+    if (isOff) {
+        $("#next").removeClass("next_on").addClass("next_off");
+    };
+}
+
+start();
+</script>

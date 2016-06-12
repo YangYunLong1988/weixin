@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <script type='text/javascript'>
+    window.BWEUM || (BWEUM = {});
+    BWEUM.info = {
+        "stand": true,
+        "agentType": "browser",
+        "agent": "bi-collector.oneapm.com/static/js/bw-send-411.4.5.js",
+        "beaconUrl": "bi-collector.oneapm.com/beacon",
+        "licenseKey": "mYF7B~e73nNvIjMv",
+        "applicationID": 2273714
+    };
+    </script>
+    <script type="text/javascript" src="//bi-collector.oneapm.com/static/js/bw-loader-411.4.5.js"></script>
+    <title>票务交易系统</title>
+    <link rel="stylesheet" type="text/css" href="../scss/base.scss">
+    <link rel="stylesheet" type="text/css" href="../scss/ticket_buy_quick.scss">
+</head>
+
+<body>
+    <div id="page">
+        <div class="line"></div>
+        <div class="op">
+            <span class="title">支付金额</span>
+            <span id="money" class="r orange">￥$amout</span>
+        </div>
+        <div class="line"></div>
+        <div class="op" onclick="showCards()">
+            <span class="title">银行</span>
+            <div id="card">请选择支付银行卡</div>
+            <div class="arrow"></div>
+        </div>
+        <div id="cards" style="display:none"></div>
+        <div class="line"></div>
+        <div class="op">
+            <span class="title">验证码</span>
+            <input id="tokenCode" type="text" maxlength="6" />
+            <a id="codeBtn" href="javascript:void(0)" onclick="getCode()">获取验证码</a>
+        </div>
+        <a id="next" class="next_on" href="javascript:void(0)" onclick="toNext()">立即支付</a>
+    </div>
+    <div class="blank"></div>
+</body>
+
+</html>
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript">
+var hasCard = false;
+var cur_item = -1;
+var clocks = null;
+var bankList = [];
+
+function showCards() {
+    if (!hasCard) {
+        common.showAlert("您还没绑定银行卡", function() {
+            common.goto("/product/bindBankCard/$orderId");
+        }, "", "立即绑定");
+    } else {
+        $("#cards").toggle();
+    }
+}
+
+function chooseCard(i) {
+    $("#item_" + cur_item).removeClass("choose_on");
+    cur_item = i;
+    $("#item_" + cur_item).addClass("choose_on");
+    $("#card").text($("#item_" + cur_item).find(".sp_0").text());
+    $("#cards").hide();
+}
+
+function addCard() {
+    common.goto("/product/bindBankCard/$orderId");
+}
+
+function getCode() {
+    if (cur_item < 0) {
+        common.showAlert("请选择支付银行卡");
+        return;
+    };
+    if (clocks != null) return;
+    var i = 60;
+    common.post("/quickpay/sendQuickPaySMS", {
+        orderId: $orderId,
+        authSerialNumber: bankList[cur_item].authSerialNumber
+    }, function(result) {
+        clocks = setInterval(function() {
+            $("#codeBtn").text(i-- + "s重发");
+            if (i <= 0) {
+                resetClocks();
+            };
+        }, 1000);
+    });
+}
+
+function resetClocks() {
+    clearInterval(clocks);
+    clocks = null;
+    $("#codeBtn").text("重发验证码");
+}
+
+function toNext() {
+    var card = $.trim($("#card").text());
+    var tokenCode = $.trim($("#tokenCode").val());
+
+    if (card == "请选择支付银行卡") {
+        common.showAlert("请选择支付的银行卡");
+        return;
+    }
+    if (tokenCode == "") {
+        $("#tokenCode").val("");
+        common.showAlert("请输入验证码");
+        return;
+    }
+    common.post("/product/submitOrder", {
+        id: $orderId,
+        count: 1,
+        payType: "3",
+        codes: "",
+        validationCode: tokenCode
+    }, function(result) {
+        var prePayData = result.data;
+        if (prePayData.payType) {
+            if (prePayData.payType == "QUICK_PAY_SUCCESS") {
+                common.showAlert("恭喜您成为电影的投资人", function() {
+                    common.goto('/order/findOrderDetail/' + prePayData.orderId); //支付成功跳转到订单详情
+                }, "支付成功", "查看权益");
+                return;
+            }
+            if (prePayData.payType == "QUICK_PAY_IN") {
+                common.showAlert("正在处理支付请求...", function() {
+                    common.goto('/order/findOrderDetail/' + prePayData.orderId); //支付成功跳转到订单详情
+                }, "支付中");
+                return;
+            }
+            if (prePayData.payType == "QUICK_PAY_FAILURE") {
+                common.showAlert("支付失败");
+                return;
+            }
+        }
+    }, null, function(result) {
+        // common.showAlert("请输入正确的验证码");
+        common.showAlert(result.firstMessage);
+        resetClocks();
+    });
+}
+
+function fillCards() {
+    for (var i = 0; i < bankList.length; i++) {
+        var bank = bankList[i];
+        var item = $('<a id="item_' + i + '" class="item_0" href="javascript:void(0)" onclick="chooseCard(' + i + ')"></a>');
+        item.append($('<span class="sp_0">' + bank.bankName + dealNum(bank.accountNumber) + '</span>'));
+        item.append($('<span class="sp_1">' + "单笔限额" + wrapMoney(bank.singleLimit) + " 当日限额" + wrapMoney(bank.dayLimit) + '</span>'));
+        $("#cards").append(item);
+    }
+    var item = $('<a class="item_1" href="javascript:void(0)" onclick="addCard()"></a>');
+    item.append($('<span class="sp">添加支付银行卡</span>'));
+    $("#cards").append(item);
+    //默认选中最近添加的银行卡
+    chooseCard(0);
+}
+
+function wrapMoney(value) {
+    if (value < 10000) {
+        return value + "元";
+    } else {
+        return parseInt(value / 10000) + "万元";
+    }
+}
+
+function dealNum(num) {
+    var str_pre = num.substr(0, 3);
+    var str_bet = "***";
+    var str_end = num.substr(num.length - 4, num.length);
+    return str_pre + str_bet + str_end;
+}
+
+function start() {
+    common.post("/quickpay/findBindBank", {}, function(result) {
+        bankList = result.data.bankList;
+        hasCard = bankList.length > 0;
+        if (hasCard) {
+            fillCards();
+        };
+    });
+}
+start();
+</script>

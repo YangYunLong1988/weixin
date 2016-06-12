@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <script type='text/javascript'>
+    window.BWEUM || (BWEUM = {});
+    BWEUM.info = {
+        "stand": true,
+        "agentType": "browser",
+        "agent": "bi-collector.oneapm.com/static/js/bw-send-411.4.5.js",
+        "beaconUrl": "bi-collector.oneapm.com/beacon",
+        "licenseKey": "mYF7B~e73nNvIjMv",
+        "applicationID": 2273714
+    };
+    </script>
+    <script type="text/javascript" src="//bi-collector.oneapm.com/static/js/bw-loader-411.4.5.js"></script>
+    <title>票务交易系统</title>
+    <link rel="stylesheet" type="text/css" href="../scss/base.scss">
+    <link rel="stylesheet" type="text/css" href="../scss/movie_1.scss">
+</head>
+
+<body>
+    <div id="w0"></div>
+        <a href="#movie"></a>
+    </div>
+    <div class="white_padding"></div>
+    <a id="get_btn" class="get_btn" href="javascript:void(0)" onclick="toGet()"></a>
+    <form id="subForm" action="/product/buyTicket/pay/$product.id" method="get">
+        <input type="hidden" name="productId" id="productId" value="$product.id">
+    </form>
+</body>
+
+</html>
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript" src="../js/config.js"></script>
+<script type="text/javascript">
+//表示是否产品售罄
+var isOff = !$product.isAvailable;
+var hasGift = false; //是否有礼品
+if ($product.giftNum > 0) {
+    hasGift = true;
+}
+
+function toGet() {
+    if (isOff) {
+        return;
+    };
+    if (hasGift) {
+        common.goto('$domain/gift/giftChoosePre?productId=$product.id');
+    } else {
+        common.generateOrder($product.id);
+    }
+}
+
+function start() {
+    if (isOff) {
+        $("#get_btn").removeClass("get_btn").addClass("get_btn_off");
+    };
+}
+
+start();
+</script>

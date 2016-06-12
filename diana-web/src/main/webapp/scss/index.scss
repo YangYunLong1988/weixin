@@ -1,0 +1,237 @@
+@import "compass/css3";
+@import "_config.scss";
+div {
+    text-align: center;
+}
+
+#window {
+    padding-left: 1.4rem;
+    padding-right: 1.4rem;
+    padding-top: 1rem;
+    padding-bottom: 0.5rem;
+    background-color: $color_white;
+    a {
+        display: block;
+        background-color: $color_white;
+        margin-bottom: 1rem;
+        .img {
+            height: 15rem;
+        }
+        .name {
+            height: 4rem;
+            padding-left: 1rem;
+            line-height: 4rem;
+            color: $color_3;
+            border-left: 0.1rem solid #DDD;
+            border-right: 0.1rem solid #DDD;
+            border-bottom: 0.1rem solid #DDD;
+        }
+    }
+}
+
+.blank {
+    height: 5rem;
+}
+
+.my_order {
+    position: fixed;
+    display: block;
+    margin: auto;
+    width: 32rem;
+    height: 4.5rem;
+    left: 0;
+    right: 0;
+    bottom: 0rem;
+    background-color: $color_white;
+    color: $color_0;
+    text-align: center;
+    line-height: 4.5rem;
+    font-size: 1.8rem;
+    letter-spacing: 0.2rem;
+}
+
+#banner {
+    .b {
+        display: inline-block;
+        width: 32rem;
+        height: 10.3rem;
+        background-size: 32rem 10.3rem;
+        background-repeat: no-repeat;
+    }
+    #b0 {
+        background-image: url(../img/diana/banner_yw3@2x.jpg);
+    }
+}
+
+%v {
+    display: block;
+    width: 14.3rem;
+    margin-top: 0.5rem;
+}
+
+.box {
+    margin-top: 1rem;
+    background-color: $color_white;
+    .t0 {
+        padding-top: 1rem;
+        font-size: 1.3rem;
+        color: $color_3;
+    }
+    .t1 {
+        margin-top: 0.5rem;
+        font-size: 1rem;
+        color: $color_9;
+    }
+    .view0 {
+        float: left;
+        margin-left: 1.4rem;
+        #v0 {
+            @extend %v;
+            height: 6.25rem;
+            background-size: 14.3rem 6.25rem;
+            background-image: url(../img/diana/view_0@2x.png);
+        }
+        #v1 {
+            @extend %v;
+            height: 6.25rem;
+            background-size: 14.3rem 6.25rem;
+            background-image: url(../img/diana/view_1@2x.png);
+        }
+    }
+    .view1 {
+        float: right;
+        margin-right: 1.4rem;
+        #v2 {
+            @extend %v;
+            height: 8.5rem;
+            background-size: 14.3rem 8.5rem;
+            background-image: url(../img/diana/view_2@2x.png);
+        }
+        #v3 {
+            @extend %v;
+            height: 4.1rem;
+            background-size: 14.3rem 4.1rem;
+            background-image: url(../img/diana/view_3@2x.png);
+        }
+    }
+    .w {
+        display: inline-block;
+        width: 29.2rem;
+        height: 10.5rem;
+        margin-top: 0.5rem;
+        background-size: 29.2rem 10.5rem;
+        background-repeat: no-repeat;
+    }
+    #w0 {
+        background-image: url(../img/diana/combo_0@2x.png);
+    }
+}
+
+.bar {
+    margin-top: 1rem;
+    .f {
+        width: 14.3rem;
+        height: 7rem;
+        background-size: 14.1rem 7rem;
+        background-repeat: no-repeat;
+    }
+}
+
+#play_0 {
+    float: left;
+    margin-left: 1.4rem;
+    background-image: url(../img/diana/play_0@2x.png);
+}
+
+#play_1 {
+    float: right;
+    margin-right: 1.4rem;
+    background-image: url(../img/diana/play_1@2x.png);
+}
+
+%btn {
+    display: block;
+    width: 9rem;
+    height: 3.5rem;
+    line-height: 3.5rem;
+    font-size: 1.4rem;
+    border-radius: 0.5rem;
+    border: 0.1rem solid $color_2;
+}
+
+#dialog {
+    position: fixed;
+    width: 26rem;
+    height: 15.5rem;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    border-radius: 0.5rem;
+    background-color: $color_white;
+    .p0 {
+        padding-top: 1.5rem;
+        font-size: 1.4rem;
+        color: $color_3;
+    }
+    .p1 {
+        padding-top: 2.5rem;
+        font-size: 1.8rem;
+        color: $color_2;
+    }
+    .p2 {
+        padding-top: 1rem;
+        font-size: 1rem;
+        color: $color_6;
+    }
+    .btn_bar {
+        margin-top: 2rem;
+        .btn0 {
+            @extend %btn;
+            float: left;
+            margin-left: 2.5rem;
+            color: $color_2;
+            background-color: $color_white;
+        }
+        .btn1 {
+            @extend %btn;
+            float: right;
+            margin-right: 2.5rem;
+            color: $color_white;
+            background-color: $color_2;
+        }
+    }
+}
+
+#giftCard {
+    position: fixed;
+    width: 26rem;
+    height: 15.5rem;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    border-radius: 0.5rem;
+    background-color: $color_white;
+    background-size: 4rem 4rem;
+    background-image: url(../img/diana/animation@2x.gif);
+    background-position: center 3rem;
+    background-repeat: no-repeat;
+    padding-top: 0.4rem;
+    a {
+        float: right;
+        display: inline-block;
+        width: 1.6rem;
+        height: 1.6rem;
+        margin-right: 0.4rem;
+        background-size: 1.6rem 1.6rem;
+        background-image: url(../img/close@2x.png);
+    }
+    div {
+        margin-top: 9rem;
+        text-align: center;
+        color: $color_2;
+    }
+}

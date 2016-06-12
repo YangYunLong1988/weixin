@@ -1,0 +1,280 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+	<div class="panel panel-primary">
+      <div class="panel-heading">
+		编辑产品信息
+	  </div>
+      <div class="panel-body">
+       <form id="productForm" enctype='multipart/form-data' class="form-horizontal">
+			<input id="productId" name="productId" type="hidden" value="$!{product.id}" />
+			<input id="availableAmount" name="availableAmount" type="hidden" value="$!{product.availableAmount}" />
+			<!--
+			<div class="form-group">
+				<label for="productId" class="col-sm-2 control-label">产品ID</label>
+				 <div class="col-sm-10">
+					$!{product.id}
+					
+                </div>
+			</div>
+			-->
+			<div class="form-group">
+				<label for="name" class="col-sm-2 control-label">产品名称</label>
+				 <div class="col-sm-3">
+                  <input id="name" name="name" class="form-control" placeholder="产品名称" type="text" maxlength="30" value="$!{product.name}" />
+                </div>
+			</div>
+			
+			<div class="form-group">
+				 <label for="type" class="col-sm-2 control-label">产品类型</label>
+				 <div class="col-sm-3">
+					<select id="type" name="type" class="form-control">
+						#foreach( $type in $typeList )
+							#if($product.type == $type)
+                                <option value="$type" selected >$type</option>
+							#else
+								<option value="$type">$type</option>
+							#end
+                        #end
+					</select> 
+				 </div>
+			</div>
+			<div class="form-group priceArea">
+    			<label for="price" class="col-sm-2 control-label">每份价格</label>
+					<div class="col-sm-3">
+						<input id="price" name="price" type="text" maxlength="6" value="$!{product.price}" class="form-control" placeholder="每份价格" />
+					</div>
+    			<label style="padding-top:1%;">(元)</label>
+			</div>
+			<div class="form-group giftQuantityArea">
+				<label for="giftNum" class="col-sm-2 control-label">礼品数量</label>
+    				 <div class="col-sm-3">
+    					<input id="giftNum" name="giftNum" type="text" maxlength="6" value="$!{product.giftNum}" class="form-control" placeholder="该产品赠送礼品的数量" />
+    				 </div>
+    			<label style="padding-top:1%;">(份)</label>
+			</div>			
+			<div class="form-group tickstQuantityArea">
+				<label for="exchangeAmount" class="col-sm-2 control-label">兑票数量</label>
+                <div class="col-sm-3">
+					<input id="exchangeAmount" name="exchangeAmount" type="text" maxlength="6" value="$!{product.exchangeAmount}" class="form-control"  placeholder="兑票数量" />
+				</div>
+				<label style="padding-top:1%;">(张)</label>
+			</div>
+		
+			<div class="form-group titleImgNameArea">
+				<label for="" class="col-sm-2 control-label" >封面图片</label>
+                <div class="col-sm-3">
+					<input id="titleImgName" name="titleImgName" type='hidden' value="$!{product.titleImgName}" />
+					<input id="titleImg" name="titleImg" type="file"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-3">
+					<input type="button" class="btn btn-default" value="保存" onclick="save()"/> &nbsp;&nbsp;
+					<input type="button" class="btn btn-default" value="取消" onclick="cancel()"/>
+				</div>
+			</div>
+			
+        </form>
+      </div>
+	</div>
+    <div class="container"></div>
+	
+	<link href="/css/bootstrap.fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
+    <script src="/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+    <script src="/js/bootstrap-datetimepicker.zh-CN.js" type="text/javascript"></script>
+	<script src="/js/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="/js/dateTable-Tools.js" type="text/javascript"></script>
+	<script src="/js/bootstrap.fileinput.min.js" type="text/javascript"></script>
+	<script src="/js/bootstrap.fileinput_locale_zh.js" type="text/javascript"></script>
+	<script src="/js/jquery.form.js" type="text/javascript"></script>
+    <script src="/js/public.js"></script>
+    <script type="text/javascript">
+
+		$(document).ready(function(){
+		
+			toggleShowType('$!{product.type}');	
+			
+			$('#type').change(function(){
+				toggleShowType($(this).val());
+			});
+			
+			
+			$("#titleImg").fileinput({
+				language : 'zh',
+                overwriteInitial: false,
+                maxFileSize: 100,
+				showRemove: false,
+				showUpload: false,
+				showClose:false,
+				allowedFileTypes:['image'],
+				'allowedFileExtensions' : ['jpg', 'png','gif']
+				#if($stringUtils.isNotEmpty($product.titleImgName))
+				,initialPreview: [
+					"<img src='/product/productImgPreview/${product.id}?imgType=封面&random=$random' class='file-preview-image' alt='Desert' title='Desert'>"
+				],
+				initialCaption : '$product.titleImgName',
+				initialPreviewCount:1,
+				overwriteInitial :true
+				#end
+            });
+		});
+		
+		//根据产品类型展示对应的编辑区域
+		function toggleShowType(type){
+				if(type && type=="多张组合"){
+					$('.priceArea').hide();
+					$('.giftQuantityArea').hide();
+					$('.tickstQuantityArea').hide();
+				}
+				if($.trim($("#type").val())	== '多张组合'){	
+					$('.priceArea').hide();
+					$('.giftQuantityArea').hide();
+					$('.tickstQuantityArea').hide();
+				}else{
+					$('.priceArea').show();
+					$('.giftQuantityArea').show();
+					$('.tickstQuantityArea').show();
+				}
+		}
+		
+		//保存产品
+		function save(){
+			
+			var name = $.trim($("#name").val());
+			if( $.isEmptyObject(name) ){
+				alert("请输入产品名称！");
+				$("#name").focus();
+				return false;
+			}
+			
+			if(name.length > 30){
+				alert("产品名称不能超过30个字符！");
+				$("#name").focus();
+				return false;
+			}
+			
+			var type = $.trim($("#type").val());
+			if( $.isEmptyObject(type) ){
+				alert("请选择产品类型！");
+				$("#type").focus();
+				return false;
+			}
+			
+			//校验封面是否已上传
+            var titleImgName = $("#titleImgName").val();
+            var titleImg = $("#titleImg").val();
+            if( $.isEmptyObject(titleImg)){
+                if($.isEmptyObject(titleImgName)){
+                    alert("请上传封面图片");
+                    $("#titleImg").focus();
+                    return false;
+                }
+            }
+
+            //上传封面文件是否包含错误
+            var titleImgData = $("#titleImg").data("fileinput");
+            if( titleImgData.isError ){
+                return false;
+            }
+            
+			if (type == "壹票玩电影" || type == "百元玩电影") {
+				var price = $.trim($("#price").val());
+				if ($.isEmptyObject(price)) {
+					alert("请输入每份价格！");
+					$("#price").focus();
+					return false;
+				}
+
+				if (!/^(\+|-)?(\d+)(\.\d{1,2})?$/.test(price)) {
+					alert("请输入正确的金额，并确保小数点不超过两位！");
+					$("#price").focus();
+					return false;
+				}
+
+				if (price <= 0) {
+					alert("每份价格必须大于0！");
+					$("#price").focus();
+					return false;
+				}
+
+				var availableAmount = $('#availableAmount').val();
+				if (parseFloat(price) > parseFloat(availableAmount)) {
+					alert("每份价格不能大于剩余可投金额" + availableAmount + "！");
+					$("#price").focus();
+					return false;
+				}
+
+				var exchangeAmount = $.trim($("#exchangeAmount").val());
+				if ($.isEmptyObject(exchangeAmount)) {
+					alert("请输入兑票数量！");
+					$("#exchangeAmount").focus();
+					return false;
+				}
+
+				if (!/^(\+|-)?(\d+)$/.test(exchangeAmount)) {
+					alert("兑票数量必须为整数！");
+					$("#exchangeAmount").focus();
+					return false;
+				}
+
+				var giftNum = $.trim($("#giftNum").val());
+				if ($.isEmptyObject(giftNum)) {
+					alert("请输入礼品数量！");
+					$("#giftNum").focus();
+					return false;
+				}
+
+				if (!/^(\+|-)?(\d+)$/.test(giftNum)) {
+					alert("礼品数量必须为正整数！");
+					$("#giftNum").focus();
+					return false;
+				}
+				
+				if (giftNum < 0) {
+					alert("礼品数量必须大于0！");
+					$("#giftNum").focus();
+					return false;
+				}
+				
+				if (giftNum > 1) {
+					alert("礼品数量只能是0或者1");
+					$("#giftNum").focus();
+					return false;
+				}
+				if (exchangeAmount < 0) {
+					alert("兑票数量必须大于等于0！");
+					$("#exchangeAmount").focus();
+					return false;
+				}				
+
+			} else if (type == "多张组合") {
+
+		}
+			
+			
+
+			$("#productForm").ajaxSubmit({
+				type: "post",
+            	url: "/product/productSave",
+				dataType : "json",
+				enctype: 'multipart/form-data',
+				success: function (result) {
+				   alert(result.messages);
+				   back("/product/productList");
+				},
+				error: function (msg) {
+                	alert('保存失败！');
+            	}
+			});
+    	 	
+		}
+		
+		//取消编辑
+		function cancel(){
+			load("/product/productList");
+		}
+	</script>
+  </body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>我的礼品卡</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <script type='text/javascript'>
+    window.BWEUM || (BWEUM = {});
+    BWEUM.info = {
+        "stand": true,
+        "agentType": "browser",
+        "agent": "bi-collector.oneapm.com/static/js/bw-send-411.4.5.js",
+        "beaconUrl": "bi-collector.oneapm.com/beacon",
+        "licenseKey": "mYF7B~e73nNvIjMv",
+        "applicationID": 2273714
+    };
+    </script>
+    <script type="text/javascript" src="//bi-collector.oneapm.com/static/js/bw-loader-411.4.5.js"></script>
+    <link rel="stylesheet" type="text/css" href="../scss/base.scss">
+    <link rel="stylesheet" type="text/css" href="../scss/gift_card.scss">
+</head>
+
+<body>
+    <div id="no_order" style="display:none">
+        <div id="img" class="img0"></div>
+        <div class="txt">暂无礼品卡</div>
+    </div>
+    <div id="list">
+    </div>
+    <div class="blank"></div>
+    <div id="fix_bar" class="fix">
+        <a class="btn0" href="javascript:void(0)" onClick="toActivate()">激活</a>
+        <a class="btn1" href="javascript:void(0)" onClick="toPresent()">转赠他人</a>
+    </div>
+</body>
+
+</html>
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript">
+var cur_index = -1;
+//是否有礼品卡订单
+var hasOrder = false;
+
+function toChoose(i) {
+    if (cur_index == i) return;
+    $("#box" + cur_index).removeClass("choose_on");
+    $("#box" + cur_index).children("div.flag").hide();
+    cur_index = i;
+    $("#box" + cur_index).addClass("choose_on");
+    $("#box" + cur_index).children("div.flag").show();
+}
+
+function toActivate() {
+    // common.goto('');
+}
+
+function toPresent() {
+    // common.goto('');
+}
+
+function fillList() {
+    for (var i = 0; i < 4; i++) {
+        var hasGift = "gift_on";
+        if (i > 2) hasGift = "gift_off";
+        var box = $('<div id="box' + i + '" class="box ' + hasGift + '" onclick="toChoose(' + i + ')"></div>');
+        box.append('<div class="flag" style="display:none"></div>');
+        var p = $('<div class="p"></div>');
+        p.append('<div class="p0">' + "礼品卡套餐" + i + '</div>');
+        p.append('<div class="p1">' + "两张电影票+1份超值大礼" + '</div>');
+        box.append(p);
+        box.append('<div class="clear"></div>');
+        $("#list").append(box);
+    }
+}
+
+function start() {
+    fillList();
+    if (hasOrder) {
+        toChoose(0);
+    } else {
+        $("#no_order").show();
+        $("#fix_bar").hide();
+        $("#list").hide();
+    }
+}
+
+start();
+</script>

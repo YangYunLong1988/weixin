@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <script type='text/javascript'>
+    window.BWEUM || (BWEUM = {});
+    BWEUM.info = {
+        "stand": true,
+        "agentType": "browser",
+        "agent": "bi-collector.oneapm.com/static/js/bw-send-411.4.5.js",
+        "beaconUrl": "bi-collector.oneapm.com/beacon",
+        "licenseKey": "mYF7B~e73nNvIjMv",
+        "applicationID": 2273714
+    };
+    </script>
+    <script type="text/javascript" src="//bi-collector.oneapm.com/static/js/bw-loader-411.4.5.js"></script>
+    <title>票务交易系统</title>
+    <link rel="stylesheet" type="text/css" href="../scss/base.scss">
+    <link rel="stylesheet" type="text/css" href="../scss/bind_bank_card.scss">
+</head>
+
+<body>
+    <div class="line"></div>
+    <div class="op">
+        <div class="title">真实姓名</div>
+        <input id="name" type="text" maxlength="30">
+    </div>
+    <div class="line"></div>
+    <div class="op">
+        <div class="title">身份证号</div>
+        <input id="idCard" type="text" maxlength="18">
+    </div>
+    <div class="tip">银行信息</div>
+    <div class="op" onclick="toChooseBank()">
+        <div class="title">银行</div>
+        <input id="bankName" placeholder="请选择支付银行" readonly="true" type="text">
+        <div class="arrow"></div>
+    </div>
+    <div class="line"></div>
+    <div class="op">
+        <div class="title">卡号</div>
+        <input id="bankCardCode" placeholder="仅支持借记卡" type="text" maxlength="23">
+    </div>
+    <div class="line"></div>
+    <div class="op" onclick="toChooseBranch()">
+        <div class="title">开户行</div>
+        <input id="branchName" placeholder="请选择开户支行" readonly="true" type="text" maxlength="30">
+        <div class="arrow"></div>
+    </div>
+    <div class="line"></div>
+    <div class="op">
+        <div class="title">手机号</div>
+        <input id="phone" placeholder="银行预留手机号" type="tel" maxlength="11">
+    </div>
+    <div class="line"></div>
+    <div class="op">
+        <div class="title">动态密码</div>
+        <input id="tokenCode" type="text" maxlength="6">
+        <a id="codeBtn" href="javascript:void(0)" onclick="getCode()">获取动态密码</a>
+    </div>
+    <div class="blank"></div>
+    <a id="next" class="next_on" href="javascript:void(0)" onclick="toNext()">提交</a>
+    <!-- 选择银行面板 -->
+    <div id="bank_choose" style="display:none">
+        <input id="bank_search" placeholder="输入所属银行关键字" type="text" oninput="bankSearch()">
+        <div id="bank_options"></div>
+    </div>
+    <!-- 选择支行面板 -->
+    <div id="branch_choose" style="display:none">
+        <div id="branch_bar">
+            <div class="bar_left">
+                <div class="bar_0">
+                    <a id="province" href="javascript:void(0)" onclick="openProvince()"></a>
+                    <a>省</a>
+                    <a id="city" href="javascript:void(0)" onclick="openCity()"></a>
+                    <a>市</a>
+                    <div class="clear"></div>
+                </div>
+                <input id="branch" placeholder="银行所属分支行" type="text" onclick="openBranch()">
+            </div>
+            <a id="branch_ok" href="javascript:void(0)" onclick="endChooseBranch()"></a>
+        </div>
+        <div id="branch_options"></div>
+    </div>
+</body>
+
+</html>
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript">
+var clocks = null;
+var gBank = null;
+var gProvince = null;
+var gCity = null;
+var gBranch = null;
+var banks = [];
+var provinces = [];
+var citys = [];
+var branchs = [];
+var html_AllBanks = "";
+
+var name = null;
+var idCard = null;
+var bankName = null;
+var bankCardCode = null;
+var branchName = null;
+var phone = null;
+var tokenCode = null;
+var authSerialNumber = null;
+
+function verifyInput() {
+    name = $.trim($("#name").val());
+    idCard = $.trim($("#idCard").val());
+    bankName = $.trim($("#bankName").val());
+    bankCardCode = $.trim($("#bankCardCode").val());
+    branchName = $.trim($("#branchName").val());
+    phone = $.trim($("#phone").val());
+    if (name == "") {
+        $("#name").val("");
+        common.showAlert("请输入真实姓名");
+        return false;
+    }
+    if (!name.match(/^[\u4e00-\u9fa5\uFE30-\uFFA0A-Za-z\s]+$/)) {
+        $("#name").val("");
+        common.showAlert("输入的真实姓名必须由中文、英文大小写字母及空格组成");
+        return false;
+    }
+    if (idCard == "") {
+        $("#idCard").val("");
+        common.showAlert("请输入身份证号");
+        return false;
+    }
+    ///(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/
+    //身份证正则表达式(15位) 
+    isIDCard1 = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{2}(\d|X|x)$/;
+    //身份证正则表达式(18位) 
+    isIDCard2 = /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}(\d|X|x)$/;
+    if (!idCard.match(isIDCard1) && !idCard.match(isIDCard2)) {
+        common.showAlert("请输入正确身份证号");
+        return false;
+    }
+    if (bankName == "") {
+        $("#bankName").val("");
+        common.showAlert("请选择支付银行");
+        return false;
+    }
+    if (bankCardCode == "") {
+        $("#bankCardCode").val("");
+        common.showAlert("请输入银行卡号");
+        return false;
+    }
+    if (!bankCardCode.match(/^[\d]+$/)) {
+        $("#bankCardCode").val("");
+        common.showAlert("输入的银行卡号有非法字符");
+        return false;
+    }
+    if (branchName == "") {
+        $("#branchName").val("");
+        common.showAlert("请选择银行所属分支行");
+        return false;
+    }
+    /*
+    if (!branchName.match(/^[\u4e00-\u9fa5\uFE30-\uFFA0\d]+$/)) {
+        $("#branchName").val("");
+        common.showAlert("输入的银行所属分支行必须由中文及数字组成");
+        return false;
+    }
+    */
+
+    if (phone == "") {
+        $("#phone").val("");
+        common.showAlert("请输入手机号");
+        return false;
+    }
+    if (!phone.match(/^1\d{10}$/)) {
+        common.showAlert("请输入正确手机号");
+        return false;
+    }
+    return true;
+}
+
+function getCode() {
+    if (!verifyInput()) return;
+    if (clocks != null) return;
+    if (gBank == null) {
+        common.showAlert("您刚才进行了浏览器返回操作，请刷新该页面。");
+        return;
+    }
+    var i = 60;
+    common.post("/quickpay/bindBankCard", {
+        bankCode: gBank.bankCode,
+        accountName: name,
+        accountNumber: bankCardCode,
+        province: gProvince,
+        city: gCity,
+        chName: gBranch,
+        IdentificationNumber: idCard,
+        phoneNumber: phone,
+        singleLimit: gBank.singleLimit,
+        dayLimit: gBank.dayLimit,
+        bankName: gBank.bankName
+    }, function(result) {
+        authSerialNumber = result.data.authSerialNumber;
+        clocks = setInterval(function() {
+            $("#codeBtn").text(i-- + "s重发");
+            if (i <= 0) {
+                resetClocks();
+            };
+        }, 1000);
+    }, '', function(result) {
+        common.showAlert(result.messages);
+    });
+}
+
+function resetClocks() {
+    clearInterval(clocks);
+    clocks = null;
+    $("#codeBtn").text("重发验证码");
+}
+
+function toNext() {
+    if (!verifyInput()) return;
+    tokenCode = $.trim($("#tokenCode").val());
+    if (tokenCode == "") {
+        $("#tokenCode").val("");
+        common.showAlert("请输入验证码");
+        return;
+    }
+    if (authSerialNumber == null) {
+        if (gBank == null) {
+            common.showAlert("您刚才进行了浏览器返回操作，请刷新该页面。");
+            return;
+        } else {
+            common.showAlert("请先获取动态验证码。");
+            return;
+        }
+    }
+    common.post("/quickpay/bindBankVerify", {
+        authSerialNumber: authSerialNumber,
+        validationCode: tokenCode
+    }, function(result) {
+        common.goto("/product/ticketBuyByQuick/$orderId");
+    }, '', function(result) {
+        resetClocks();
+        if (result.firstMessage) {
+            common.showAlert(result.firstMessage);
+        } else {
+            common.showAlert("绑定失败");
+        }
+    });
+}
+
+function findBanks() {
+    common.post("/quickpay/findBank", {}, function(result) {
+        banks = result.data.banks;
+        openBanks();
+    });
+}
+
+function findProvinces() {
+    common.post("/quickpay/areas", {
+        province: ''
+    }, function(result) {
+        provinces = result.data.provinces;
+        openProvince();
+    });
+}
+
+function findCitys() {
+    common.post("/quickpay/areas", {
+        province: gProvince
+    }, function(result) {
+        citys = result.data.citys;
+        openCity();
+    });
+}
+
+function findBranchs() {
+    common.post("/quickpay/findSubBranch", {
+        bankCode: gBank.bankCode,
+        cityName: gCity
+    }, function(result) {
+        branchs = result.data.subBranchs;
+        openBranch();
+    });
+}
+
+function toChooseBank() {
+    $("#bank_choose").show().animate({
+        top: 0
+    }, "fast", function() {
+        findBanks();
+    });
+}
+
+function openBanks() {
+    $("#bank_search").val("");
+    var html = "";
+    for (var i = 0; i < banks.length; i++) {
+        var item = banks[i];
+        html += '<a class="on" id="item_' + i + '" href="javascript:void(0)" onclick="onChooseBank(' + i + ')">' + item.bankName + '</a>';
+    };
+    html_AllBanks = html;
+    $("#bank_options").html(html_AllBanks);
+}
+
+function onChooseBank(i) {
+    if (gBank != banks[i]) {
+        gBank = banks[i];
+    }
+    $("#bank_choose").animate({
+        top: "100%"
+    }, "fast", function() {
+        $("#bank_choose").hide();
+    });
+    if ($("#bankName").val() != gBank.bankName) {
+        $("#branchName").val("");
+        $("#branch").val("");
+        $("#province").text("");
+        $("#city").text("");
+        gProvince = null;
+        gCity = null;
+        $("#bankName").val(gBank.bankName);
+    }
+}
+
+function bankSearch() {
+    var keyText = $("#bank_search").val();
+    if (keyText.length == 0) {
+        $("#bank_options").html(html_AllBanks);
+        return;
+    }
+    var html = "";
+    for (var i = 0; i < banks.length; i++) {
+        if (banks[i].bankName.indexOf(keyText) > -1) {
+            html += '<a class="on" id="item_' + i + '" href="javascript:void(0)" onclick="onChooseBank(' + i + ')">' + banks[i].bankName + '</a>';
+        };
+    }
+    $("#bank_options").html(html);
+}
+
+function toChooseBranch() {
+    if (gBank == null) {
+        common.showAlert("请先选择支付银行");
+        return;
+    }
+    $("#branch_choose").show().animate({
+        top: 0
+    }, "fast", function() {
+        findProvinces();
+    });
+}
+
+function openProvince() {
+    $("#province").addClass('on');
+    $("#city").removeClass('on');
+    $("#branch").removeClass('on');
+    var html = "";
+    for (var i = 0; i < provinces.length; i++) {
+        var item = provinces[i];
+        html += '<a href="javascript:void(0)" onclick="onChooseProvince(' + i + ')">' + item + '</a>';
+    };
+    $("#branch_options").html(html);
+}
+
+function openCity() {
+    if (gProvince) {
+        $("#province").removeClass('on');
+        $("#city").addClass('on');
+        $("#branch").removeClass('on');
+        var html = "";
+        for (var i = 0; i < citys.length; i++) {
+            var item = citys[i];
+            html += '<a href="javascript:void(0)" onclick="onChooseCity(' + i + ')">' + item + '</a>';
+        };
+        $("#branch_options").html(html);
+    };
+}
+
+function openBranch() {
+    if (gCity) {
+        $("#province").removeClass('on');
+        $("#city").removeClass('on');
+        $("#branch").addClass('on');
+        var html = "";
+        for (var i = 0; i < branchs.length; i++) {
+            var item = branchs[i];
+            html += '<a href="javascript:void(0)" onclick="onChooseBranch(' + i + ')">' + item + '</a>';
+        };
+        $("#branch_options").html(html);
+    };
+}
+
+function onChooseProvince(i) {
+    if (gProvince != provinces[i]) {
+        gProvince = provinces[i];
+        $("#province").html(gProvince);
+        $("#city").html("");
+        $("#branch").val("");
+        gCity = null;
+        gBranch = null;
+        findCitys();
+    }
+}
+
+function onChooseCity(i) {
+    if (gCity != citys[i]) {
+        gCity = citys[i];
+        $("#city").html(gCity);
+        $("#branch").val("");
+        gBranch = null;
+        findBranchs();
+    }
+}
+
+function onChooseBranch(i) {
+    gBranch = branchs[i];
+    $("#branch").val(gBranch);
+}
+
+function endChooseBranch() {
+    if (gProvince == null) {
+        common.showAlert("请选择省");
+        return;
+    }
+    if (gCity == null) {
+        common.showAlert("请选择市");
+        return;
+    }
+    if ($("#branch").val() == "") {
+        common.showAlert("请选择银行所属分支行")
+        return;
+    }
+
+    $("#branch_choose").animate({
+        top: "100%"
+    }, "fast", function() {
+        $("#branch_choose").hide();
+    });
+    gBranch = $("#branch").val();
+    $("#branchName").val(gBranch);
+}
+</script>

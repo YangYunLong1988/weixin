@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <script type='text/javascript'>window.BWEUM||(BWEUM={});BWEUM.info = {"stand":true,"agentType":"browser","agent":"bi-collector.oneapm.com/static/js/bw-send-411.4.5.js","beaconUrl":"bi-collector.oneapm.com/beacon","licenseKey":"mYF7B~e73nNvIjMv","applicationID":2273714};</script><script type="text/javascript" src="//bi-collector.oneapm.com/static/js/bw-loader-411.4.5.js"></script>
+    <title>票务交易系统</title>
+    <link rel="stylesheet" type="text/css" href="../scss/base.scss">
+    <link rel="stylesheet" type="text/css" href="../scss/ticket_order.scss">
+</head>
+
+<body>
+    <form id="orderForm" method="post" action="/product/ticketBuy">
+        <input type="hidden" name="id" value="$id">
+        <input type="hidden" name="time" value="$time">
+        <input type="hidden" name="area" value="$area">
+        <input type="hidden" name="isDelivery" value="0">
+        <div class="option option1">
+            <div class="poster">
+                <img src="../img/diana/poster@2x.png" width="100%" height="100%">
+            </div>
+            <div class="content">
+                <div id="ticket_title"></div>
+                <div class="ticket_pa">
+                    <span id="ticket_price"></span>
+                    <span id="ticket_area"></span>
+                </div>
+                <div class="left1">时间<span id="ticket_time"></span></div>
+                <div class="left1">场馆<span id="ticket_place"></span></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="line1">
+            <span class="left2">选择配送方式</span>
+            <div>
+                <a href="javascript:void(0)" onclick="toChoice(1)">
+                    <div id="choice1" class="choice2">快递</div>
+                </a>
+                <a href="javascript:void(0)" onclick="toChoice(0)">
+                    <div id="choice0" class="choice1">上门自取</div>
+                </a>
+            </div>
+        </div>
+        <div class="line2 l2">
+            <span id="person" class="left3">取&nbsp;&nbsp;件&nbsp;人</span>
+            <input class="right1" placeholder="请输入姓名" id="name" type="text">
+        </div>
+        <div class="line2">
+            <span class="left3">手机号码</span>
+            <input class="right1" placeholder="请输入手机号码" id="phone" type="tel">
+        </div>
+        <div id="addressW" class="line2">
+            <span class="left3">地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址</span>
+            <input class="right1" placeholder="省  市  区  街道" id="address">
+        </div>
+        <div id="receive" class="line3" style="display:none">
+            <span id="ticket_receive_place">取票地址：</span>
+            <span id="ticket_receive_time">取票时间：</span>
+        </div>
+        <div class="blank"></div>
+        <a id="next" class="next_on" href="javascript:void(0)" onclick="toNext()">下一步</a>
+    </form>
+</body>
+
+</html>
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript">
+var choice_num = 1;
+var order = null;
+
+function start() {
+    common.post("/product/generateOrder", {
+        id: $id,
+        time: $time,
+        area: $area
+    }, function(result) {
+        order = result.data;
+        $("#ticket_title").html(order.name);
+        $("#ticket_price").html('￥' + order.area.price + '<span>.00</span>');
+        $("#ticket_area").html(order.area.value);
+        $("#ticket_time").html(order.time.value);
+        $("#ticket_place").html(order.scene);
+        $("#ticket_receive_place").html("取票地址：" + order.diyAddress);
+        $("#ticket_receive_time").html("取票时间：" + order.diyTime);
+        fillLastAddress();
+    });
+}
+
+function fillLastAddress() {
+    common.post("/gift/getLastAddress", {}, function(result) {
+        $("#name").val(result.data.person);
+        $("#phone").val(result.data.phone);
+        $("#address").val(result.data.address);
+    });
+}
+
+function toChoice(num) {
+    $("#choice" + choice_num).removeClass("choice2").addClass("choice1");
+    choice_num = num;
+    $("#choice" + choice_num).removeClass("choice1").addClass("choice2");
+    if (num == 1) {
+        $("#addressW").show();
+        $("#receive").hide();
+        $("#person").html("收&nbsp;&nbsp;件&nbsp;人");
+    } else {
+        $("#addressW").hide();
+        $("#receive").show();
+        $("#person").html("取&nbsp;&nbsp;件&nbsp;人");
+    };
+    $("#isDelivery").val(num);
+}
+
+function toNext() {
+    var name = $("#name").val();
+    var phone = $("#phone").val();
+    var address = $("#address").val();
+    if (name == "") {
+        showAlert("请输入姓名");
+        return;
+    }
+    if (phone == "") {
+        showAlert("请输入手机号");
+        return;
+    }
+    if (!phone.match(/^1\d{10}$/)) {
+        showAlert("请输入正确手机号");
+        return;
+    }
+    if (choice_num == 1) {
+        if (address == "") {
+            showAlert("请输入地址");
+            return;
+        }
+    }
+    $("#orderForm").submit();
+}
+start();
+</script>

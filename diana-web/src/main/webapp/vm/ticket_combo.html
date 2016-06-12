@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>票务交易系统</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <script type='text/javascript'>
+    window.BWEUM || (BWEUM = {});
+    BWEUM.info = {
+        "stand": true,
+        "agentType": "browser",
+        "agent": "bi-collector.oneapm.com/static/js/bw-send-411.4.5.js",
+        "beaconUrl": "bi-collector.oneapm.com/beacon",
+        "licenseKey": "mYF7B~e73nNvIjMv",
+        "applicationID": 2273714
+    };
+    </script>
+    <script type="text/javascript" src="//bi-collector.oneapm.com/static/js/bw-loader-411.4.5.js"></script>
+    <link rel="stylesheet" type="text/css" href="../scss/base.scss">
+    <link rel="stylesheet" type="text/css" href="../scss/ticket_combo.scss">
+</head>
+
+<body>
+    <div class="top">请选择您需要的套餐</div>
+    <div class='list'>
+        #foreach($element in $list) #if($velocityCount>5) #set($index=3) #else #set($index=$velocityCount - 1) #end
+        <a id="$element.id" class="checked_off">
+            <div class="ticket w$!{index}" href="javascript:void(0)" onClick="onChecked($element.id)">
+                <div class="price">$element.ticketNumber张 ￥$element.price</div>
+                <div class="name">$element.ruleName</div>
+                <div class="text"></div>
+            </div>
+        </a>
+        #end
+        <div class="clear"></div>
+    </div>
+    <div class="raffle" style="display:none">
+        <a id="raffle" class="raffle_off" href="javascript:void(0)" onClick="onRaffle()"></a>
+    </div>
+    <div class="tip" style="display:none">小提示：抽奖金额可在支付中抵用，不可存储复用.</div>
+    <div class="blank"></div>
+    <a id="next" class="next_on" href="javascript:void(0)" onClick="toActivity()">立即购买</a>
+    <div id="tipX" class="mask" style="display:none">
+        <div class="tx_dialog">
+            <div class="tx_title">恭喜您抽中</div>
+            <div id="tx_value">10元</div>
+            <a href="javascript:void(0)" onclick="toCloseTipX()">知道了</a>
+        </div>
+    </div>
+</body>
+
+</html>
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript">
+var index = 0;
+var isOnRaffle = false; //定义未抽奖
+
+function onChecked(id) {
+    if ($('.checked_on').size() > 0) {
+        // $('.checked_on .ticket .text').html('请抽奖');
+        $('.checked_on').removeClass('checked_on').addClass("checked_off");
+        isOnRaffle = false; //未抽奖
+    }
+    $('#' + id).addClass("checked_on").removeClass('checked_off');
+    if ($('.checked_on').size() == 0) {
+        $("#raffle").removeClass("raffle_on").addClass("raffle_off");
+    } else {
+        $("#raffle").removeClass("raffle_off").addClass("raffle_on");
+    }
+}
+
+function onRaffle() {
+    if ($('.checked_on').size() == 0) {
+        return;
+    }
+    var ruleId = $('.checked_on').attr('id');
+    common.post("/product/ruleAmount", {
+        "ruleId": ruleId
+    }, function(result) {
+        $('#' + ruleId + ' .ticket .text').html('省' + result.data + '元');
+        $("#tipX").show();
+        $("#tx_value").html(result.data + "元");
+        isOnRaffle = true; //已抽奖
+    }, '', function(result) {
+        if (result.type = 'WARNING') {
+            common.showAlert(result.firstMessage, function() {
+                common.goto('/order/findOrderDetail/' + result.data)
+            });
+        } else {
+            common.showAlert(result.firstMessage);
+        }
+    });
+}
+
+function toCloseTipX() {
+    $("#tipX").hide();
+}
+
+function toActivity() {
+    if ($('.checked_on').size() == 0) {
+        common.showAlert('请先选择购买产品类型 ');
+        return;
+    }
+    if (!isOnRaffle) { //判断是否抽过奖
+        // common.showAlert('请先抽奖 ');
+        // return;
+    }
+    var ruleId = $('.checked_on').attr('id');
+    common.post(
+        "/product/combo", {
+            ruleId: ruleId
+        },
+        function(result) {
+            common.generateOrder(result.data.id);
+        }
+    );
+}
+</script>

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+<meta name="format-detection" content="telephone=no" />
+<title>票务交易系统</title>
+<link rel="stylesheet" type="text/css" href="../scss/base.scss">
+<link rel="stylesheet" type="text/css" href="../scss/gift_mm57.scss">
+<link rel="stylesheet" type="text/css" href="../scss/gift.scss">
+</head>
+
+<body>
+	<div id="gift_img" class="mm57_img">
+		<div id="gift_code_bar">支付后显示券码</div>
+	</div>
+	<div class="gift_mini">
+		<div class="p1">您已选择</div>
+		<div class="p2">DQ冰雪皇后 冰淇淋券</div>
+		<div class="p3">自1940年美国第一家门店开始，历经70多年的发展，如今的DQ冰雪皇后已经是全球知名的冰淇淋品牌之一，并且成为年轻人犒赏自己、享受休闲、甜蜜约会的时尚.</div>
+	</div>
+	<div class="blank"></div>
+	<div class="introduce_box">
+		<div class="p0">礼品介绍</div>
+		<div id="code_box" style="display: none">
+			<div class="code_title_bar">
+				<span>DQ40元电子代金券</span> <span class="sp_0">2张小杯暴风雪“<br>买一赠一”电子券
+				</span> <span>2张胶囊咖啡券</span>
+			</div>
+			<div class="code_bar">
+				<div>
+					<span id="gift_code_1"></span> <span id="token_1" class="token"></span>
+				</div>
+				<div>
+					<span id="gift_code_2"></span> <span id="token_2" class="token"></span>
+				</div>
+				<div>
+					<span id="gift_code_3"></span> <span id="token_3" class="token"></span>
+				</div>
+			</div>
+			<div class="code_bar">
+				<div></div>
+				<div>
+					<span id="gift_code_4"></span> <span id="token_4" class="token"></span>
+				</div>
+				<div>
+					<span id="gift_code_5"></span> <span id="token_5" class="token"></span>
+				</div>
+			</div>
+		</div>
+		<span class="p1">市场价¥118元</span> <span class="p4">DQ超值礼包将以电子券的形式发放。顾客成功支付后，将有5张电子礼券发送到您的账户中，顾客可向DQ门店收银员出示每张电子券上的数字串码进行核销。</span> <span class="p2">40元DQ现金抵用券 X 1张</span>
+		<ul>
+			<li>凭券可在购买DQ 店内任意正价产品时抵用；</li>
+			<li>不得与店内其它优惠、促销活动、赠券、电子券、银行积分和各类卡券等并用；</li>
+			<li>本券有效期3年，请在有效期内使用；</li>
+			<li>本券限一次使用，不找零，不折现；</li>
+			<li>北京、天津、辽宁、吉林、黑龙江、河北、内蒙古、新疆、澳门、香港、台湾地区DQ门店不适用。</li>
+		</ul>
+		<span class="p2">小杯暴风雪产品“买一送一”券 X 2张 </span>
+		<ul>
+			<li>凭本券可享购买小杯暴风雪产品“买一送一”优惠（口味不限，不含新品）；</li>
+			<li>每人每次限用一张，不得与店内其它优惠、促销活动、赠券、电子券、银行积分和各类卡券等并用；</li>
+			<li>本券不折换现金，优惠部分不提供发票；</li>
+			<li>本券有效期至2016年12月31日，过期作废，作废后不得兑换DQ任何产品或券；</li>
+			<li>北京、天津、辽宁、吉林、黑龙江、河北、内蒙古、新疆、澳门、香港、台湾地区DQ门店不适用。</li>
+		</ul>
+		<span class="p2">DQ 胶囊咖啡免费体验券 X2张 </span>
+		<ul>
+			<li>凭本券可于DQ咖啡售卖门店兑换 “爱馥卡朵”胶囊咖啡一杯；</li>
+			<li>每人每次限用一张，不得与店内其它优惠、促销活动、赠券、电子券、银行积分和各类卡券等并用；</li>
+			<li>本券不折换现金，优惠部分不提供发票；</li>
+			<li>如在非咖啡售卖门店兑换本券，可以店内常规热饮替代；</li>
+			<li>本券有效期至2016年12月31日，过期作废，作废后不得兑换DQ任何产品或券；</li>
+			<li>北京、天津、辽宁、吉林、黑龙江、河北、内蒙古、新疆、澳门、香港、台湾地区DQ门店不适用。</li>
+		</ul>
+		<div class="blank"></div>
+	</div>
+	<a id="submit" style="display: none" href="javascript:void(0)" onClick="toSubmit()">
+		<div class="submit">提交</div>
+	</a>
+	<div id="box" class="mask" style="display: none">
+		<div id="box2">
+			<a class="close" href="javascript:void(0)" onclick="boxHide()"></a>
+			<div class="clear"></div>
+			<div class="giftInfo">
+				<div id="hasGift">您选择的礼品为</div>
+				<div id="giftName">DQ代金券组合</div>
+			</div>
+			<div class="title">请选择观影权益码</div>
+			<div id="codes"></div>
+			<div id="actionBar">
+				<a id="chooseSeat" href="javascript:void(0)" onclick="chooseSeat()">选座</a>
+			</div>
+			<a id="skipSeat" href="javascript:void(0)" onclick="skipSeat()">暂不选座</a>
+		</div>
+	</div>
+	<div id="city_choose" style="display: none">
+		<div id="city_bar">
+			<a id="province" href="javascript:void(0)" onclick="openProvince()"></a> <a id="city" href="javascript:void(0)" onclick="openCity()"></a> <a id="area" href="javascript:void(0)" onclick="openArea()"></a> <a id="city_ok" href="javascript:void(0)" onclick="endChooseCity()"></a>
+		</div>
+		<div id="city_options"></div>
+	</div>
+	<!-- 菜苗网跳转form -->
+	<div style="display: none;">
+		<form id="caimiaoForm" method="POST">
+			<input type="hidden" name="company" /> <input type="hidden" name="phone" /> <input type="hidden" name="num" /> <input type="hidden" name="activityid" /> <input type="hidden" name="client" /> <input type="hidden" name="sign" />
+		</form>
+	</div>
+</body>
+
+</html>
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript" src="../js/config.js"></script>
+<script type="text/javascript" src="../js/caimiao.js"></script>
+<script type="text/javascript" src="../js/zhongying.js"></script>
+<script type="text/javascript">
+var code = "mm57";
+var box2Top = null;
+var orderId = '$!orderId';
+var giftId = '$!giftId';
+var list = null;
+
+function start() {
+    if (giftId) {
+        common.hasUnpayOrder(orderId);
+    } else {
+        if ($index < 0) {//兑换码-1代金卷;2、3小杯暴风雪;4,5咖啡卷
+            if ("$!giftNo1" != "") {
+                $("#gift_code_bar").html("");
+                $("#code_box").show();
+                $("#gift_code_1").text("$giftNo1");
+                $("#gift_code_2").text("$giftNo2");
+                $("#gift_code_3").text("$giftNo4");
+                $("#gift_code_4").text("$giftNo3");
+                $("#gift_code_5").text("$giftNo5");
+                $("#token_1").text("$tokenNo1");
+                $("#token_2").text("$tokenNo2");
+                $("#token_3").text("$tokenNo4");
+                $("#token_4").text("$tokenNo3");
+                $("#token_5").text("$tokenNo5");
+                if ("$!enableTimes") {
+                	var asyncGiftCodeTimer=setInterval(function() {
+                		common.post("/gift/asyncGiftCode",{orderId:orderId,redeemCodeType:"mm57"},function(data){
+                    			 clearInterval(asyncGiftCodeTimer);
+                    			 $("#gift_code_1").text(data.giftNo1);
+                                 $("#gift_code_2").text(data.giftNo2);
+                                 $("#gift_code_3").text(data.giftNo4);
+                                 $("#gift_code_4").text(data.giftNo3);
+                                 $("#gift_code_5").text(data.giftNo5);
+                                 $("#token_1").text(data.tokenNo1);
+                                 $("#token_2").text(data.tokenNo2);
+                                 $("#token_3").text(data.tokenNo4);
+                                 $("#token_4").text(data.tokenNo3);
+                                 $("#token_5").text(data.tokenNo5);
+                    	},null,function(data){});
+                    }, 30000);
+                }
+            }
+        } else {
+            $("#submit").show();
+        }
+    }
+}
+
+function boxShow() {
+    $("#box").show();
+    if (box2Top == null) {
+        box2Top = $("#box2").position().top - $("#box2").height();
+    }
+    $("#box2").animate({
+        top: box2Top + "px"
+    }, "fast", function() {});
+}
+
+function boxHide() {
+    $("#box2").animate({
+        top: "100%"
+    }, "fast", function() {
+        $("#box").hide();
+    });
+}
+
+function chooseSeat() {
+    var l2 = [];
+    for (var i = 0; i < list.length; i++) {
+        var item = list[i];
+        if (item.on) {
+            l2.push(item.id);
+        }
+    }
+    if (l2.length == 0) {
+        common.showAlert("请先选择要使用的兑换券");
+        return;
+    }
+
+    var ids = l2.join();
+    zhongying.login(orderId, ids);
+}
+
+function skipSeat() {
+    common.goto("/product/buyTicket/pay/" + orderId);
+}
+
+function getTimeoutStr(ms) {
+    var d = new Date();
+    d.setTime(ms);
+    return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+}
+
+function toSubmit() {
+    var giftName = "DQ代金券组合";
+    var spuCode = "";
+    if ("$orderId" == "0") {
+        common.post("/gift/submitGiftPre", {
+            gift: code,
+            person: "",
+            phone: "",
+            province: "",
+            city: "",
+            area: "",
+            address: "",
+            giftName: giftName,
+            orderId: 0,
+            productId: $productId,
+            spuCode: spuCode
+        }, function(r) {
+            orderId = r.data.id;
+            common.post("/movie/getCodes", {
+                orderId: orderId
+            }, function(result) {
+                list = result.data;
+                var html = "";
+                for (var i = 0; i < list.length; i++) {
+                    var item = list[i];
+                    if (item.timeout > 0) {
+                        item.timeoutStr = "有效期至" + getTimeoutStr(item.timeout);
+                    } else {
+                        item.timeoutStr = "有效期至2016-12-31";
+                    }
+                    item.timeout = false;
+                    item["on"] = false;
+                    html += '<a class="code00" href="javascript:void(0)" onclick="chooseCode(this, ' + i + ')">';
+                    html += '<div class="cl">' + item.code + '</div>';
+                    html += '<div class="cr">' + item.timeoutStr + '</div>';
+                    html += '</a>';
+                }
+                $("#codes").html(html);
+                // boxShow();
+                skipSeat();
+            });
+        });
+    } else {
+        common.post("/gift/submitGift", {
+            gift: code,
+            person: "",
+            phone: "",
+            province: "",
+            city: "",
+            area: "",
+            address: "",
+            giftName: giftName,
+            orderId: "$orderId",
+            spuCode: spuCode
+        }, function(result) {
+            var orderId = result.data.id;
+            common.goto("/movie/codeList?orderId=" + orderId);
+        });
+    }
+}
+
+function chooseCode(o, i) {
+    var obj = $(o);
+    var item = list[i];
+    if (obj.hasClass('code01')) {
+        item["on"] = false;
+        obj.removeClass('code01').addClass('code00');
+    } else if (obj.hasClass('code00')) {
+        item["on"] = true;
+        obj.removeClass('code00').addClass('code01');
+    }
+}
+
+
+start();
+</script>

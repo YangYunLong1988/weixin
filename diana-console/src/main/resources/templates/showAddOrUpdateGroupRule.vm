@@ -1,0 +1,161 @@
+<script src="/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+<script src="/js/bootstrap-datetimepicker.zh-CN.js" type="text/javascript"></script>
+<script src="/js/jquery.dataTables.min.js" type="text/javascript"></script>
+<script src="/js/dateTable-Tools.js" type="text/javascript"></script>
+<script src="/js/jquery.form.js" type="text/javascript"></script>
+<script src="/js/public.js"></script>
+<script type="text/javascript">
+		// 保存或修改组合产品规则
+	    function saveOrUpdate() {
+	    	var ruleName = $.trim($("#ruleName").val());
+			if( $.isEmptyObject(ruleName) ){
+				alert("请输入规则名称！");
+				$("#ruleName").focus();
+				return false;
+			}
+			if(ruleName.length > 30){
+				alert("规则名称不能超过30个字符！");
+				$("#ruleName").focus();
+				return false;
+			}
+			
+			var ticketNumber = $.trim($("#ticketNumber").val());
+			if( $.isEmptyObject(ticketNumber) ){
+				alert("请输入票数！");
+				$("#ticketNumber").focus();
+				return false;
+			}
+			if(!/^(\+|-)?(\d+)$/.test(ticketNumber)){
+				alert("票数必须为正整数！");
+				$("#ticketNumber").focus();
+				return false;
+			}
+			if( parseInt(ticketNumber) <= 0 ){
+				alert("票数必须大于0！");
+				$("#ticketNumber").focus();
+				return false;
+			}
+			
+			var price = $.trim($("#price").val());
+			if( $.isEmptyObject(price) ){
+				alert("请输入产品金额！");
+				$("#price").focus();
+				return false;
+			}
+			if(!/^(\+|-)?(\d+)$/.test(price)){
+				alert("产品金额必须为正整数！");
+				$("#price").focus();
+				return false;
+			}
+			if( parseInt(price) <= 0 ){
+				alert("产品金额必须大于0！");
+				$("#price").focus();
+				return false;
+			}
+			
+			var minMoney = $.trim($("#minMoney").val());
+			if( $.isEmptyObject(minMoney) ){
+				alert("请输入抽奖最小金额！");
+				$("#minMoney").focus();
+				return false;
+			}
+			if(!/^(\+|-)?(\d+)$/.test(minMoney)){
+				alert("抽奖最小金额必须为正整数！");
+				$("#minMoney").focus();
+				return false;
+			}
+			if( parseInt(minMoney) <= 0 ){
+				alert("抽奖最小金额必须大于0！");
+				$("#minMoney").focus();
+				return false;
+			}
+			
+			var maxMoney = $.trim($("#maxMoney").val());
+			if( $.isEmptyObject(maxMoney) ){
+				alert("请输入抽奖最大金额！");
+				$("#maxMoney").focus();
+				return false;
+			}
+			if(!/^(\+|-)?(\d+)$/.test(maxMoney)){
+				alert("抽奖最大金额必须为正整数！");
+				$("#maxMoney").focus();
+				return false;
+			}
+			if( parseInt(maxMoney) <= 0 || parseInt(maxMoney) <= parseInt(minMoney)){
+				alert("抽奖最大金额必须大于0,并且大于最小抽奖金额！");
+				$("#maxMoney").focus();
+				return false;
+			}
+			if(parseInt(maxMoney) >= parseInt(price)) {
+				alert("抽奖最大金额不能大于票价金额！");
+				$("#maxMoney").focus();
+				return false;
+			}
+           $("#groupRuleForm").ajaxSubmit({
+				type: "post",
+            	url: "/groupRule/addOrUpdateGroupRule",
+				dataType : "json",
+				enctype: 'multipart/form-data',
+				success: function (result) {
+				   alert(result.messages);
+				   back("/groupRule/groupRuleList");
+				},
+				error: function (msg) {
+                	alert('保存失败！');
+            	}
+			});
+		}
+		//取消编辑
+		function cancel(){
+			load("/groupRule/groupRuleList");
+		}
+</script>
+<div class="col-md-12 main">
+	<div class="panel panel-primary" style="margin-top: 20px;">
+		<div class="panel-heading">$!{action}组合产品规则</div>
+		<div class="panel-body">
+			<form id="groupRuleForm" class="form-horizontal">
+				<input id="id" name="id" type="hidden" value="$!{groupRuleVo.id}" />
+				<div class="form-group">
+					<label for="name" class="col-sm-2 control-label">规则名称</label>
+					<div class="col-sm-3">
+						<input id="ruleName" name="ruleName" class="form-control" placeholder="规则名称" type="text" maxlength="30" value="$!{groupRuleVo.ruleName}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="type" class="col-sm-2 control-label">票数</label>
+					<div class="col-sm-3">
+						<input id="ticketNumber" name="ticketNumber" class="form-control" placeholder="票数" type="text" maxlength="6" value="$!{groupRuleVo.ticketNumber}" />
+					</div>
+					<label style="padding-top:1%;">(张)</label>
+				</div>
+				<div class="form-group">
+					<label for="type" class="col-sm-2 control-label">产品金额</label>
+					<div class="col-sm-3">
+						<input id="price" name="price" class="form-control" placeholder="产品金额" type="text" maxlength="6" value="$!{groupRuleVo.price}" />
+					</div>
+					<label style="padding-top:1%;">(元)</label>
+				</div>
+				<div class="form-group">
+					<label for="type" class="col-sm-2 control-label">抽奖最小金额</label>
+					<div class="col-sm-3">
+						<input id="minMoney" name="minMoney" class="form-control" placeholder="抽奖最小金额" type="text" maxlength="6" value="$!{groupRuleVo.minMoney}" />
+					</div>
+					<label style="padding-top:1%;">(元)</label>
+				</div>
+				<div class="form-group">
+					<label for="type" class="col-sm-2 control-label">抽奖最大金额</label>
+					<div class="col-sm-3">
+						<input id="maxMoney" name="maxMoney" class="form-control" placeholder="抽奖最大金额" type="text" maxlength="6" value="$!{groupRuleVo.maxMoney}" />
+					</div>
+					<label style="padding-top:1%;">(元)</label>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-3">
+						<input type="button" class="btn btn-default" value="确认" onclick="saveOrUpdate()" /> &nbsp;&nbsp; <input type="button" class="btn btn-default" value="取消" onclick="cancel()" />
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

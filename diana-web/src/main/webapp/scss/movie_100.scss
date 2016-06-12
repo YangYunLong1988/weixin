@@ -1,0 +1,311 @@
+@import "compass/css3";
+@import "_config.scss";
+#w0 {
+    height: 42.5rem;
+    background-size: 32rem 42.5rem;
+    background-image: url(../img/movie_activity/movie100_act0@2x.jpg);
+}
+
+#w1 {
+    height: 54rem;
+    background-size: 32rem 54rem;
+    background-image: url(../img/movie_activity/movie100_act1@2x.jpg);
+}
+
+#banner {
+    width: 32rem;
+    height: 16rem;
+    background-size: 32rem 16rem;
+}
+
+#banner1 {
+    width: 32rem;
+    height: 16rem;
+    background-size: 32rem 16rem;
+    background-image: url(../img/movie_activity/banner1@2x.jpg);
+}
+
+#fix_l {
+    width: 32rem;
+    text-align: center;
+    background-color: $color_white;
+    padding-bottom: 1rem;
+    .tab {
+        display: inline-block;
+        padding-top: 1rem;
+        width: 29.6rem;
+        height: 5.5rem;
+        background-color: $color_white;
+        a {
+            display: inline-block;
+            float: left;
+            height: 3.4rem;
+        }
+        #tab1,
+        #tab2 {
+            width: 9.8rem;
+            background-size: 9.8rem 3.4rem;
+        }
+        #tab3 {
+            width: 10rem;
+            background-size: 10rem 3.4rem;
+        }
+        .tab1_on {
+            background-image: url(../img/movie_activity/tab1_click@2x.png);
+        }
+        .tab1_off {
+            background-image: url(../img/movie_activity/tab1@2x.png);
+        }
+        .tab2_on {
+            background-image: url(../img/movie_activity/tab2_click@2x.png);
+        }
+        .tab2_off {
+            background-image: url(../img/movie_activity/tab2@2x.png);
+        }
+        .tab3_on {
+            background-image: url(../img/movie_activity/tab3_click@2x.png);
+        }
+        .tab3_off {
+            background-image: url(../img/movie_activity/tab3@2x.png);
+        }
+    }
+}
+
+#fix_b {
+    height: 4.8rem;
+}
+
+.fix_l {
+    position: fixed;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+}
+
+.introduction {
+    font-size: 1.2rem;
+    color: $color_6;
+    padding-left: 1.8rem;
+    padding-right: 1.8rem;
+    padding-bottom: 1.2rem;
+    background-color: $color_white;
+    text-align: left;
+    line-height: 1.5rem;
+}
+
+.tequan2,
+.tequan3,
+.tequan4,
+.tequan5 {
+    width: 30rem;
+    height: 7.5rem;
+    background-color: $color_white;
+    margin-left: 1rem;
+    margin-top: 1rem;
+    background-repeat: no-repeat;
+    background-size: 4.5rem 4.5rem;
+    background-position: 2.2rem center;
+}
+
+.tequan2 {
+    background-image: url(../img/movie_activity/qmicon@2x.png);
+}
+
+.tequan3 {
+    background-image: url(../img/movie_activity/syicon@2x.png);
+}
+
+.tequan4 {
+    background-image: url(../img/movie_activity/czicon@2x.png);
+}
+
+.tequan5 {
+    background-image: url(../img/movie_activity/gpicon@2x.png);
+}
+
+.tequan2_a1 {
+    display: block;
+    text-align: left;
+    padding-top: 1.8rem;
+    padding-left: 7.5rem;
+    font-size: 1.2rem;
+    color: $color_3;
+}
+
+.tequan2_a2 {
+    display: block;
+    text-align: left;
+    padding-top: 1rem;
+    padding-left: 7.5rem;
+    font-size: 1.2rem;
+    color: $color_6;
+}
+
+.tequan_span {
+    font-size: 1.5rem;
+    color: #66c7f2;
+    font-weight: bold;
+}
+
+.tequanremind {
+    margin-top: 1.6rem;
+    margin-bottom: 1.6rem;
+    color: $color_6;
+    text-align: center;
+    font-size: 1.2rem;
+    color: $color_9;
+}
+
+.white_padding {
+    width: 32rem;
+    height: 4.4rem;
+    background-color: $color_white;
+}
+
+%get_button {
+    display: block;
+    width: 32rem;
+    background-repeat: no-repeat;
+    position: fixed;
+    margin: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.get_btn {
+    height: 4.9rem;
+    background-size: 32rem 4.9rem;
+    @extend %get_button;
+    background-image: url(../img/movie_activity/get_btn3@2x.jpg);
+}
+
+.get_btn_off {
+    height: 4.4rem;
+    background-size: 32rem 4.4rem;
+    @extend %get_button;
+    background-image: url(../img/movie_activity/get_btn2_off@2x.png);
+}
+
+.gift {
+    width: 32rem;
+    background-color: #e6e6e6;
+    border-top: 0.1rem solid #e6e6e6;
+    a {
+        float: left;
+        display: inline-block;
+        width: 10.6rem;
+        height: 12.2rem;
+        margin-bottom: 0.1rem;
+        background-color: #FFF;
+        background-size: 7.5rem 7.5rem;
+        background-repeat: no-repeat;
+        background-position: center 0.2rem;
+        padding: 0.4rem;
+        color: #333333;
+        text-align: center;
+        div {
+            line-height: 1.2rem;
+            font-size: 1rem;
+            text-align: center;
+        }
+        .p3 {
+            margin-top: 7rem;
+        }
+        .p4 {
+            display: inline-block;
+            border: 0.1rem solid #CCC;
+            border-radius: 1rem;
+            margin-top: 0.4rem;
+            padding-left: 0.4rem;
+            padding-right: 0.4rem;
+            padding-top: 0.2rem;
+            padding-bottom: 0.2rem;
+            color: #999;
+            span {
+                color: #ff3f0c;
+            }
+        }
+    }
+    .f0 {}
+    .f1,
+    .f2 {
+        margin-left: 0.1rem;
+    }
+}
+
+.movie {
+    text-align: center;
+    margin-top: 1rem;
+    .film {
+        display: inline-block;
+        width: 29.2rem;
+        height: 16rem;
+        background-size: 29.2rem 16rem;
+        background-repeat: no-repeat;
+        background-position: center;
+        margin-bottom: 1.4rem;
+    }
+    #film0 {
+        background-image: url(../img/exchangecode/film_yewen@2x.jpg);
+    }
+    #film1 {
+        background-image: url(../img/exchangecode/film_shw@2x.jpg);
+    }
+    #film2 {
+        background-image: url(../img/exchangecode/film_dhz@2x.jpg);
+    }
+    #film3 {
+        background-image: url(../img/exchangecode/film_qgj@2x.jpg);
+    }
+    .tip0 {
+        color: #bcbcbc;
+        margin-bottom: 1.4rem;
+        font-size: 1.2rem;
+    }
+}
+
+#dialog {
+    position: fixed;
+    left: 0rem;
+    top: 0rem;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+#dc {
+    position: fixed;
+    margin: auto;
+    width: 32rem;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    #dc_title {
+        background-color: $color_black;
+        color: $color_white;
+        line-height: 4rem;
+        padding-left: 1.4rem;
+        border-top: 0.1rem solid $color_3;
+        text-align: left;
+        a {
+            display: inline-block;
+            float: right;
+            width: 4.4rem;
+            height: 4rem;
+            background-size: 1.4rem 1.3rem;
+            background-image: url(../img/exchangecode/close@2x.png);
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+    }
+    #dc_content {
+        background-color: $color_white;
+        color: $color_3;
+        line-height: 1.8rem;
+        font-size: 1.2rem;
+        padding: 1.4rem;
+        text-align: left;
+    }
+}

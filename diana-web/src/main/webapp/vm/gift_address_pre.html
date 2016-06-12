@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <script type='text/javascript'>
+    window.BWEUM || (BWEUM = {});
+    BWEUM.info = {
+        "stand": true,
+        "agentType": "browser",
+        "agent": "bi-collector.oneapm.com/static/js/bw-send-411.4.5.js",
+        "beaconUrl": "bi-collector.oneapm.com/beacon",
+        "licenseKey": "mYF7B~e73nNvIjMv",
+        "applicationID": 2273714
+    };
+    </script>
+    <script type="text/javascript" src="//bi-collector.oneapm.com/static/js/bw-loader-411.4.5.js"></script>
+    <title>票务交易系统</title>
+    <link rel="stylesheet" type="text/css" href="../scss/base.scss">
+    <link rel="stylesheet" type="text/css" href="../scss/gift_address.scss">
+    <link rel="stylesheet" type="text/css" href="../scss/gift.scss">
+</head>
+
+<body>
+    <div id="gift_img"></div>
+    <div class="gift">
+        <div class="p1">您已选择</div>
+        <div class="p2"></div>
+        <div id="p_imp"></div>
+        <div id="gift_style">
+        </div>
+        <div id="gift_size">
+        </div>
+        <a id="gift_mini" class="sbtn down" href="javascript:void(0)" onclick="toDetail()">查看详情</a>
+        <div class="p3" id="gift_detail_0" style="display:none"></div>
+    </div>
+    <div class="gift" id="gift_detail_1" style="display:none">
+        <div class="p4">礼品介绍</div>
+        <div id="gift_more"></div>
+        <a class="sbtn up" href="javascript:void(0)" onclick="toMini()">收起</a>
+    </div>
+    <div id="info">收件信息</div>
+    <div class="tip_text">温馨提示：可填写父母亲朋的地址赠送礼品</div>
+    <div class="board">
+        <div class="option">
+            <input id="name" placeholder="姓名" type="text" readonly="true" maxlength="10">
+        </div>
+        <div class="line"></div>
+        <div class="option">
+            <input id="phone" placeholder="手机号码" type="tel" readonly="true" maxlength="11">
+        </div>
+        <div class="line"></div>
+        <div class="option" id="addressC">
+            <a id="cityStr" class="off" href="javascript:void(0)" onclick="toChooseCity()">点击请选择省、市、区</a>
+        </div>
+        <div class="line"></div>
+        <div class="option" id="addressW">
+            <input id="address" placeholder="详细地址" type="text" readonly="true" maxlength="50">
+        </div>
+    </div>
+    <!-- <div class="blank"></div> -->
+    <a id="submit" href="javascript:void(0)" onClick="toSubmit()">
+        <div class="submit">提交</div>
+    </a>
+    <div id="box" class="mask" style="display:none">
+        <div id="box2">
+            <a class="close" href="javascript:void(0)" onclick="boxHide()"></a>
+            <div class="clear"></div>
+            <div class="giftInfo">
+                <div id="hasGift">您选择的礼品为</div>
+                <div id="giftName"></div>
+                <div id="tip">
+                    成功购买影票后
+                    <br>我们将尽快以快递的方式发送给您！
+                </div>
+            </div>
+            <div class="title">请选择观影权益码</div>
+            <div id="codes"></div>
+            <div id="actionBar">
+                <a id="chooseSeat" href="javascript:void(0)" onclick="chooseSeat()">选座</a>
+            </div>
+            <a id="skipSeat" href="javascript:void(0)" onclick="skipSeat()">暂不选座</a>
+        </div>
+    </div>
+    <div id="city_choose" style="display:none">
+        <div id="city_bar">
+            <a id="province" href="javascript:void(0)" onclick="openProvince()"></a>
+            <a id="city" href="javascript:void(0)" onclick="openCity()"></a>
+            <a id="area" href="javascript:void(0)" onclick="openArea()"></a>
+            <a id="city_ok" href="javascript:void(0)" onclick="endChooseCity()"></a>
+        </div>
+        <div id="city_options"></div>
+    </div>
+    <!-- 菜苗网跳转form -->
+    <div style="display:none;">
+        <form id="caimiaoForm" method="POST">
+            <input type="hidden" name="company" />
+            <input type="hidden" name="phone" />
+            <input type="hidden" name="num" />
+            <input type="hidden" name="activityid" />
+            <input type="hidden" name="client" />
+            <input type="hidden" name="sign" />
+        </form>
+    </div>
+</body>
+
+</html>
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript" src="../js/config.js"></script>
+<script type="text/javascript" src="../js/city.js"></script>
+<script type="text/javascript" src="../js/caimiao.js"></script>
+<script type="text/javascript" src="../js/zhongying.js"></script>
+<script type="text/javascript">
+var code = null;
+var box2Top = null;
+var orderId = '$!orderId';
+var giftId = '$!giftId';
+var list = null;
+var gProvince, gCity, gArea;
+
+function start() {
+    fillData(movie_gifts[$index]);
+    toOpen();
+    if (giftId) {
+        common.hasUnpayOrder(orderId);
+    }
+    showGiftOption($index);
+}
+
+function fillData(data) {
+    code = data.code;
+    $("#gift_img").addClass(data.img);
+    $(".p2").html(data.detailname);
+    if (data.imp) {
+        $("#p_imp").html(data.imp);
+    }
+    $("#giftName").html(data.detailname);
+    $(".p3").html(data.simpleintro);
+    var html = '';
+    if (data.code != "mm56") {
+        html = '<div class="price">' + (data.more.length > 1 ? "组合" : "") + '市场价：¥' + data.price + '</div>';
+    }
+    for (var i = 0; i < data.more.length; i++) {
+        var item = data.more[i];
+        html += '<div class="p5">' + item.name + '</div>';
+        html += '<div class="p6">' + item.list1.join("<br>") + '</div>';
+        if (item.list2.length > 0) {
+            html += '<div class="p7">产品特点</div>';
+            html += '<div class="p8"><li>' + item.list2.join("</li><li>") + '</li></div>';
+        }
+    }
+    $("#gift_more").html(html);
+}
+
+var options = null;
+var currOption = null;
+var currChild = null;
+
+function showGiftOption(index) {
+    if (movie_gifts[index].options) {
+        options = movie_gifts[index].options;
+        for (var i = 0; i < options.length; i++) {
+            var item = options[i];
+            var style = (item.isNull) ? "selected_close" : "selected_off";
+            item.view = $('<a class="' + style + '"  href="javascript:void(0)" onclick="toSelectStyle(' + i + ')">' + item.value + '</a>');
+            $("#gift_style").append(item.view);
+            if (item.children) {
+                var children = item.children;
+                for (var j = 0; j < children.length; j++) {
+                    var child = children[j];
+                    var childStyle = (child.isNull) ? "selected_close" : "selected_off";
+                    child.view = $('<a class="' + childStyle + '"  href="javascript:void(0)" onclick="toSelectSize(' + j + ')" style="display:none">' + child.value + '</a>');
+                    $("#gift_size").append(child.view);
+                }
+            }
+        }
+        $("#gift_style").append($('<div class="clear"></div>'));
+        $("#gift_size").append($('<div class="clear"></div>'));
+        toSelectStyle(0);
+    }
+}
+
+
+function toSelectStyle(i) {
+    var newOption = options[i];
+    if (currOption == newOption) {
+        return;
+    }
+    if (newOption.isNull) {
+        return;
+    }
+    if (currOption != null) {
+        currOption.view.removeClass("selected_on").addClass("selected_off");
+        if (currOption.children) {
+            for (var i = 0; i < currOption.children.length; i++) {
+                currOption.children[i].view.hide();
+            }
+        }
+    }
+    currOption = newOption;
+    currOption.view.removeClass("selected_off").addClass("selected_on");
+    if (currOption.children) {
+        for (var i = 0; i < currOption.children.length; i++) {
+            currOption.children[i].view.show();
+        }
+        toSelectSize(0);
+    }
+}
+
+function toSelectSize(i) {
+    var newChild = currOption.children[i];
+    if (newChild == currChild) {
+        return;
+    }
+    if (newChild.isNull) {
+        return;
+    }
+    if (currChild != null) {
+        currChild.view.removeClass("selected_on").addClass("selected_off");
+    }
+    currChild = newChild;
+    currChild.view.removeClass("selected_off").addClass("selected_on");
+}
+
+function boxShow() {
+    $("#box").show();
+    if (box2Top == null) {
+        box2Top = $("#box2").position().top - $("#box2").height();
+    }
+    $("#box2").animate({
+        top: box2Top + "px"
+    }, "fast", function() {});
+}
+
+function boxHide() {
+    $("#box2").animate({
+        top: "100%"
+    }, "fast", function() {
+        $("#box").hide();
+    });
+}
+
+function chooseSeat() {
+    var l2 = [];
+    for (var i = 0; i < list.length; i++) {
+        var item = list[i];
+        if (item.on) {
+            l2.push(item.id);
+        }
+    }
+    if (l2.length == 0) {
+        common.showAlert("请先选择要使用的兑换券");
+        return;
+    }
+
+    var ids = l2.join();
+    zhongying.login(orderId, ids);
+}
+
+function skipSeat() {
+    common.goto("/product/buyTicket/pay/" + orderId);
+}
+
+function getTimeoutStr(ms) {
+    var d = new Date();
+    d.setTime(ms);
+    return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+}
+
+function toSubmit() {
+    var name = $.trim($("#name").val());
+    var phone = $.trim($("#phone").val());
+    var address = $.trim($("#address").val());
+    if (name == "") {
+        $("#name").val("");
+        common.showAlert("请输入姓名");
+        return;
+    }
+    if (phone == "") {
+        $("#phone").val("");
+        common.showAlert("请输入手机号");
+        return;
+    }
+    if (!phone.match(/^1\d{10}$/)) {
+        common.showAlert("请输入正确手机号");
+        return;
+    }
+    if (gProvince == null) {
+        common.showAlert("请选择省");
+        return;
+    }
+    if (gCity == null) {
+        common.showAlert("请选择市");
+        return;
+    }
+    if (gArea == null) {
+        common.showAlert("请选择区")
+        return;
+    }
+    if (address == "" || address.length > 50) {
+        common.showAlert("请输入地址，50字以内");
+        return;
+    }
+
+    var gift = movie_gifts[$index];
+    var giftName = gift.detailname;
+    var spuCode = gift.spuCode;
+    if (currOption) {
+        spuCode = currOption.spuCode;
+        giftName = giftName + " " + currOption.value;
+        if (currChild) {
+            spuCode = currChild.spuCode;
+            giftName = giftName + " " + currChild.value;
+        }
+    }
+
+    common.post("/gift/submitGiftPre", {
+        gift: code,
+        person: name,
+        phone: phone,
+        province: gProvince.name,
+        city: gCity.name,
+        area: gArea.name,
+        address: address,
+        giftName: giftName,
+        productId: $productId,
+        spuCode: spuCode
+    }, function(r) {
+        orderId = r.data.id;
+        toLock();
+        common.post("/movie/getCodes", {
+            orderId: orderId
+        }, function(result) {
+            list = result.data;
+            var html = "";
+            for (var i = 0; i < list.length; i++) {
+                var item = list[i];
+                if (item.timeout > 0) {
+                    item.timeoutStr = "有效期至" + getTimeoutStr(item.timeout);
+                } else {
+                    item.timeoutStr = "有效期至2016-12-31";
+                }
+                item.timeout = false;
+                item["on"] = false;
+                html += '<a class="code00" href="javascript:void(0)" onclick="chooseCode(this, ' + i + ')">';
+                html += '<div class="cl">' + item.code + '</div>';
+                html += '<div class="cr">' + item.timeoutStr + '</div>';
+                html += '</a>';
+            }
+            $("#codes").html(html);
+            // boxShow();
+            skipSeat();
+        });
+    });
+}
+
+function chooseCode(o, i) {
+    var obj = $(o);
+    var item = list[i];
+    if (obj.hasClass('code01')) {
+        item["on"] = false;
+        obj.removeClass('code01').addClass('code00');
+    } else if (obj.hasClass('code00')) {
+        item["on"] = true;
+        obj.removeClass('code00').addClass('code01');
+    }
+}
+
+function toLock() {
+    $("#info").html("收件信息");
+    $("#name").attr("readonly", "true");
+    $("#address").attr("readonly", "true");
+    $("#phone").attr("readonly", "true");
+    $("#submit").hide();
+}
+
+function toOpen() {
+    $("#info").html("收件信息");
+    $("#name").removeAttr("readonly");
+    $("#address").removeAttr('readonly');
+    $("#phone").removeAttr('readonly');
+    $("#submit").show();
+}
+
+function toDetail() {
+    $("#gift_mini").hide();
+    $("#gift_detail_0").show();
+    $("#gift_detail_1").show();
+}
+
+function toMini() {
+    $("#gift_mini").show();
+    $("#gift_detail_0").hide();
+    $("#gift_detail_1").hide();
+}
+
+function toChooseCity() {
+    if (gProvince) {
+        $("#province").html(gProvince.name);
+        if (gCity) {
+            $("#city").html(gCity.name);
+            if (gArea) {
+                $("#area").html(gArea.name);
+            }
+        }
+    }
+    $("#city_choose").show().animate({
+        top: 0
+    }, "fast", function() {
+        openProvince();
+    });
+}
+
+function openProvince() {
+    $("#province").addClass('on');
+    $("#city").removeClass('on');
+    $("#area").removeClass('on');
+    var html = "";
+    for (var i = 0; i < citys.length; i++) {
+        var item = citys[i];
+        html += '<a href="javascript:void(0)" onclick="onChooseProvince(' + i + ')">' + item.name + '</a>';
+    };
+    $("#city_options").html(html);
+}
+
+function openCity() {
+    if (gProvince) {
+        $("#province").removeClass('on');
+        $("#city").addClass('on');
+        $("#area").removeClass('on');
+        var html = "";
+        for (var i = 0; i < gProvince.children.length; i++) {
+            var item = gProvince.children[i];
+            html += '<a href="javascript:void(0)" onclick="onChooseCity(' + i + ')">' + item.name + '</a>';
+        };
+        $("#city_options").html(html);
+    };
+}
+
+function openArea() {
+    if (gCity) {
+        $("#province").removeClass('on');
+        $("#city").removeClass('on');
+        $("#area").addClass('on');
+        var html = "";
+        for (var i = 0; i < gCity.children.length; i++) {
+            var item = gCity.children[i];
+            html += '<a href="javascript:void(0)" onclick="onChooseArea(' + i + ')">' + item.name + '</a>';
+        };
+        $("#city_options").html(html);
+    };
+}
+
+function onChooseProvince(i) {
+    if (gProvince != citys[i]) {
+        gProvince = null;
+        gCity = null;
+        gArea = null;
+        gProvince = citys[i];
+        $("#province").html(gProvince.name);
+        $("#city").html("");
+        $("#area").html("");
+        openCity();
+    }
+}
+
+function onChooseCity(i) {
+    if (gCity != gProvince.children[i]) {
+        gCity = null;
+        gArea = null;
+        gCity = gProvince.children[i];
+        $("#city").html(gCity.name);
+        $("#area").html("");
+        openArea();
+    }
+}
+
+function onChooseArea(i) {
+    gArea = null;
+    gArea = gCity.children[i];
+    $("#area").html(gArea.name);
+}
+
+function endChooseCity() {
+    if (gProvince == null) {
+        common.showAlert("请选择省");
+        return;
+    }
+    if (gCity == null) {
+        common.showAlert("请选择市");
+        return;
+    }
+    if (gArea == null) {
+        common.showAlert("请选择区")
+        return;
+    }
+    $("#city_choose").animate({
+        top: "100%"
+    }, "fast", function() {
+        $("#city_choose").hide();
+    });
+    $("#cityStr").removeClass('off').addClass('on').html(gProvince.name + " " + gCity.name + " " + gArea.name);
+}
+start();
+</script>

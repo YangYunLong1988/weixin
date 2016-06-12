@@ -1,0 +1,571 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <link rel="stylesheet" href="/css/select2.min.css" />
+  <body>
+  <style type="text/css">
+  .giftTab tr td{
+  	white-space:initial;
+  	word-break:initial;
+  }
+  .ticketTab tr td{
+  	white-space:initial;
+  	word-break:initial;
+  }
+  </style>
+ 		<div class="col-md-12 main">
+          	<div class="panel panel-primary" style="margin-top:20px;">
+				  <div class="panel-heading">电影票类订单</div>
+				  <div class="panel-body">
+				    	<form method="post" id="fm">
+			  
+							  <div class="form-group pull-left col-sm-2">
+							    <label for="exampleInputEmail2">手机号码：</label>
+							    <input type="tel" class="form-control" placeholder="手机号码" name="mobile" id="mobile">
+							  </div> 
+							  <div class="form-group pull-left col-sm-2">
+							    <label for="exampleInputEmail2">购买产品：</label>
+							    <input type="text" class="form-control productName" placeholder="产品名称" name="productName">
+							  </div> 
+							  <div class="form-group pull-left col-sm-2">
+							    <label for="exampleInputEmail2">状 态：</label>
+							    <select class="form-control status" name="status">
+						            <option>全部</option>
+						            <option>已撤单</option>
+						            <option>已付款</option>
+						            <option>待付款</option>
+						            <option>付款中</option>
+						            <option>付款失败</option>
+						          </select>
+							  </div>
+							  <div class="form-group pull-left col-sm-2">
+							    <label for="channel">渠道：</label>
+							    <div>
+								    <select id="platform" name="platform" class="form-control platform" style="width:170px">
+	                                    <option value=""></option>
+									</select>
+								</div>
+							  </div>
+							  <div class="form-group pull-left col-sm-2 subChannelBlock" style="display:none;">
+							    <label for="subPlatform">子渠道：</label>
+							    <div>
+								    <select id="subPlatform" name="subPlatform" class="form-control subPlatform" style="width:170px">
+	                                    <option value=""></option>
+									</select>
+								</div>
+							  </div>
+							 <div class="clearfix"></div>
+							  <div class="form-group pull-left col-sm-2">
+							    <label for="exampleInputName2">统计日期：</label>
+							    <input type="text" class="form-control beginDate input-date" placeholder="开始日期" name="beginDate" readonly>
+							    <a class="icon-remove date-clear" id="beginDate" href="#"></a>
+							  </div>
+							  <div class="form-group pull-left col-sm-2">
+							    <label for="exampleInputEmail2"></label>
+							    <input type="text" class="form-control endDate input-date" placeholder="结束日期" name="endDate" readonly>
+							    <a class="icon-remove date-clear" id="endDate" href="#"></a>
+							  </div>
+							  
+						 </form>
+				          &nbsp;<button type="submit" class="btn btn-primary btn-query query changeId" id="movie"> 查 询 </button>
+							  <button type="submit" class="btn btn-primary btn-query" onclick="exportExcel('/order/exportOrderExcel?type=movie&'+$('#fm').serialize())"> 导 出 </button>
+				  </div>
+				          <div class="clearfix"></div>
+				  
+				   <!--电影类订单-->
+		         	<div style="overflow-x:auto;">
+			            <table class="dataTable striped border bordered hovered cell-hovered display movie TBstyle">
+			               <thead>
+			            	  <th>编号</th>
+			            	  <th>商户订单号</th>
+			                  <th>绑定手机</th>
+			                  <th>所属渠道</th>
+			                  <th class="pay-name">购买产品</th>
+			                  <th>订单金额(元)</th>
+			                  <th>支付类型</th>
+			                  <th>订单状态</th>
+			                  <th>票数</th>
+			                  <th>领取礼品</th>
+			                  <th>操作</th>
+			              </thead>
+			              <thead></tbody>
+			            </table>
+		          </div>
+			</div>
+        </div>
+        
+	    <!-- 影票，礼品兑换弹出层 -->
+	    
+		<div class="modal" id="modal1" tabindex="-1" role="dialog" aria-labelledby="modal1" aria-hidden="true">
+			<div class="modal-dialog" style="width: 900px;">
+				<div class="modal-content">
+					<div class="modal-header bg-primary">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" >影票、礼品兑换情况</h4>
+					</div>
+					<div class="modal-body">
+						<div style="height:50px;width:100%" id="m1Headder">
+							<p style="float:left;width:33%;">编号:<span id="m1OrderId"></span></p>
+							<p style="float:left;width:33%;">绑定手机:<span id="m1Mobile"></span></p>
+							<p style="float:left;width:33%;">购买产品:<span id="m1ProductName"></span></p>
+							<p></p>
+						</div>
+						<div style="height:25px;line-height:25px;border-top:1px solid #ccc;border-bottom:1px solid #ccc;">
+							<p style="color:blue;">影票兑换情况</p>
+						</div>
+				       <div class="">
+					            <table class="dataTable striped border bordered hovered cell-hovered display ticketTab TBstyle">
+					              <thead>
+					                <tr>
+					                  <th>影票</th>
+					                  <th>兑票渠道</th>
+					                  <th>场次</th>
+					                  <th>影院</th>
+					                  <th>座位</th>
+					                  <th>出票方订单号</th>
+					                </tr>
+					              </thead>
+					              <tbody></tbody>
+					            </table>
+				        </div>
+				        <div style="height:25px;line-height:25px;border-top:1px solid #ccc;border-bottom:1px solid #ccc;">
+							<p style="color:blue;">礼品兑换情况</p>
+						</div>
+						<div>
+				            <table class="dataTable striped border bordered hovered cell-hovered display giftTab TBstyle">
+				              <thead>
+				                <tr>
+				                  <th>礼品类型</th>
+				                  <th>取件人</th>
+				                  <th>手机号码</th>
+				                  <th>配送地址</th>
+				                  <th>配送订单号</th>
+				                  <th>承运公司</th>
+				                  <th>状态</th>
+				                </tr>
+				              </thead>
+				              <tbody></tbody>
+				            </table>
+		         		</div>
+					</div>
+				</div>
+			<!-- /.modal-content -->
+			</div>
+		</div>
+		<!-- /.影票，礼品兑换弹出层 -->
+
+		<!-- 查看更多弹出层 -->
+		<div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="modal2" aria-hidden="true">
+			<div class="modal-dialog" style="width: 900px;">
+				<div class="modal-content">
+					<div class="modal-header bg-primary">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" >查看更多</h4>
+					</div>
+					<div class="modal-body">
+				       <div class="">
+				            <table class="dataTable striped border bordered hovered cell-hovered display moreTab TBstyle">
+			                	<thead>
+					                <tr>
+					                  <th>订单号码</th>
+					                  <th>订单状态</th>
+					                  <th>订单金额</th>
+					                  <th>支付金额</th>
+					                  <th>代金券金额</th>
+					                  <th>代金券类型</th>
+					                  <th>提交时间</th>
+					                </tr>
+					            </thead>
+					              
+					            <tbody>
+					             	<tr role="row" class="odd" id="moreTr">
+					             	 	<td></td>
+					             	 	<td></td>
+					             	 	<td></td>
+					             	 	<td></td>
+					             	 	<td></td>
+					             	 	<td></td>
+					             	 	<td></td>
+					              	</tr>
+			                	</tbody>
+				            </table>
+				        </div>
+					</div>
+				</div>
+			<!-- /.modal-content -->
+			</div>
+		</div>
+		<!-- /.查看更多弹出层 -->
+
+
+    	<script src="/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+    	<script src="/js/bootstrap-datetimepicker.zh-CN.js" type="text/javascript"></script>
+    	<script src="/js/jquery.dataTables.min.js" type="text/javascript"></script>
+    	<script src="/js/dateTable-Tools.js" type="text/javascript"></script>
+    	<script src="/js/public.js"></script>
+    	<script src="/js/select2.min.js" type="text/javascript"></script>
+    	<script type="text/javascript">
+    	jQuery.fn.center = function(height) {
+    		console.info($(window).height()+"---"+this.height());
+    		var top=(($(window).height() - this.height()) / 2);
+    		if(height!=undefined){
+    			top=(($(window).height() - height) / 2);
+    		}
+    		this.css("top", + top+"px");
+			return this;
+		}
+        $(document).ready(function(){
+            initData();
+            initChannel();
+
+        });
+
+		//初始化一级渠道
+        function initChannel(){
+            $.ajax({
+                url : '/getChannelList',
+                async : true,
+                cache : false,
+                dataType : 'json',
+                success : function(data, textStatus){
+                    if(data.type=='SUCCESS'){
+                        var channels = data.data;
+                        $('#platform').select2({
+					       placeholder:"全部",
+					       data:$.map(channels,function(item){
+					       		return {
+				                        text: item.name,
+				                        id: item.id
+				                    }
+					       }),
+					    });
+                        $('#platform').change(function() {
+                            initSubChannel($(this).val());
+                        });
+                    }
+                }
+            });
+        }
+
+        //初始化子渠道下拉框
+        function initSubChannel(parentId){
+            $('#subPlatform').val('');
+            $.ajax({
+                url : '/getSubChannelList',
+                async : true,
+                cache : false,
+                dataType : 'json',
+                data : {
+                    channelId : parentId
+                },
+                success : function(data, textStatus){
+                    if(data.type=='SUCCESS'){
+                        var channels = data.data;
+                        if(channels && channels.length > 0){
+                            $(".subChannelBlock").show();
+                        }else {
+                        	$(".subChannelBlock").hide();
+                        }
+                         $('#subPlatform').empty().append("<option></option>").select2({
+					       placeholder:"全部",
+					       data:$.map(channels,function(item){
+					       		return {
+				                        text: item.name,
+				                        id: item.id
+				                    }
+					       }),
+					   });
+                    }
+                }
+            });
+        }
+
+		 //初始化电影订单数据
+	     function initData() {
+			var type=$(".changeId").attr('id');
+			$('.movie').DataTable({
+					"oLanguage" : myDataTable.getOLanguage() ,
+					//"aaSorting": [[ 4, "desc" ]],//设置第5个元素为默认排序 
+					"pagingType" : "full_numbers", //分页样式
+					"bFilter" : false,//开启搜索过滤
+					"data-searching" : false,//开启搜索
+					"bAutoWidth" : false, //自动宽度
+					"bPaginate" : true, //是否显示分页工具
+					"ordering" : false, //禁用排序功能
+					"bLengthChange": false, //改变每页显示数据数
+					"aLengthMenu" : [ [ 10, 20, 30 ], [ 10, 20, 30 ] ],//定义每页显示数据数量
+					//"iDisplayLength":30,//默认显示条数
+					"processing" : true,//是否显示处理状态(排序的时候，数据很多耗费时间长的话，也会显示这个)
+					"serverSide" : true,//是否开启服务器模式
+					"ajax" : {
+						"url" : encodeURI("/order/loadOrderList?productName="+$('.productName').val()+"&mobile="+$('#mobile').val()+"&status="+ $('.status').val()+"&platform="+ $('#platform').val()+"&subPlatform="+ $('#subPlatform').val()+"&beginDate="+$('.beginDate').val()+"&endDate="+$('.endDate').val()+"&type="+type),
+						"type" : "post",
+						"dataType" : 'json',
+						//"success": fnCallback,  
+						"timeout" : 15000,   
+						"error" : handleAjaxError
+					},
+					"columns" : [
+							
+							{
+								"data" : "id",
+								"render" : myDataTable.getRender()
+							},
+							{
+								"data" : "tradeNo",
+								"render" : myDataTable.getRender()
+							},
+							{
+								"data" : "mobile",
+								"render" : myDataTable.getRender()
+							},
+							{
+								"data" : "platform",
+								"render" : myDataTable.getRender()
+							},
+							{
+								"data" : "productName",
+								"render" : function(data, type, row) {
+									return '<span class="text-overflow">'+ data + '</span>';
+								}
+							},
+							{
+								"data" : "amount",
+								"render" : myDataTable.getRender()
+							},
+							{
+								"data" : "payType",
+								"render" : myDataTable.getRender()
+							},
+							{
+								"data" : "status",
+								"render" : myDataTable.getRender()
+							},
+							{
+								"data" : "alreadyConversion",
+								"render" : function(data, type, row) {
+									if (data != null) {
+										return data;
+									} else {
+										return 0;
+									}
+								 }
+							},
+							{
+								"data" : "gift",
+								"render" : function(data, type, row) {
+									if (data != null) {
+										return data;
+									} else {
+										return 0;
+									}
+								 }
+							},
+							{
+								"data" : "id",
+								"render" : function(data, type, row) {
+									var linkText = "影票、礼品兑换";
+									var linkOrder = "查看更多";
+									return "<a href='#' onclick='findTicket("
+												+ row.id
+												+ ",\""+row.mobile+"\""
+												+ ",\""+row.productName+"\""
+												+ ")' style='color: blue;'>"
+
+												+ linkText + "</a>"+"&nbsp;&nbsp;<a href='#' onclick='showMore("
+												+ row.id
+												+ ")' style='color: blue;'>"
+												+ linkOrder + "</a>";
+							}
+							
+							} ],
+					"retrieve" : true
+					});
+			
+			
+			
+		 }
+
+		function initTicketData(orderId) {
+     	var url;
+		url="/order/loadOrderTickets?orderId="+orderId;
+     	console.info("orderId:"+orderId);
+     	if($('.ticketTab').attr("role")=="grid"){
+     		$('.ticketTab').dataTable().fnDestroy();
+     	}
+		$('.ticketTab').DataTable({
+						"oLanguage" : myDataTable.getOLanguage() ,
+						//"aaSorting": [[ 4, "desc" ]],//设置第5个元素为默认排序 
+						"pagingType" : "full_numbers", //分页样式
+						"bFilter" : false,//开启搜索过滤
+						"data-searching" : false,//开启搜索
+						"bAutoWidth" : false, //自动宽度
+						"bPaginate" : false, //是否显示分页工具
+						"ordering" : false, //禁用排序功能
+						"bLengthChange": false, //改变每页显示数据数
+						"aLengthMenu" : [ [ 10, 20, 30 ], [ 10, 20, 30 ] ],//定义每页显示数据数量
+						//"iDisplayLength":1,//默认显示条数
+						"processing" : true,//是否显示处理状态(排序的时候，数据很多耗费时间长的话，也会显示这个)
+						"serverSide" : true,//是否开启服务器模式
+						//"bInfo": true,//页脚信息
+						"ajax" : {
+							"url" : url,
+							"type" : "post",
+							"dataType" : 'json',
+							//"success": fnCallback,  
+							"timeout" : 15000,   
+							"error" : handleAjaxError
+						
+						},
+						"columns" : [
+								
+								
+								{
+									"data" : "name",
+									"render" : myDataTable.getRender()
+								},
+								{
+									"data" : "agency",
+									"render" : myDataTable.getRender()
+								},
+								{
+									"data" : "performTime",
+									"render" : myDataTable.getRenderOfDateYMDHMS()
+								},
+								
+								{
+									"data" : "performAddress",
+									"render" : function(data, type, row) {
+										if(data==null){
+											return "";
+										}else{
+											return '<span class="text-overflow">'+ data+' '+row.scene + '</span>';
+										}
+									}
+								},
+								{
+									"data" : "seat",
+									"render" : myDataTable.getRender()
+								},
+								{
+									"data" : "orderCode",
+									"render" : myDataTable.getRender()
+								}],
+						"retrieve" : true,
+						"fnInitComplete": function (){
+							$(".ticketTab td").css("padding","0");
+						}
+			});
+		}
+     function initGiftData(orderId) {
+     	var url;
+		url="/order/loadOrderGift?orderId="+orderId;
+		if($('.giftTab').attr("role")=="grid"){
+     		$('.giftTab').dataTable().fnDestroy();
+     	}
+		$('.giftTab').DataTable({
+						"oLanguage" : myDataTable.getOLanguage() ,
+						//"aaSorting": [[ 4, "desc" ]],//设置第5个元素为默认排序 
+						"pagingType" : "full_numbers", //分页样式
+						"bFilter" : false,//开启搜索过滤
+						"data-searching" : false,//开启搜索
+						"bAutoWidth" : false, //自动宽度
+						"bPaginate" : false, //是否显示分页工具
+						"ordering" : false, //禁用排序功能
+						"bLengthChange": false, //改变每页显示数据数
+						"aLengthMenu" : [ [ 10, 20, 30 ], [ 10, 20, 30 ] ],//定义每页显示数据数量
+						//"iDisplayLength":1,//默认显示条数
+						"processing" : true,//是否显示处理状态(排序的时候，数据很多耗费时间长的话，也会显示这个)
+						"serverSide" : true,//是否开启服务器模式
+						"ajax" : {
+							"url" : url,
+							"type" : "post",
+							"dataType" : 'json',
+							//"success": fnCallback,  
+							"timeout" : 15000,   
+							"error" : handleAjaxError
+						
+						},
+						"columns" : [
+								
+								
+								{
+									"data" : "giftName",
+									"render" : myDataTable.getRender()
+								},
+								{
+									"data" : "recipients",
+									"render" : myDataTable.getRender()
+								},
+								{
+									"data" : "mobile",
+									"render" : myDataTable.getRender()
+								},
+								{
+									"data" : "address",
+									"render" : function(data, type, row) {
+										if(data.length > 30){
+                                        	data = data.substring(0, 30);
+                                    	}
+                                    	return data;
+									}
+								},
+								{
+									"data" : "logisticsSn",
+									"render" : myDataTable.getRender()
+								},
+								{
+									"data" : "logisticsCompany",
+									"render" : myDataTable.getRender()
+								},
+								{
+									"data" : "logisticsStatus",
+									"render" : myDataTable.getRender()
+								}],
+						"retrieve" : true,
+						"fnInitComplete": function (){
+							$(".giftTab td").css("padding","0");
+						}
+			});
+		}
+	     //查询出票信息
+	     function findTicket(orderId,mobile,productName){
+	     	//load("/order/orderTicketList/"+orderId+"/movie");
+	     	$("#m1Headder span").text("");
+	     	$("#m1OrderId").text(orderId);
+			$("#m1Mobile").text(mobile);
+			$("#m1ProductName").text(productName);
+			initTicketData(orderId);
+	     	initGiftData(orderId);
+	     	$('#modal1').modal('show');
+	     	$("#modal1 .modal-content").center();
+	     }
+
+	     //查看更多
+	     function showMore(orderId){
+	     	//load("/order/orderGiftList/"+orderId);
+	     	var data=$('.movie').dataTable().fnGetData();
+	     	var order=null;
+	     	for(var i=0;i<data.length;i++){
+	     		if(data[i].id==orderId){
+	     			order=data[i];
+	     		}
+	     	}
+	     	$("#moreTr td").empty();
+	     	$('#modal2').modal('show');
+	     	$("#moreTr td")[0].innerHTML=order.id;
+	     	$("#moreTr td")[1].innerHTML=order.status;
+	     	$("#moreTr td")[2].innerHTML=order.amount;
+	     	$("#moreTr td")[3].innerHTML=order.payAmount;
+	     	$("#moreTr td")[4].innerHTML=order.cardStockAmount;
+	     	$("#moreTr td")[5].innerHTML=order.cardStockMemo==null?"":order.cardStockMemo;
+	     	$("#moreTr td")[6].innerHTML=getLocalTime(order.createdDate);
+	     	$("#modal2 .modal-content").center(165);
+	     }
+	     
+        function orderList(type){
+		  	load('/order/orderList?type='+type);
+		}
+    </script>
+  </body>
+</html>

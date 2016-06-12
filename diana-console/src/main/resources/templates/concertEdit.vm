@@ -1,0 +1,156 @@
+<div class="col-md-12 main">
+	<div class="panel panel-primary" style="margin-top:20px;">
+      <div class="panel-heading">
+		编辑电影方案
+	  </div>
+      <div class="panel-body">
+       <form id="dataForm" class="form-horizontal">
+       		<input id="id" name="id" type="hidden" value="$!concertVo.concert.id" />
+			<div class="form-group">
+				<label for="name" class="col-sm-2 control-label">方案名称</label>
+				 <div class="col-sm-8">
+                  <input id="name" name="concert.name" class="form-control" #if($concertVo.concert.name) readOnly="readOnly" #end placeholder="方案名称" type="text" 
+					value="$!concertVo.concert.name" style="width:200px;" />
+                </div>
+			</div>
+		
+			#if($concertVo.seats && $concertVo.seats.size()>0)
+					#set ($i=0)
+					<div id="area">
+					#foreach($c in $concertVo.seats)
+						
+							<div class="form-group areaItem">
+								  <input id="seats[$i].idd" name="seats[$i].idd" type="hidden" value="$!concertVo.seats[$i].id" />	
+								  <label for="seats[$i].type" class="col-sm-2 control-label">区间名称</label>
+								  <div class="col-sm-2">
+									<input id="seats[$i].type" name="seats[$i].type" type="text" value="$!{c.type}" 
+										class="form-control" style="width:200px;" placeholder="区间名称" />
+								  </div>
+							
+								 <div id="concertArea">
+									 <label for="seats[$i].price" class="col-sm-2 control-label">区间价格</label>
+				    				 <div class="col-sm-4">
+				    					<input id="seats[$i].price" name="seats[$i].price" type="number" value="$!{c.price}" 
+										class="form-control" style="width:200px;" placeholder="区间价格" />
+				    				 </div>
+								</div>
+							</div>
+						
+				#set($i=$i+1)
+				#end
+				</div>
+			#else
+				<div id="area">
+					<div class="form-group areaItem">
+						  <label for="seats[0].type" class="col-sm-2 control-label">区间名称</label>
+						  <div class="col-sm-2">
+							<input id="seats[0].type" name="seats[0].type" type="text" value="$!c.type" 
+								class="form-control" style="width:200px;" placeholder="区间名称" />
+						  </div>
+					
+						 <div id="concertArea">
+							 <label for="seats[0].price" class="col-sm-2 control-label">区间价格</label>
+		    				 <div class="col-sm-4">
+		    					<input id="seats[0].price" name="seats[0].price" type="number" value="$!c.price" 
+								class="form-control" style="width:200px;" placeholder="区间价格" />
+		    				 </div>
+						</div>
+					</div>
+				</div>
+			#end
+			
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-8">
+					<input id="addItem" type="button" class="btn btn-primary" value="新增"/> &nbsp;&nbsp;
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-8">
+					<input id="saveOrUpdate" type="button" class="btn btn-default" value="保存"/> &nbsp;&nbsp;
+					<input id="cancel" type="button" class="btn btn-default" value="取消" />
+				</div>
+			</div>
+			
+        </form>
+      </div>
+	</div>    
+ </div>
+<script type="text/javascript">
+
+	$(function() {
+		// 保存或者提交
+		$("#saveOrUpdate").on("click",function(){
+			var concertName = $("#name").val();
+			if(concertName.length == 0) {
+				alert("请输入电影方案名称","错误");
+				return false;
+			}
+			
+			var inputs = $("input");
+			var flag = false;
+			$.each(inputs,function(i,v) {
+				if($(v).val().length == 0 && $(v).attr("id") != "id") {
+					flag = true;
+					return false;
+				}
+			});
+			
+			if(flag) {
+				alert("请输入完整的区间定价方案","错误");
+				return;
+			}
+			
+			
+			$.ajax({
+				type: "POST",
+				url:"/concert/saveOrUpdate",
+				data:$("#dataForm").serialize(),
+				success:function(data) {
+					if(data.type == "SUCCESS") {
+						confirm("保存电影方案成功","提示",function(data){
+							if(data) {
+								load("/concert/concertList");
+							}
+						});
+					} else {
+						confirm(data.firstMessage,"提示",function(data){
+							if (data)　{
+								load("/concert/concertList");
+							}
+						});
+					}
+				}
+			});
+		});
+		
+		// 返回
+		$("#cancel").on("click",function() {
+			load("/concert/concertList");
+		});
+	
+	});
+
+	var areaItem = $(".areaItem");
+	var i = areaItem.length;
+	
+	$("#addItem").on("click",function() {
+		var addHtml = '<div id="fg'+i+'" class="form-group"><label for="moviePrice" class="col-sm-2 control-label">区间名称</label>';
+			addHtml +='<div class="col-sm-2"><input id="seats['+i+'].type" name="seats['+i+'].type" type="text" value=""'; 
+			addHtml	+='class="form-control" style="width:200px;" placeholder="区间名称" />';
+			addHtml	+='</div><div id="concertArea"><label for="refConcert" class="col-sm-1 control-label">区间价格</label>';
+		    addHtml	+='<div class="col-sm-5"><div><input id="seats['+i+'].price" name="seats['+i+'].price" type="number" value=""'; 
+			addHtml +='class="form-control" style="width:200px;float:left;" placeholder="区间价格" /><input id="addItem" type="button" style="margin-left:5px;" class="btn btn-primary" value="删除" onclick="delThis('+i+')"/></div></div></div></div>';
+	        i++;
+	                 			
+	    var area = $("#area");
+	    area.append(addHtml);
+	});		
+	
+	// 删除本行
+	function delThis(i) {
+		var fg = $("#"+"fg"+i);
+		fg.remove();
+	}
+	
+ </script>

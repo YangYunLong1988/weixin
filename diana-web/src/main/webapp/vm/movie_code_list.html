@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+<meta name="format-detection" content="telephone=no" />
+<script type='text/javascript'>
+    window.BWEUM || (BWEUM = {});
+    BWEUM.info = {
+        "stand": true,
+        "agentType": "browser",
+        "agent": "bi-collector.oneapm.com/static/js/bw-send-411.4.5.js",
+        "beaconUrl": "bi-collector.oneapm.com/beacon",
+        "licenseKey": "mYF7B~e73nNvIjMv",
+        "applicationID": 2273714
+    };
+    </script>
+<script type="text/javascript" src="//bi-collector.oneapm.com/static/js/bw-loader-411.4.5.js"></script>
+<title>票务交易系统</title>
+<link rel="stylesheet" type="text/css" href="../scss/base.scss">
+<link rel="stylesheet" type="text/css" href="../scss/movie_code_list.scss">
+<link rel="stylesheet" type="text/css" href="../scss/gift.scss">
+</head>
+
+<body>
+	<div class="page" id="has_ticket">
+		<div id="ticket_list"></div>
+		<div class="bigbox">
+			<div id="codes_list_panel">
+				<div class="tip_line">
+					<div class="title">
+						请选择观影权益码<a href="javascript:void(0)" onclick="toRule()">兑换规则</a>
+					</div>
+				</div>
+				<div id="codes"></div>
+				<div id="actionBar">
+                    #if($filmLogin == "on" && $ticketConvertToGift == "on")
+                    	<a id="giftBtn" class="getgift" href="javascript:void(0)" onclick="getGift()">转换为礼品</a>
+                   		<a id="filmBtn" class="getfilm" href="javascript:void(0)" onclick="boxShow()">选座</a>
+                    #elseif($filmLogin == "on")
+                    	<a id="giftBtn" class="getgift" href="javascript:void(0)" style="width:29.5rem;margin-left: 0rem;" onclick="getGift()">转换为礼品</a>
+                    #elseif($ticketConvertToGift == "on")
+                    	<a id="filmBtn" class="getfilm" href="javascript:void(0)" style="width:29.5rem;margin-left: 0rem;" onclick="boxShow()">选座</a>
+                    #end
+				</div>
+			</div>
+			<div id="film_header">
+				<a href="javascript:void(0)" onclick="toArrows()">可兑换的电影<span id="arrows" class="arrows_up"></span></a>
+			</div>
+			<div id="film_list" style="display: none;">
+				<a class="film" id="film0" href="javascript:void(0)"></a>
+				<div id="film_title">叶问3</div>
+				<div id="film_date">上映时间：2016年3月</div>
+				<div id="film_content">1959年，叶问（甄子丹饰）与张永成（熊黛林饰）将大儿子叶准送回广东，小儿子叶正继续在香港读书。在与马鲸笙（谭耀文饰）与其老板（泰森饰）所带领的帮派抗争的过程中，叶问带领着自己的弟子保卫了小学，并结识了依靠拉车和在地下赌场斗武为生的张天志（张晋饰），二 人惺惺相惜。然而 此时，自称 “咏春正宗” 的张天志却向叶问公开宣战，要为自己新开的武馆争取名誉。可是张永成突然病危，让叶问不得不肩负起照顾妻儿的责任。面对家庭和武术，叶问究竟会作何选择？他是否会应战张天志，夺回属于他 “咏春正宗” 的头衔？</div>
+				<!-- <a class="film" id="film1" href="javascript:void(0)"></a> -->
+				<!-- <a class="film" id="film2" href="javascript:void(0)"></a> -->
+				<!-- <a class="film" id="film3" href="javascript:void(0)"></a> -->
+			</div>
+		</div>
+		<div class="blank"></div>
+		<div class="bigbox" id="gift_big_box" style="display: none;">
+			<div class="tip_line">
+				<div class="title">礼品</div>
+			</div>
+			<div class="gift_list"></div>
+		</div>
+		<a href="javascript:void(0)" id="book" onclick="showBook()" style="display: none"></a>
+		<div id="book_info" style="display: none">
+			<div class="white">
+				<div class="icon"></div>
+				<div class="bt0">叶问3 投资人荣誉证书</div>
+				<div class="bt1">恭喜您成为叶问3的投资人，特发此证书，表示感谢！</div>
+			</div>
+		</div>
+		<div class="blank2"></div>
+		<a id="unpay" href="javascript:void(0)" onclick="toPay()" style="display: none"> <span class="un_left">您的订单将保留 <span id="un_time">30:00</span>
+		</span> <span id="to_pay" class="un_right">立即购买</span>
+		</a>
+	</div>
+	<div class="page" id="no_ticket" style="display: none">
+		<div class="img"></div>
+		<div class="txt">暂时没有电影票兑换券</div>
+	</div>
+	<div id="box" class="mask" style="display: none">
+		<div id="box2">
+			<div>
+				<div class="t">选座方式</div>
+				<a class="close" href="javascript:void(0)" onclick="boxHide()"></a>
+			</div>
+			<div class="clear"></div>
+			<div class="tt">*选座后不支持退换票</div>
+			<a class="toTransform" href="javascript:void(0)" onclick="toTransform()">直接选座</a>
+			<div class="separation_bar">
+				<span></span><span class="sp">或领取以下平台兑换券选座</span><span></span>
+			</div>
+			<div class="clear"></div>
+			<div class="platforms_bar">
+				<!--
+                <a id="w0" href="javascript:void(0)" onclick="toTransform('爱奇艺')"></a>
+                <a id="w1" href="javascript:void(0)" onclick="toTransform('猫眼')"></a>
+                -->
+				<a id="w2" href="javascript:void(0)" onclick="tipBoxShow()"></a>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<div id="tip_box" class="mask" style="display: none">
+		<div id="tip_box2">
+			<div class="w"></div>
+			<div class="p0">大众点评兑换码使用规则</div>
+			<div class="p1 p2">兑换流程：</div>
+			<div class="p1">
+				1.进入大众点评<span>电影专区</span>选择叶问3选座；
+			</div>
+			<div class="p1">
+				2.一经领取大众点评兑换码，则<span>不可更换</span>其他选座方式；
+			</div>
+			<div class="p1">3.支持影院情况请至 “直接选座” 页面或 “大众点评” 进行排片查询。</div>
+			<div class="p1 p2">提示：</div>
+			<div class="p1">
+				仅限大众点评<span> app v7.6 </span>及以上版本使用；
+			</div>
+			<div class="p1">
+				仅限<span>单张票70元</span>以内票价抵扣；
+			</div>
+			<div class="p1">
+				<span>选座后不支持退换票</span>。
+			</div>
+			<div>
+				<a class="no" href="javascript:void(0)" onclick="tipBoxHide()">暂不兑换</a> <a class="yes" href="javascript:void(0)" onclick="toTransform('大众点评')">确认兑换</a>
+			</div>
+		</div>
+	</div>
+	<!-- 菜苗网跳转form -->
+	<div style="display: none;">
+		<form id="caimiaoForm" method="POST">
+			<input type="hidden" name="company" /> <input type="hidden" name="phone" />
+			<!-- <input type="hidden" name="codes" /> -->
+			<input type="hidden" name="num" /> <input type="hidden" name="activityid" /> <input type="hidden" name="client" /> <input type="hidden" name="sign" />
+		</form>
+	</div>
+</body>
+
+</html>
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript" src="../js/config.js"></script>
+<script type="text/javascript" src="../js/caimiao.js"></script>
+<script type="text/javascript" src="../js/zhongying.js"></script>
+<script type="text/javascript">
+var orderTime = '$!orderTime'; //下单时间
+var TIME_OVER = 900;
+var box2Top = null;
+var ids = null;
+var has_unused_ticket = false;
+
+function toRule() {
+    common.goto("/product/lookupRule");
+}
+
+function toArrows() {
+    var isUp = $("#arrows").hasClass("arrows_up");
+    if (isUp) {
+        $("#arrows").removeClass("arrows_up").addClass("arrows_down");
+        $("#film_list").show();
+    } else {
+        $("#arrows").removeClass("arrows_down").addClass("arrows_up");
+        $("#film_list").hide();
+    };
+}
+
+function code(o, i) {
+    var obj = $(o);
+    var item = list[i];
+    if (obj.hasClass('code01')) {
+        item["share"] = false;
+        obj.removeClass('code01').addClass('code00');
+    } else if (obj.hasClass('code00')) {
+        item["share"] = true;
+        obj.removeClass('code00').addClass('code01');
+    } else if (obj.hasClass('code11')) {
+        item["share"] = false;
+        obj.removeClass('code11').addClass('code10');
+    } else if (obj.hasClass('code10')) {
+        item["share"] = true;
+        obj.removeClass('code10').addClass('code11');
+    }
+}
+
+function tipBoxShow() {
+    boxHide();
+    $("#tip_box").show();
+}
+
+function tipBoxHide() {
+    $("#tip_box").hide();
+}
+
+function toTransform(type) {
+    if (type) {
+        common.post("/movie/exchange", {
+            orderId: '$orderId',
+            ticketsIds: ids,
+            type: type
+        }, function(result) {
+            // var lines = result.messages;
+            // var html = "<span style='font-size:1.6rem'>" + lines.join("<br>") + "</span>";
+            // common.showAlert(html, function() {
+            //     common.refresh();
+            // }, '您的' + type + '选座抵用券');
+            common.refresh();
+        }, null, function(result) {
+            if ("WARNING" == result.type) {
+                common.showAlert(result.firstMessage);
+                return;
+            }
+            common.showConfirm(result.firstMessage, function(flag) {
+                if (flag) {
+                    common.goto("/product/buyTicket/pay/$orderId");
+                }
+            }, '提示', '立即支付', '取消');
+
+        });
+    } else {
+        //菜苗
+        boxHide();
+        if (l2.length > 4) {
+            common.showAlert("一次最多选择4个座位哦。");
+            return;
+        }
+        zhongying.login('$orderId', ids);
+    }
+}
+var l2;
+
+function boxShow() {
+    if ("$pay" == "2" || "$pay" == "3") {
+        return;
+    }
+    if (leftSecond < 0) return;
+    if (!hasFree) return;
+    l2 = [];
+    for (var i = 0; i < list.length; i++) {
+        var item = list[i];
+        if (item.share) {
+            l2.push(item.id);
+        }
+    }
+    if (l2.length == 0) {
+        common.showAlert("请先选择要使用的兑换券");
+        return;
+    }
+    ids = l2.join();
+    common.post("/settings/check", {
+        'key': 'dianping'
+    }, function(result) {
+    	$("#box").show();
+        if (box2Top == null) {
+            box2Top = $("#box2").position().top - $("#box2").height();
+        }
+        $("#box2").animate({
+            top: box2Top + "px"
+        }, "fast", function() {});
+    },null,function(result){
+    	zhongying.login('$orderId', ids);
+    });
+}
+
+
+function boxHide() {
+    $("#box2").animate({
+        top: "100%"
+    }, "fast", function() {
+        $("#box").hide();
+    });
+    var ids = l2.join();
+}
+
+var list = null;
+var hasFree = false;
+var leftSecond = 0;
+
+function start() {
+    if ("$pay" == "0") {
+        $("#unpay").show();
+        var timeover = new Date(Date.parse(orderTime.replace(/-/g, "/"))).getTime() / 1000 + TIME_OVER;
+        var now = new Date().getTime() / 1000;
+        leftSecond = parseInt(timeover - now);
+        onTimer();
+    } else if ("$pay" == "1") {
+       // $("#book").show();
+    }
+    loadCode();
+    loadGift();
+
+    if ('$!noCoupon' == 1) {
+        common.showAlert("目前操作的用户较多，我们尽快处理，请稍候再试。");
+    }
+    if ('$!tips') {
+        common.showAlert('$tips');
+    }
+}
+
+function onTimer() {
+    leftSecond--;
+    if (leftSecond < 0) {
+        $("#un_time").html("00:00");
+        $('#to_pay').html("已撤单").css("background-color", "#999999");
+    } else {
+        var minute = parseInt(leftSecond / 60);
+        if (minute < 10) {
+            minute = "0" + minute;
+        }
+        var second = leftSecond % 60;
+        if (second < 10) {
+            second = "0" + second;
+        }
+        $("#un_time").html(minute + ":" + second);
+        setTimeout(onTimer, 1000);
+    }
+}
+
+function toGift(orderId,gift) {
+    if (leftSecond < 0) {
+        return;
+    }
+    if ("$pay" == "2" || "$pay" == "3") {
+        return;
+    }
+    if (gift.id > 0) {
+        if (gift.gift == "mm14") {
+            common.goto("/gift/mm14?productId=0&orderId="+orderId+"&index=-1&giftNo=" + gift.giftNo);
+        } else if (gift.gift == "mm57") {
+            common.goto("/gift/mm57?productId=0&orderId="+orderId+"&index=-1");
+        } else {
+            common.goto("/gift/address?index=-1&id=" + gift.id + "&orderId="+orderId);
+        }
+    } else {
+        common.goto("/gift/choose?id=" + gift.id + "&orderId="+orderId);
+    }
+}
+
+function loadGift() {
+    common.post("/gift/lookForGift", {
+        'orderId': $orderId
+    }, function(result) {
+        $.each(result.data,function(ind,gift){
+        	$("#gift_big_box").show();
+            var giftOrderId = gift.orderId;
+            $(".gift_list").append("<div class='gift_box'><div id='gift_un_"+ind+"' class='un_receive'></div><div id='gift_has_"+ind+"' class='user_gift_show_parent' style='display: none;' href='javascript:void(0)'><div id='gift_name_"+ind+"' style='display: none;' href='javascript:void(0)'></div><div id='gift_code_"+ind+"' style='display: none;' href='javascript:void(0)'>支付后显示代金卡密码</div><div id='gift_code_bar_"+ind+"' style='display: none;' href='javascript:void(0)'>支付后显示券码 </div></div></div>");
+			$("#gift_un_"+ind).bind("click",function(){
+				toGift(giftOrderId,gift);
+			});
+	        if (gift.id > 0) {
+	        	$("#gift_has_"+ind).bind("click",function(){
+					toGift(giftOrderId,gift);
+				});
+	        	$("#gift_un_"+ind).hide();
+	            $("#gift_has_"+ind).show();
+	            $("#gift_name_"+ind).show();
+	            for (var i = 0; i < movie_gifts.length; i++) {
+	                if (movie_gifts[i].code == gift.gift) {
+	                    $("#gift_has_"+ind).addClass(movie_gifts[i].img);
+	                    if (movie_gifts[i].code == "mm14") {
+	                        $("#gift_name_"+ind).hide();
+	                        $("#gift_code_bar_"+ind).hide();
+	                        $("#gift_code_"+ind).show();
+	                        if (gift.giftNo != "") {
+	                            $("#gift_code_"+ind).removeClass('off').addClass('on').html(gift.giftNo);
+	                            if (gift.giftNo  == "努力生成中......") {
+	                            	var asyncGiftCodeTimer=setInterval(function() {
+	                            		common.post("/gift/asyncGiftCode",{orderId:giftOrderId,redeemCodeType:"mm14"},function(data){
+	                                		clearInterval(asyncGiftCodeTimer);
+	                                		$("#gift_code_"+ind).html(data.bestCakeCode);
+	                                	},null,function(data){});
+	                                }, 30000);
+	                            }
+	                        }
+	                    } else if (movie_gifts[i].code == "mm57") {
+	                        $("#gift_name_"+ind).hide();
+	                        $("#gift_code_"+ind).hide();
+	                        $("#gift_code_bar_"+ind).show();
+	                        if (gift.giftNo != "") {
+	                            $("#gift_code_bar_"+ind).html("点击显示券码");
+	                        }
+	                    } else {
+	                        $("#gift_name_"+ind).text(movie_gifts[i].detailname);
+	                    }
+	                    break;
+	                };
+	            };
+	        };
+        });
+    }, null, function(result) {
+    	
+    });
+}
+
+function loadCode() {
+    common.post("/movie/getCodes", {
+        'orderId': $orderId
+    }, function(result) {
+        list = result.data;
+        if (list.length == 0) {
+        	$("#codes_list_panel,#film_header").hide();
+            return;
+        }
+        $("#no_ticket").hide();
+        $("#has_ticket").show();
+        var now = new Date().getTime();
+
+        var i = list.length;
+        while (i-- > 0) {
+            var item = list[i];
+            hasFree = true;
+            if (item.timeout > 0) {
+                item.timeoutStr = "有效期至2016年12月31日"
+                if (item.timeout < now) {
+                    item.timeout = true;
+                } else {
+                    item.timeout = false;
+                }
+            } else {
+                item.timeout = false;
+                item.timeoutStr = "有效期至2016年12月31日";
+            }
+        }
+
+        toSwitchCode();
+        var flag = "$ticketConvertToGift";
+        if(has_unused_ticket&& flag == "on"){
+        	common.showAlert("您的电影票还未进行兑换，为了保证您的权益，您可将此权益转为礼品。截止日期4月30日。");
+        }
+    });
+}
+
+function getTimeoutStr(ms) {
+    var d = new Date();
+    d.setTime(ms);
+    return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+}
+
+function toSwitchCode(type) {
+    var html = "";
+    var html2 = "";
+    var lastTicket = null;
+    var code_count = 0;
+    for (var i = 0; i < list.length; i++) {
+        var item = list[i];
+        item["share"] = false;
+        if (item.used) {
+            if (item.memo == "分享") {
+                continue;
+            }
+            if (lastTicket == null || lastTicket.id != item.ticket.id) {
+                lastTicket = item.ticket;
+            } else if (!item.ticket.ticket3rd) {
+                continue;
+            }
+            if (item.ticket) {
+                html2 += '<div href="javascript:void(0)" class="one yw3" onclick="toLookup(event,' + i + ')">';
+                var cls = false;
+                if (item.ticket.ticket3rd == "爱奇艺") {
+                    cls = "aqy";
+                } else if (item.ticket.ticket3rd == "猫眼") {
+                    cls = "my";
+                } else if (item.ticket.ticket3rd == "大众点评") {
+                    cls = "dzdp";
+                }
+                if (cls) {
+                    html2 += '<div class="title ' + cls + '">' + item.ticket.ticket3rd + '兑换码</div>';
+                    html2 += '<div class="desc">' + item.ticket.ticket3rdCode + '</div>';
+                } else {
+                    html2 += '<div class="title">' + item.ticket.movie + '</div>';
+                    html2 += '<div class="desc">' + item.ticket.time + '</div>';
+                }
+                html2 += '</div>';
+            }
+        } else {
+        	has_unused_ticket = true;
+            code_count++;
+            if (item.timeout) {
+                html += '<div class="one code02">';
+                html += '<div class="cl">' + item.code + '</div>';
+                html += '<div class="cr"> 已过期</div>';
+                html += '</div>';
+            } else {
+                html += '<div class="one code00" href="javascript:void(0)" onclick="code(this, ' + i + ')">';
+                html += '<div class="cl">' + item.code + '</div>';
+                html += '<div class="cr">' + item.timeoutStr + '</div>';
+                html += '</div>';
+            }
+        }
+    }
+    if (html.length > 0) {
+        $("#codes").html(html);
+    } else {
+        $("#codes_list_panel").hide();
+    }
+    $("#ticket_list").html(html2);
+    if (code_count > 0) {
+        $("#actionBar").show();
+    } else {
+        $("#actionBar").hide();
+    }
+
+}
+
+function toLookup(event, i) {
+    var item = list[i];
+    if (item.used && item.ticket) {
+        switch (item.ticket.ticket3rd) {
+            case "爱奇艺":
+            case "猫眼":
+            case "大众点评":
+                return;
+        }
+        if (!item.ticket.success) {
+            return;
+        }
+        common.goto("/movie/ticket?id=" + item.id);
+    }
+}
+
+function toPay() {
+    if (leftSecond < 0) {
+        return;
+    }
+    common.goto("/product/buyTicket/pay/$orderId");
+}
+
+function showBook() {
+    $("#book").hide();
+    $("#book_info").show();
+}
+
+function toZhongying() {
+    if ("$pay" == "2" || "$pay" == "3") {
+        return;
+    }
+    if (leftSecond < 0) return;
+    if (!hasFree) return;
+    l2 = [];
+    for (var i = 0; i < list.length; i++) {
+        var item = list[i];
+        if (item.share) {
+            l2.push(item.id);
+        }
+    }
+    if (l2.length == 0) {
+        common.showAlert("请先选择要使用的兑换券");
+        return;
+    }
+    ids = l2.join();
+    zhongying.login('$orderId', ids);
+}
+
+function getGift(){
+	var orderStatus  = "$pay";
+	switch(orderStatus){
+	case "0":
+		common.showConfirm('订单未支付,支付后可转换。', function(flag) {
+            if (flag) {
+                common.goto("/product/buyTicket/pay/$orderId");
+            }
+        }, '提示', '立即支付', '取消');
+		break;
+	case "2":
+		common.showAlert('订单已撤单,不可转换。');
+		break;
+	case "3":
+		common.showAlert('订单付款失败,不可转换。');
+		break;
+	case "4":
+		common.showAlert('订单付款中,支付成功后可转换。');
+		break;
+	}
+	
+	if ("$pay" != "1") {
+        return;
+    }
+    if (leftSecond < 0) return;
+    if (!hasFree) return;
+    l2 = [];
+    for (var i = 0; i < list.length; i++) {
+        var item = list[i];
+        if (item.share) {
+            l2.push(item.id);
+        }
+    }
+    if (l2.length == 0) {
+        common.showAlert("请先选择要使用的兑换券");
+        return;
+    }else if(l2.length > 1){
+    	common.showAlert("一次只能选择一张进行转换");
+        return;
+    }
+    ids = l2.join();
+    common.post("/product/generateOrderForGift", {
+        'ticketsId': ids
+    }, function(result) {       
+    	common.goto("/gift/choose?id=0&orderId="+result.data.id);
+    });
+}
+start();
+</script>

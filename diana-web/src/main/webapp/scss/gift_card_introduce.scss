@@ -1,0 +1,41 @@
+@import "compass/css3";
+@import "_config.scss";
+#box {
+    height: 46rem;
+    background-size: 32rem 46rem;
+    background-image: url(../img/gift_card/poster@2x.jpg);
+    .p0 {
+        padding-top: 5.5rem;
+        text-indent: 3rem;
+        font-size: 1.4rem;
+        color: $color_6;
+    }
+    .p1 {
+        margin-top: 1rem;
+        text-indent: 3rem;
+        font-size: 1.2rem;
+        color: #FF8802;
+    }
+}
+
+.white_padding {
+    width: 32rem;
+    height: 4.4rem;
+    background-color: $color_white;
+}
+
+#buy_btn {
+    display: block;
+    position: fixed;
+    margin: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 32rem;
+    height: 4.4rem;
+    line-height: 4.4rem;
+    text-align: center;
+    font-size: 1.8rem;
+    color: $color_white;
+    background-color: $color_2;
+}

@@ -1,0 +1,50 @@
+@import "compass/css3";
+@import "_config.scss";
+#w0 {
+    height: 57.5rem;
+    background-size: 32rem 57.5rem;
+    background-image: url(../img/movie_activity/movie1_act0@2x.jpg);
+}
+
+#w1 {
+    height: 59.5rem;
+    background-size: 32rem 59.5rem;
+    background-image: url(../img/movie_activity/movie1_act1@2x.jpg);
+}
+
+#w2 {
+    height: 35rem;
+    background-size: 32rem 35rem;
+    background-image: url(../img/movie_activity/movie1_act2@2x.jpg);
+}
+
+.white_padding {
+    width: 32rem;
+    height: 4.4rem;
+    background-color: $color_white;
+}
+
+%get_button {
+    display: block;
+    width: 32rem;
+    background-repeat: no-repeat;
+    position: fixed;
+    margin: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.get_btn {
+    height: 4.9rem;
+    background-size: 32rem 4.9rem;
+    @extend %get_button;
+    background-image: url(../img/movie_activity/get_btn3@2x.jpg);
+}
+
+.get_btn_off {
+    height: 4.4rem;
+    background-size: 32rem 4.4rem;
+    @extend %get_button;
+    background-image: url(../img/movie_activity/get_btn2_off@2x.png);
+}

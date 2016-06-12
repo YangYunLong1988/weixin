@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>票务交易系统</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="/css/bootstrap.min.css" />
+
+<link rel="stylesheet" href="/css/matrix-style.css" />
+<link rel="stylesheet" href="/css/matrix-media.css" />
+<link rel="stylesheet" href="/css/bootstrap-datetimepicker.min.css" />
+<link rel="stylesheet" href="/css/jquery.dataTables.min.css" />
+<link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
+<link rel='shortcut icon' type='image/x-icon' href='img/diana_favicon.ico' />
+
+<style type="text/css">
+  
+  a{
+    color: #337ab7;
+  }
+  
+  .navbar-header a{
+    color: withe;
+  }
+  table>thead:first-child>tr:first-child>th {
+	text-align: center;
+  }
+  table tr td {
+	text-align: center;
+	word-break: keep-all;
+	white-space: nowrap;
+  }
+
+  table thead tr th {
+	text-align: center;
+	word-break: keep-all;
+	white-space: nowrap;
+  }
+  .form-group{width:auto;}
+  .endDate{margin-top: 4px;}
+  .btn-query{margin-top: 20px;}
+  .btn-back{margin-left: 20px;}
+  .date-clear{
+  	cursor: pointer;
+  	position:absolute;
+  	top:34px;
+  	left:170px;
+  }
+  .pay-name{max-width:200px;}
+  .text-overflow{display:block;max-width:100%; white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+</style>
+</head>
+<body>
+<!--Header-part-->
+<div id="header">
+<input type="hidden" id="thisUserRole" name="thisUserRole"
+		value="$users.role" />
+  <div class="logo fl">
+	票务交易系统
+  </div>
+  <div class="navbar-header pull-right mt14">
+    <a class="navbar-brand" href="javascript:void(0)">$users.email</a>
+    <a class="navbar-brand" href="login.html">退出</a>
+    <a class="navbar-brand" href="#"></a>
+  </div>
+</div>
+<!--sidebar-menu-->
+<div id="sidebar">
+  <ul>
+    <li class="menu submenu active" data-url="/main"><a href="javascript:void(0)" class="home"><i class="icon icon-home"></i> <span>我的门户</span></a> </li> 
+    <li class="menu submenu" data-url="/user/list"><a href="javascript:void(0)" class="userList"><i class="icon icon-user"></i> <span>用户管理</span></a> </li> 
+	#if($users.role=='ADMIN')		
+    <li class="menu submenu" data-url="/product/list"> <a href="javascript:void(0)" class="productList"><i class="icon icon-signal"></i> <span>产品管理</span></a> </li>
+	#end
+	#if($users.role=='ADMIN')
+    <li class="menu submenu" data-url="/grouopRule/grouopRuleList"> <a href="javascript:void(0)" class="groupRuleList"><i class="icon icon-th-large"></i> <span>组合产品规则</span></a> </li>
+    #end
+	<li class="menu submenu" data-url="/order/orderList"> <a href="javascript:void(0)" class="orderList"><i class="icon icon-list-alt"></i> <span>订单管理</span></a> </li>
+	#if($users.role=='ADMIN')
+	<li class="menu submenu" data-url="/gift/giftList"> <a href="javascript:void(0)" class="giftList"><i class="icon icon-list-alt"></i> <span>礼品管理</span></a> </li>
+    #end
+    #if($users.role=='CHANNEL')
+	<li class="submenu"> <a href="javascript:void(0)" class="system"><i class="icon icon-info-sign"></i> <span>系统管理</span> <span class="label label-important"></span></a>
+      <ul>
+        <li class="menu changePassword"><a href="javascript:void(0)">修改密码</a></li>
+      </ul>
+    </li>
+	#end
+  </ul>
+</div>
+<!--sidebar-menu-->
+
+<!--main-container-part-->
+<div id="content"> 
+
+</div>
+
+<!--end-main-container-part-->
+
+<!--Footer-part-->
+
+<div class="row-fluid">
+  <div id="footer" class="span12"> 2015 &copy; 易联天下</div>
+</div>
+
+<!--end-Footer-part-->
+
+<script src="http://cdn.bootcss.com/jquery/2.1.4/jquery.js"></script>
+<script src="/js/bootstrap.min.js"></script> 
+<script src="/js/matrix.js"></script> 
+<script src="/js/common.js"></script> 
+<script src="/js/extendsAlert.js"></script>
+<script type="text/javascript">
+$(function(){
+  load('/main');
+  $('.menu').on('click',function(){
+    $('.active').removeClass('active');
+    $(this).addClass('active');
+  })
+  //加载我的门户数据
+  $('.home').on('click',function(){
+    load('/main');
+  });
+  
+  //加载用户数据
+  $('.userList').on('click',function(){
+    load('/user/userList');
+  });
+  
+  //加载订单数据
+  $('.orderList').on('click',function(){
+  	$(this).next('ul').find('li:first').click();
+    load('/order/orderList');
+  });
+  
+   //加载礼品数据
+  $('.giftList').on('click',function(){
+  	$(this).next('ul').find('li:first').click();
+    load('/gift/giftList');
+  });
+  // 加载组合产品规则
+  $(".groupRuleList").on("click",function(){
+  	$(this).next("ul").find("li:first").click();
+  	load("/groupRule/groupRuleList");
+  });
+  
+  //加载产品数据
+  $('.productList').on('click',function(){
+    load('/product/productList');
+  });
+  
+  //加载系统管理数据
+  $('.system').on('click',function(){
+  	$(this).next('ul').find('li:first').click();
+    //load('/systemManage');
+  });
+  
+  // 加载电影方案
+  $('.concert').on('click',function() {
+  	load('/concert/concertList');
+  });
+  
+  //修改密码
+  $('.changePassword').on('click',function() {
+  	load('/user/changePasswordPage');
+  });
+});
+    
+</script>
+</body>
+</html>

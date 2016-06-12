@@ -1,0 +1,113 @@
+@import "compass/css3";
+@import "_config.scss";
+#page {
+    .line {
+        clear: both;
+        height: 1rem;
+    }
+    .op {
+        height: 4.4rem;
+        line-height: 4.4rem;
+        padding-left: 1.4rem;
+        padding-right: 1.4rem;
+        font-size: 1.4rem;
+        color: $color_3;
+        background-color: $color_white;
+        .r {
+            float: right;
+        }
+        #money {
+            color: #E77600;
+        }
+        .title {
+            float: left;
+            width: 6rem;
+        }
+        #card {
+            float: left;
+            color: $color_9;
+        }
+        .arrow {
+            float: right;
+            width: 1.4rem;
+            height: 4.4rem;
+            background-size: 1.4rem 0.75rem;
+            background-repeat: no-repeat;
+            background-position: right center;
+            background-image: url(../img/pay/arrows_down@2x.jpg);
+        }
+        input {
+            float: left;
+            border: 0;
+            outline: 0;
+            font-size: 1.4rem;
+            width: 10rem;
+            height: 4rem;
+            font-size: 1.4rem;
+            background-color: transparent;
+            -webkit-tap-highlight-color: transparent;
+        }
+        #codeBtn {
+            float: right;
+            display: block;
+            width: 8.1rem;
+            text-align: right;
+            color: #E77600;
+        }
+    }
+}
+
+%item {
+    display: block;
+    width: 32rem;
+    height: 4.4rem;
+    font-size: 1.2rem;
+    padding-left: 1.4rem;
+    padding-right: 1.4rem;
+    border-top: 0.1rem solid #CCC;
+    background-color: $color_white;
+}
+
+#cards {
+    .item_0 {
+        @extend %item;
+        .sp_0 {
+            display: block;
+            margin-top: 0.9rem;
+            color: $color_3;
+        }
+        .sp_1 {
+            display: block;
+            margin-top: 0.2rem;
+            margin-bottom: 0.9rem;
+            color: #CCC;
+        }
+    }
+    .choose_on {
+        background-size: 1.4rem 1rem;
+        background-repeat: no-repeat;
+        background-position: 29.2rem center;
+        background-image: url(../img/pay/choose_on@2x.png);
+    }
+    .item_1 {
+        @extend %item;
+        line-height: 4.4rem;
+        text-align: center;
+        font-size: 1.4rem;
+        color: $color_6;
+        .sp {
+            display: inline-block;
+            width: 12.5rem;
+            height: 4.4rem;
+            text-indent: 2rem;
+            background-size: 1.45rem 1.45rem;
+            background-repeat: no-repeat;
+            background-position: left center;
+            background-image: url(../img/pay/add_card@2x.png);
+        }
+    }
+}
+
+.blank {
+    height: 5rem;
+}

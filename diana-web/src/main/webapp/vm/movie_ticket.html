@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <script type='text/javascript'>
+    window.BWEUM || (BWEUM = {});
+    BWEUM.info = {
+        "stand": true,
+        "agentType": "browser",
+        "agent": "bi-collector.oneapm.com/static/js/bw-send-411.4.5.js",
+        "beaconUrl": "bi-collector.oneapm.com/beacon",
+        "licenseKey": "mYF7B~e73nNvIjMv",
+        "applicationID": 2273714
+    };
+    </script>
+    <script type="text/javascript" src="//bi-collector.oneapm.com/static/js/bw-loader-411.4.5.js"></script>
+    <title>票务交易系统</title>
+    <link rel="stylesheet" type="text/css" href="../scss/base.scss">
+    <link rel="stylesheet" type="text/css" href="../scss/movie_ticket.scss">
+</head>
+
+<body>
+    <div class="blank"></div>
+    <div class="line_0">
+        <div class="title">影片</div>
+        <div id="movie_name"></div>
+    </div>
+    <div class="line_1">
+        <div id="info_type">
+            <span>类型</span>
+            <span class="cc" id="movie_type"></span>
+        </div>
+        <div>
+            <span>影院</span>
+            <span class="cc" id="movie_cinema"></span>
+        </div>
+        <div>
+            <span>影厅</span>
+            <span class="cc" id="movie_hall"></span>
+        </div>
+        <div>
+            <span>场次</span>
+            <span class="cc" id="movie_date"></span>
+        </div>
+        <div>
+            <span>座位</span>
+            <span class="cc" id="movie_seat"></span>
+        </div>
+    </div>
+    <div class="tip">*请仔细核对，该影片不支持退票</div>
+    <div id="movie_code" style="display:none">
+        <div class='t2'>等待出票</div>
+    </div>
+    <div id="tip_p" style="display:none">凭取票码在<label id="movie_address">影院售票大厅自动取票机或柜台</label><br>兑换取票</div>
+    <div class="tip_board" style="display:none">
+        <span>说明</span>
+        <span class="more">您的取票码将于上映前两天通过短信的方式发送至手机，凭取票码在影城售票大厅自助取票机或柜台兑换取票。</span>
+    </div>
+</body>
+
+</html>
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript">
+function start() {
+    common.post("/movie/getTicket", {
+        id: "$id"
+    }, function(result) {
+        result = result.data;
+        $("#movie_name").html(result.movie);
+        if (result.type != null && result.type != "null") {
+            $("#movie_type").html(result.type);
+        } else {
+            $("#info_type").hide();
+        }
+        $("#movie_date").html(result.time);
+        $("#movie_cinema").html(result.cinema);
+        $("#movie_hall").html(result.scene);
+        $("#movie_seat").html(result.seat);
+        if(result.performAddressDetail){
+            $("#movie_address").html(result.performAddressDetail);
+        }
+        if (result.checked) {
+            if (result.success) {
+                $("#movie_code").show();
+                if(result.smsInfo){
+                	$("#movie_code").html('<div class="t4">' + result.smsInfo + '</div>');
+                }else{
+                	$("#tip_p").show();
+                	$("#movie_code").html('<div class="t3">' + result.ticketExtractInfo + '</div>');
+                }
+            } else {
+                $("#movie_code").html("<div class='t2'>出票失败</div>");
+            }
+        } else {
+            $(".tip_board").show();
+        }
+    });
+}
+start();
+</script>

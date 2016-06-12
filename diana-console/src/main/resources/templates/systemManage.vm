@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+	<div class="col-md-12 main">
+    	<div class="panel panel-primary" style="margin-top:20px;">
+          <div class="panel-heading">分区价格</div>
+          <div class="panel-body">
+        	  <form method="post">
+    			  <div class="form-group pull-left col-sm-2">
+    			    <label for="exampleInputName2">方案ID：</label>
+    			    <input type="text" class="form-control" placeholder="方案ID" name="schemeID">
+    			  </div>
+    			  <div class="form-group pull-left col-sm-2">
+    			    <label for="exampleInputName2">方案名称：</label>
+    			    <input type="text" class="form-control" placeholder="方案名称" name="schemeName">
+    			  </div>
+    		  </form>
+			   &nbsp;<button type="submit" class="btn btn-primary btn-query query"  id="zonePrice"> 查 询  </button>
+			  <button type="submit" class="btn btn-primary btn-query" onclick="add()"> 新  增  </button>
+			   <div class="clearfix"></div>
+			    <!--电影票-->
+          <div class="table-responsive">
+            <table class="dataTable striped border bordered hovered cell-hovered display zonePrice TBstyle">
+              <thead>
+                <tr>
+                  <th>方案编号</th>
+                  <th>方案名称</th>
+                  <th>区间数量</th>
+                  <th>创建者</th>
+                  <th>创建时间</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                 <tr>
+                  <td>20151014A006</td>
+                  <td>易加微信</td>
+                  <td>1500</td>
+                  <td>胡硼安</td>
+                  <td>2015-10-14 19:30</td>
+                  <td><a href="javascript:void(0)">编辑</a>&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)">删除</a>&nbsp;&nbsp;&nbsp;</td>
+                </tr>
+                
+              </tbody>
+            </table>
+
+
+            <!--演唱会-->
+
+            <table class="dataTable striped border bordered hovered cell-hovered display TBstyle" id="getTicket">
+              <thead>
+                <tr>
+                  <th>订单编号</th>
+                  <th>订单金额</th>
+                  <th>购买产品</th>
+                  <th>兑票</th>
+                  <th>放映时间</th>
+                  <th>所属场馆</th>
+                  <th>取件人</th>
+                  <th>手机号</th>
+                  <th>取票地址</th>
+                  <th>取票时间</th>
+                  <th>订单状态</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>20151014A006</td>
+                  <td>100</td>
+                  <td>影业汇014</td>
+                  <td>2张</td>
+                  <td>2015-10-14 19:30</td>
+                  <td>上海大光明影城</td>
+                  <td>胡硼安</td>
+                  <td>13893011291</td>
+                  <td>上海市浦东新区东方路969号中油大厦12楼</td>
+                  <td>10:30-17:30</td>
+                  <td>成功</td>
+                </tr>
+                <tr>
+                  <td>20151014A006</td>
+                  <td>100</td>
+                  <td>影业汇014</td>
+                  <td>2张</td>
+                  <td>2015-10-14 19:30</td>
+                  <td>上海保利国际影城</td>
+                  <td>张三</td>
+                  <td>13893011291</td>
+                  <td>黄浦区南京西路216号</td>
+                  <td>10:30-17:30</td>
+                  <td>成功</td>
+                </tr>
+                <tr>
+                  <td>20151014A006</td>
+                  <td>100</td>
+                  <td>影业汇014</td>
+                  <td>2张</td>
+                  <td>2015-10-14 19:30</td>
+                  <td>上海大光明影城</td>
+                  <td>胡硼安</td>
+                  <td>13893011291</td>
+                  <td>上海市浦东新区东方路969号中油大厦12楼</td>
+                  <td>10:30-17:30</td>
+                  <td>成功</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+    	  </div>
+    	</div>
+        </div>
+     
+
+    <script src="/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+    <script src="/js/bootstrap-datetimepicker.zh-CN.js" type="text/javascript"></script>
+    <script type="text/javascript">
+   
+	function displayOrderInfo(flag){
+          if(flag==0){
+            $("#express").show();
+            $("#getTicket").hide();
+            $(".expressBackground").css("background-color","#47484A");
+            $(".ticketBackground").css("background-color","");
+            $(".page-header").html("分区价格");
+          }else if(flag==1){
+            $("#getTicket").show();
+            $("#express").hide();
+            $(".page-header").html("系统管理");
+            $(".expressBackground").css("background-color","");
+            $(".ticketBackground").css("background-color","#47484A");
+          }
+      }		
+      
+	  function add(){
+      	alert("新增演唱会!!!");
+      }
+    </script>
+  </body>
+</html>

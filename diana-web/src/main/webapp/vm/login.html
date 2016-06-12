@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <script type='text/javascript'>window.BWEUM||(BWEUM={});BWEUM.info = {"stand":true,"agentType":"browser","agent":"bi-collector.oneapm.com/static/js/bw-send-411.4.5.js","beaconUrl":"bi-collector.oneapm.com/beacon","licenseKey":"mYF7B~e73nNvIjMv","applicationID":2273714};</script><script type="text/javascript" src="//bi-collector.oneapm.com/static/js/bw-loader-411.4.5.js"></script>
+    <title>票务交易系统</title>
+    <link rel="stylesheet" type="text/css" href="../scss/base.scss">
+    <link rel="stylesheet" type="text/css" href="../scss/login.scss">
+</head>
+
+<body>
+    <div class="logo"></div>
+    <div class="line_0">
+        <div class="icon w0"></div>
+        <div class="line_1">
+            <input id="phone" placeholder="请输入登录手机号" class="input" type="tel" maxlength="11" />
+            <div class="del" onclick="del('phone')">X</div>
+        </div>
+    </div>
+    <div class="line_0">
+        <div class="icon w1"></div>
+        <div class="line_1">
+            <input id="img_code" placeholder="请输入图片中的验证码" class="input" type="text" maxlength="4" />
+            <div id="img">
+                <img src="/getValidateCode" width="100%" id="kaptchaImage">
+            </div>
+        </div>
+    </div>
+    <div class="line_0">
+        <div class="icon w2"></div>
+        <div class="line_1">
+            <input id="phone_code" placeholder="请输入动态验证码" class="input" type="tel" maxlength="6" />
+            <div id="tip" onclick="toGetPhoneCode()">获取验证码</div>
+        </div>
+    </div>
+    <a href="javascript:void(0)" onclick="toLogin()" class="login">登录</a>
+</body>
+<script type="text/javascript">
+var NO_NAV = true;
+</script>
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript">
+var left = -1;
+
+function del(id) {
+    $("#" + id).val("");
+}
+
+function v_phone() {
+    var tel = $("#phone").val();
+    if (tel == "") {
+        common.showAlert("请输入手机号码");
+        return false;
+    }
+    if (!tel.match(/^1\d{10}$/)) {
+        common.showAlert("请输入正确的手机号");
+        return false;
+    }
+    return true;
+}
+
+//生成验证码
+$('#kaptchaImage').click(function() {
+
+    if (v_phone()) {
+        $(this).attr('src', '/getValidateCode?num=' + Math.floor(Math.random() * 100)).fadeIn();
+    };
+});
+
+
+function toGetPhoneCode() {
+    if (left > 0) {
+        return;
+    }
+    if (!v_phone()) {
+        return;
+    }
+    var phone = $("#phone").val();
+    var image = $("#img_code").val();
+    if (image == "") {
+        common.showAlert("请输入图片验证码");
+        return;
+    }
+
+    common.post("/getLoginPhoneCode", {
+        "mobile": phone,
+        "flag": "",
+        "imgCode": image,
+        "checkValidateCode" :"$checkValidateCode"
+    }, function(data) {
+        var type = data.type;
+        if (type == "SUCCESS") {
+            $('#phone_code').val(data.data);
+            left = 60;
+        }
+        onTimer();
+    });
+
+}
+
+function onTimer() {
+    if (left > 0) {
+        $("#tip").text(left + "s重发");
+        setTimeout(onTimer, 1000);
+    } else {
+        $("#tip").text("获取验证码");
+    }
+    left--;
+}
+
+function toLogin() {
+    if (!v_phone()) {
+        return;
+    }
+    var phone = $("#phone").val();
+
+    var image = $("#img_code").val();
+    if (image == "") {
+        common.showAlert("请输入图片验证码");
+        return;
+    }
+
+    var code = $("#phone_code").val();
+    if (code == "") {
+        common.showAlert("请输入短信验证码");
+        return;
+    }
+
+    common.post("/submitLogin", {
+        "mobile": phone,
+        "code": code,
+        "imgCode": image,
+        "checkValidateCode" :"$checkValidateCode"
+    }, function(result) {
+        if (result.type == 'SUCCESS') {
+        	//跳转到主页面
+            common.goto('$returnUrl');
+        } else if (result.type == 'FAILURE') {
+            common.showAlert(result.messages, function() {
+                //跳转到登录页面
+                common.goto('/login');
+            }, '提示信息', '确定');
+        }
+    }, "正在登录...");
+}
+</script>
+
+</html>

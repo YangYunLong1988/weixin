@@ -1,0 +1,87 @@
+{
+    "app": {
+        "filmLogin": {
+            "title": "登陆中影",
+            "defaultValue": "on",
+            "description": "设置是否允许用户登陆中影选座页面"
+        },
+        "dianping" : {
+            "title": "大众点评",
+            "defaultValue": "on",
+            "description": "设置是否允许用户兑换大众点评兑换码"
+        },
+        "ticketConvertToGift":{
+        	"title":"电影票转礼品",
+        	"defaultValue":"off",
+        	"description": "设置是否允许电影票转礼品"
+        	}
+        
+    },
+    "job": {
+        "pushOrderToNox": {
+            "title": "推送订单到分销",
+            "defaultValue": "on",
+            "description": "设置是否开启推送订单到分销系统"
+        },
+        "autoCancelOrder": {
+            "title": "自动撤单任务",
+            "defaultValue": "on",
+            "description": "设置是否开启自动撤单任务"
+        },
+        "autoPushMessageToOpenform": {
+            "title": "支付成功通知开放平台",
+            "defaultValue": "on",
+            "description": "设置是否开启订单支付成功后通知开放平台"
+        },
+        "endDayStatistics": {
+            "title": "统计每日交易量（门户）",
+            "defaultValue": "on",
+            "description": "设置是否开启每日交易量统计任务"
+        },
+        "logistics": {
+            "title": "发网物流下单任务",
+            "defaultValue": "on",
+            "description": "设置是否开启发网物流自动下单任务"
+        },
+        "portionBestckeCode": {
+            "title": "自动分配贝斯克蛋糕券",
+            "defaultValue": "on",
+            "description": "设置是否开启贝斯克蛋糕券自动分配任务"
+        },
+        "portionGiftCode": {
+            "title": "自动分配DQ兑换券",
+            "defaultValue": "on",
+            "description": "设置是否开启DQ兑换券自动分配任务"
+        },
+        "generateOrderFromAtlantisa": {
+            "title": "易联自动补单",
+            "defaultValue": "on",
+            "description": "设置是否开启易联自动补单任务"
+        },
+        "updateQuickOrder": {
+            "title": "更新快捷支付订单状态",
+            "defaultValue": "on",
+            "description": "设置是否开启更新快捷支付订单状态任务"
+        },
+        "updateIncrements": {
+            "title": "同步理财产品",
+            "defaultValue": "on",
+            "description": "设置是否开启同步新的理财产品任务"
+        },
+        "updateProductStatus": {
+            "title": "更新理财产品",
+            "defaultValue": "on",
+            "description": "设置是否开启更新理财产品任务"
+        },
+        "confirmTicketsStatus": {
+            "title": "确认中影订单",
+            "defaultValue": "on",
+            "description": "设置是否确认中影订单任务"
+        },
+        "splitSeatInfo" : {
+            "title": "拆分电影票座位",
+            "defaultValue": "off",
+            "description": "设置是否开启拆分电影票座位任务"
+        }
+    }
+}

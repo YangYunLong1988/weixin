@@ -1,0 +1,479 @@
+@import "compass/css3";
+@import "compass/typography/text/ellipsis";
+@import "_config.scss";
+#gift_img {
+    height: 19.5rem;
+    background-size: 32rem 19.5rem;
+    border-bottom: 0.1rem solid #e1e1e1;
+}
+
+.gift {
+    background-color: $color_white;
+    border-bottom: 0.1rem solid #e1e1e1;
+    color: $color_6;
+    div {
+        font-size: 1.2rem;
+    }
+    .price {
+        padding-left: 1rem;
+        padding-top: 0.4rem;
+    }
+    .p1 {
+        color: #ff400d;
+        padding-left: 1rem;
+        line-height: 2rem;
+        padding-top: 0.6rem;
+    }
+    .p2 {
+        padding-left: 1rem;
+        line-height: 2rem;
+        margin-bottom: 0.6rem;
+    }
+    #p_imp {
+        color: $color_2;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        padding-bottom: 0.4rem;
+    }
+    .p3 {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        line-height: 1.6rem;
+        margin-bottom: 1rem;
+    }
+    .p4 {
+        font-size: 1.4rem;
+        height: 4.4rem;
+        line-height: 4.4rem;
+        border-bottom: 0.1rem dotted #DDD;
+        padding-left: 1rem;
+    }
+    .p5 {
+        padding-left: 1rem;
+        font-size: 1.4rem;
+        line-height: 4rem;
+    }
+    .p6 {
+        padding-left: 1rem;
+        line-height: 1.6rem;
+    }
+    .p7 {
+        padding-left: 1rem;
+        color: #ff400d;
+        margin-top: 2rem;
+        margin-bottom: 0.6rem;
+    }
+    .p8 {
+        padding-left: 1rem;
+        line-height: 1.6rem;
+        margin-bottom: 1rem;
+    }
+    .sbtn {
+        display: block;
+        text-align: center;
+        height: 3rem;
+        line-height: 3rem;
+        text-decoration: none;
+        color: $color_6;
+        border-top: 0.1rem dotted #DDDDDD;
+    }
+    .down {
+        background-size: 1rem 1rem;
+        background-image: url(../img/movie_activity/arrow@2x.png);
+        background-repeat: no-repeat;
+        background-position: 19rem center;
+    }
+    .up {
+        background-size: 1rem 1rem;
+        background-image: url(../img/movie_activity/arrow_up@2x.png);
+        background-repeat: no-repeat;
+        background-position: 18rem center;
+    }
+    #gift_detail_0 {
+        margin-bottom: 1rem;
+    }
+}
+
+%selected {
+    float: left;
+    display: inline-block;
+    font-size: 1.2rem;
+    border-radius: 0.5rem;
+    margin-left: 1rem;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 0.1rem solid $color_2;
+}
+
+.selected_on {
+    @extend %selected;
+    color: $color_white;
+    background-color: $color_2;
+}
+
+.selected_off {
+    @extend %selected;
+    color: $color_3;
+    background-color: $color_white;
+}
+
+.selected_close {
+    @extend %selected;
+    color: $color_white;
+    background-color: #CCC;
+    border: 0.1rem solid #CCC;
+}
+
+#logistics_box {
+    margin-top: 1rem;
+    background-color: $color_white;
+    %status_info {
+        float: left;
+        display: block;
+        margin-top: 1.5rem;
+        margin-left: 0.1rem;
+        margin-right: 0.1rem;
+    }
+    %logistics_checked {
+        @extend %status_info;
+        width: 1.3rem;
+        height: 1.3rem;
+        background-size: 1.3rem 1.3rem;
+        background-repeat: no-repeat;
+        background-position: center center;
+    }
+    .checked {
+        @extend %logistics_checked;
+        background-image: url(../img/diana/check_1@2x.png);
+    }
+    .un_checked {
+        @extend %logistics_checked;
+        background-image: url(../img/diana/check_0@2x.png);
+    }
+    #status_0 {
+        margin-left: 4.7rem;
+    }
+    .between_0 {
+        @extend %status_info;
+        width: 9.3rem;
+        height: 0.6rem;
+        border-bottom: 0.1rem solid #C1C1C1;
+    }
+    .between_1 {
+        @extend %status_info;
+        width: 8.7rem;
+        height: 0.6rem;
+        border-bottom: 0.1rem solid #C1C1C1;
+    }
+    .stauts_text_bar {
+        margin-top: 1rem;
+        padding-bottom: 1.5rem;
+        font-size: 1.4rem;
+        color: $color_9;
+        border-bottom: 0.1rem dotted #DDDDDD;
+        span {
+            float: left;
+            display: block;
+            width: 10rem;
+            text-align: center;
+        }
+        #stauts_text_1 {
+            margin-left: 1.5rem;
+        }
+        .stauts_text_checked {
+            color: $color_3;
+        }
+    }
+    .ss {
+        margin-top: 1.5rem;
+        font-size: 1.2rem;
+        color: $color_9;
+        text-indent: 1rem;
+        #express_code {
+            color: $color_3;
+            margin-left: 1.5rem;
+        }
+        #logistics_name {
+            color: $color_3;
+            margin-left: 1.5rem;
+        }
+        #logistics_phone {
+            margin-left: 1.5rem;
+            font-size: 1.2rem;
+            color: #3CA5D4;
+            text-decoration: underline;
+        }
+    }
+    .s1 {
+        padding-bottom: 1.5rem;
+    }
+}
+
+#info {
+    height: 4rem;
+    line-height: 4rem;
+    text-align: left;
+    padding-left: 1rem;
+}
+
+.tip_text {
+    height: 3rem;
+    line-height: 3rem;
+    font-size: 1.2rem;
+    color: #E77600;
+    background-color: #FFF1DC;
+    border-top: 0.1rem solid #EFA842;
+    border-bottom: 0.1rem solid #EFA842;
+    text-indent: 1.2rem;
+}
+
+.board {
+    background-color: $color_white;
+    //border-top: 0.1rem solid #e1e1e1;
+    border-bottom: 0.1rem solid #e1e1e1;
+    .option {
+        line-height: 4.4rem;
+        padding-left: 1.2rem;
+        padding-right: 1.2rem;
+        text-align: left;
+        input {
+            border: 0;
+            outline: 0;
+            font-size: 1.4rem;
+            width: 29rem;
+            height: 4rem;
+            background-color: transparent;
+            -webkit-tap-highlight-color: transparent;
+        }
+    }
+    .line {
+        height: 0.1rem;
+        background-color: #e1e1e1;
+    }
+    .on {
+        color: $color_black;
+    }
+    .off {
+        color: $color_9;
+    }
+    #cityStr {
+        display: block;
+        font-size: 1.4rem;
+    }
+}
+
+.blank {
+    width: 32rem;
+    height: 6.5rem;
+}
+
+#submit {
+    display: block;
+    margin: auto;
+    width: 32rem;
+    height: 4.5rem;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: $color_2;
+    text-align: center;
+    line-height: 4.5rem;
+}
+
+.submit {
+    color: $color_white;
+    font-size: 1.8rem;
+    letter-spacing: 0.2rem;
+}
+
+.address {
+    padding: 1.2rem;
+    text-align: left;
+    line-height: 1.6rem;
+    color: $color_black;
+}
+
+#box2 {
+    position: fixed;
+    margin: auto;
+    left: 0;
+    right: 0;
+    width: 32rem;
+    height: 40rem;
+    top: 100%;
+    background-color: $color_white;
+    .close {
+        display: block;
+        float: right;
+        margin-top: 1.6rem;
+        margin-right: 1.1rem;
+        width: 1.6rem;
+        height: 1.6rem;
+        background-size: 1.6rem 1.6rem;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-image: url(../img/close@2x.png);
+    }
+    .giftInfo {
+        width: 32rem;
+        height: 10.3rem;
+        #hasGift {
+            font-size: 1.4rem;
+            color: $color_3;
+        }
+        #giftName {
+            font-size: 1.4rem;
+            margin-top: 0.8rem;
+            margin-bottom: 1.2rem;
+            color: $color_2;
+        }
+        #tip {
+            font-size: 1.1rem;
+            color: $color_9;
+        }
+    }
+    .title {
+        display: inline-block;
+        width: 29.2rem;
+        height: 1.6rem;
+        line-height: 1.6rem;
+        padding-left: 0.7rem;
+        color: $color_6;
+        text-align: left;
+        font-size: 1.4rem;
+        border-left: 0.2rem solid $color_2;
+    }
+    #actionBar {
+        margin-top: 1rem;
+        text-align: center;
+        #chooseSeat {
+            display: inline-block;
+            width: 29.5rem;
+            height: 4rem;
+            border-radius: 0.4rem;
+            text-align: center;
+            font-size: 1.6rem;
+            color: $color_white;
+            line-height: 4rem;
+            text-decoration: none;
+            background-color: #e77600;
+        }
+    }
+    #skipSeat {
+        height: 5rem;
+        line-height: 5rem;
+        color: $color_9;
+        font-size: 1.4rem;
+        text-decoration: underline;
+    }
+}
+
+#codes {
+    a {
+        display: inline-block;
+        width: 29.3rem;
+        height: 5.7rem;
+        background-size: 29.3rem 5.7rem;
+        background-repeat: no-repeat;
+        margin-top: 1rem;
+        text-align: left;
+    }
+    .cl {
+        width: 29rem;
+        margin-top: 1.5rem;
+        text-align: left;
+        padding-left: 8rem;
+        font-size: 1.2rem;
+        color: $color_3;
+    }
+    .cr {
+        width: 29rem;
+        margin-top: 0.8rem;
+        padding-left: 2rem;
+        text-align: left;
+        padding-left: 8rem;
+        font-size: 1.2rem;
+        color: $color_9;
+    }
+    .code00 {
+        background-image: url(../img/exchangecode/code00@2x.png);
+    }
+    .code01 {
+        background-image: url(../img/exchangecode/code01@2x.png);
+        font {
+            color: $color_2;
+        }
+    }
+}
+
+#city_choose {
+    position: fixed;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 100%;
+    width: 32rem;
+    height: 100%;
+    background-color: $color_white;
+    #city_bar {
+        height: 3.9rem;
+        background-size: 32rem 3.9rem;
+        background-image: url(../img/city@2x.png);
+        background-repeat: no-repeat;
+        border-bottom: 0.1rem solid #EEE;
+        a {
+            display: inline-block;
+            height: 3.9rem;
+        }
+        %city {
+            float: left;
+            width: 6rem;
+            line-height: 4.2rem;
+            color: $color_3;
+            font-size: 1.2rem;
+            text-align: center;
+            @include ellipsis(true);
+        }
+        #province {
+            @extend %city;
+            margin-left: 1rem;
+        }
+        #city {
+            @extend %city;
+            margin-left: 2.8rem;
+        }
+        #area {
+            @extend %city;
+            margin-left: 1.6rem;
+        }
+        #city_ok {
+            float: right;
+            width: 4.8rem;
+            background-size: 4.8rem 2.6rem;
+            background-image: url(../img/ok@2x.png);
+            background-repeat: no-repeat;
+            background-position: center;
+            margin-right: 1rem;
+        }
+        .on {
+            border-bottom: 0.2rem solid $color_2;
+        }
+    }
+    #city_options {
+        position: absolute;
+        margin: auto;
+        left: 0;
+        right: 0;
+        top: 4rem;
+        bottom: 0;
+        overflow: scroll;
+        a {
+            display: block;
+            line-height: 4rem;
+            font-size: 1.2rem;
+            border-bottom: 0.1rem solid #EEE;
+            padding-left: 1.4rem;
+            color: $color_6;
+        }
+    }
+}

@@ -1,0 +1,2 @@
+p12证书保护密码=rxp6k6cxglwn    
+truststore保护密码=IshmwQT7

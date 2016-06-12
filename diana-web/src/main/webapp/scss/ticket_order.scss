@@ -1,0 +1,206 @@
+@import "compass/css3";
+@import "_config.scss";
+.option1 {
+    padding-top: 1.2rem;
+    padding-bottom: 1.2rem;
+}
+
+.option {
+    padding-left: 1.4rem;
+    padding-right: 1.4rem;
+    background-color: $color_white;
+    .poster {
+        display: inline-block;
+        width: 10.2rem;
+        height: 14.2rem;
+        float: left;
+    }
+    .content {
+        float: left;
+        display: inline-block;
+        width: 18rem;
+        height: 14.2rem;
+        margin-left: 1rem;
+        #ticket_title {
+            font-size: 1.4rem;
+            color: $color_3;
+            line-height: 1.9rem;
+            text-align: justify;
+            text-justify: inter-ideograph;
+        }
+        #ticket_price {
+            font-size: 1.5rem;
+            color: $color_2;
+            margin-right: 2rem;
+            span {
+                font-size: 1rem;
+            }
+        }
+        #ticket_area {
+            margin-right: 2rem;
+        }
+        #ticket_count {}
+        .ticket_pa {
+            margin-top: 2.2rem;
+            margin-bottom: 2.4rem;
+        }
+        .left1 {
+            display: inline-block;
+            margin-top: 1rem;
+            color: $color_9;
+            font-size: 1.2rem;
+        }
+        #ticket_time {
+            margin-left: 0.5rem;
+            color: $color_black;
+            font-size: 1.2rem;
+        }
+        #ticket_place {
+            margin-left: 0.5rem;
+            color: $color_black;
+            font-size: 1.2rem;
+        }
+    }
+}
+
+.line1 {
+    width: 32rem;
+    height: 8rem;
+    line-height: 3rem;
+    margin-top: 1rem;
+    text-indent: 1.1rem;
+    background-color: $color_white;
+    #ticket_total_price {
+        display: inline-block;
+        margin-right: 1.1rem;
+        text-indent: 16rem;
+        text-align: right;
+        color: $color_2;
+    }
+}
+
+.left2 {
+    color: $color_3;
+    font-size: 1.4rem;
+    line-height: 4.4rem;
+}
+
+.left3 {
+    color: $color_6;
+    font-size: 1.4rem;
+    letter-spacing: 0.1rem;
+}
+
+.line2 {
+    width: 32rem;
+    height: 4.4rem;
+    line-height: 4.4rem;
+    margin-top: 0.1rem;
+    text-indent: 1.1rem;
+    background-color: $color_white;
+}
+
+#choice1 {
+    display: inline-block;
+    padding: 0rem 0.5rem;
+    color: $color_3;
+    background-size: 1.3rem 1.3rem;
+    background-repeat: no-repeat;
+    background-position: center left;
+}
+
+#choice0 {
+    display: inline-block;
+    padding: 0rem 0.5rem;
+    margin-left: 5rem;
+    color: $color_3;
+    background-size: 1.3rem 1.3rem;
+    background-repeat: no-repeat;
+    background-position: center left;
+}
+
+.choice1 {
+    background-image: url(../img/diana/check_0@2x.png);
+}
+
+.choice2 {
+    background-image: url(../img/diana/check_1@2x.png);
+}
+
+.right1 {
+    text-indent: 3rem;
+    width: 70%;
+    background-color: $color_white;
+    background: transparent;
+    border: 0rem;
+    color: $color_3;
+    font-size: 1.4rem;
+}
+
+.line3 {
+    margin-top: 1rem;
+    width: 32rem;
+    height: 7.5rem;
+    background-size: 29.2rem 7.5rem;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url(../img/diana/address_bg@2x.png);
+    text-align: center;
+    #ticket_receive_place {
+        display: block;
+        position: relative;
+        top: 2rem;
+        color: $color_2;
+        font-size: 1.5rem;
+    }
+    #ticket_receive_time {
+        display: block;
+        position: relative;
+        top: 3rem;
+        color: $color_6;
+        font-size: 1.2rem;
+    }
+}
+
+.line4 {
+    padding-left: 1.4rem;
+    padding-right: 1.4rem;
+    padding-top: 1.2rem;
+    padding-bottom: 1.2rem;
+    margin-top: 0.1rem;
+    line-height: 1.6rem;
+    background-color: $color_white;
+    span {
+        display: inline-block;
+        float: left;
+    }
+    .right {
+        margin-left: 2rem;
+        width: 20rem;
+    }
+}
+
+.line5 {
+    padding-left: 1.4rem;
+    padding-right: 1.4rem;
+    padding-top: 1.2rem;
+    padding-bottom: 1.2rem;
+    margin-top: 0.1rem;
+    line-height: 1.6rem;
+    background-color: $color_white;
+    .right {
+        float: right;
+        color: $color_2;
+        span {
+            font-size: 1rem;
+        }
+    }
+}
+
+.l2 {
+    margin-top: 1rem;
+}
+
+.blank {
+    height: 5rem;
+}

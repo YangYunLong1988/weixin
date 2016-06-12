@@ -1,0 +1,99 @@
+@import "compass/css3";
+@import "_config.scss";
+.line {
+    height: 1rem;
+}
+
+.option {
+    background-color: $color_white;
+    padding-left: 1.4rem;
+    padding-right: 1.4rem;
+    .title {
+        display: inline-block;
+        float: left;
+        height: 4rem;
+        line-height: 4rem;
+        color: $color_3;
+    }
+    .value {
+        display: inline-block;
+        float: right;
+        div {
+            margin-top: 1.2rem;
+            margin-bottom: 1.2rem;
+            line-height: 1.6rem;
+            text-align: right;
+        }
+    }
+    #sub {
+        float: right;
+        width: 2.2rem;
+        height: 4rem;
+        display: inline-block;
+        background-size: 2.2rem 2.2rem;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-image: url(../img/diana/sub@2x.png);
+    }
+    #buy_count {
+        float: right;
+        width: 4rem;
+        height: 4rem;
+        line-height: 4rem;
+        display: inline-block;
+        text-align: center;
+    }
+    #sum {
+        float: right;
+        width: 2.2rem;
+        height: 4rem;
+        display: inline-block;
+        background-size: 2.2rem 2.2rem;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-image: url(../img/diana/sum@2x.png);
+    }
+    #total {
+        color: $color_2;
+        span {
+            font-size: 1rem;
+        }
+    }
+    #tip_count {
+        font-size: 1.2rem;
+        color: $color_9;
+    }
+    #surplus {
+        color: $color_2;
+        span {
+            font-size: 1rem;
+        }
+    }
+}
+
+.tip {
+    height: 4rem;
+    line-height: 4rem;
+    padding-left: 1.4rem;
+    a {
+        font-size: 1.2rem;
+        color: $color_3;
+    }
+    .on {
+        background-size: 1.4rem 1.4rem;
+        background-repeat: no-repeat;
+        background-position: 0 center;
+        background-image: url(../img/diana/check@2x.png);
+        padding-left: 2rem;
+    }
+    .off {
+        background-size: 1.4rem 1.4rem;
+        background-repeat: no-repeat;
+        background-position: 0 center;
+        background-image: url(../img/diana/check_0@2x.png);
+        padding-left: 2rem;
+    }
+    .protocol {
+        color: $color_2;
+    }
+}

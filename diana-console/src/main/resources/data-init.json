@@ -1,0 +1,36 @@
+{
+  "product" : [
+      {
+        "referenceProduct":null,
+        "originalName" : null,
+        "name" : "电影转礼品",
+        "giftNum" : 1,
+        "rate" : null,
+        "amount" : 0,
+        "availableAmount" : 0,
+        "period" : null,
+        "periodType" : null,
+        "minPurchaseAmount" : 0,
+        "beginCountInterest" : "2020-12-30",
+        "endCountInterest" : "2050-12-30",
+        "raiseEndTime" : "2020-12-30",
+        "guaranteeAgency" : null,
+        "repaymentMode" : null,
+        "institutionInstruction" : null,
+        "labelVolmoney" : null,
+        "certificate" : null,
+        "status" : 1,
+        "riskTip" : null,
+        "type" : "电影转礼品",
+        "sortNum" : 0,
+        "refConcert" : null,
+        "price" : 0,
+        "posterImgName" : null,
+        "posterImg" : null,
+        "titleImgName" : null,
+        "titleImg" : null,
+        "url" : null,
+        "exchangeAmount" : 0
+      }
+  ]
+}

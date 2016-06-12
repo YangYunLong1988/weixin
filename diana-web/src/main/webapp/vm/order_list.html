@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <meta name="format-detection" content="telephone=no" />
+    <script type='text/javascript'>
+    window.BWEUM || (BWEUM = {});
+    BWEUM.info = {
+        "stand": true,
+        "agentType": "browser",
+        "agent": "bi-collector.oneapm.com/static/js/bw-send-411.4.5.js",
+        "beaconUrl": "bi-collector.oneapm.com/beacon",
+        "licenseKey": "mYF7B~e73nNvIjMv",
+        "applicationID": 2273714
+    };
+    </script>
+    <script type="text/javascript" src="//bi-collector.oneapm.com/static/js/bw-loader-411.4.5.js"></script>
+    <title>票务交易系统</title>
+    <link rel="stylesheet" type="text/css" href="../scss/base.scss">
+    <link rel="stylesheet" type="text/css" href="../scss/order_list.scss">
+</head>
+
+<body>
+    <div id="no_order">
+        <div id="img" class="img0"></div>
+        <div class="txt">暂无订单</div>
+    </div>
+    <div id="list">
+        #foreach($element in $orders) #if($element.order.status=='待付款')
+        <div id="$element.order.id" class="item" onclick="toDetail('/order/findOrderDetail/$element.order.id')">
+            <div class="line0">
+                #if($element.pickallgiftornot == true)
+                <i></i> #end
+                <div class="poster" id="poster"><img src="/product/getProductTitleImg/$element.order.productId" width="100%" height="100%" /></div>
+                <div class="cc">
+                    <div class="title" id="title">$element.order.productName</div>
+                    <span class="orderid" id="orderid">订单号：$element.order.id</span></br>
+                    <span class="date" id="date">$date.format("yyyy-MM-dd E",$element.order.createdDate)<span class="time" id="time">$date.format("HH:mm:ss",$element.order.createdDate)</span></span>
+                </div>
+            </div>
+            <div class="bar">
+                <span class="amount">
+                ￥$element.order.amount
+                #if($element.order.status=='待付款')
+                还剩 <span  data-id="$element.order.id" data-time="$date.format('yyyy-MM-dd HH:mm:ss',$element.order.createdDate)" class="surplus_time"></span>
+                <a class="cancel_pay" href="javascript:void(0)" onclick="toCancelPay(event,'$element.order.id','$element.order.productName')">取消订单</a>
+                <a class="to_pay" href="javascript:void(0)" onclick="toPay('/product/buyTicket/pay/$element.order.id')">立即支付</a> #end
+                </span>
+            </div>
+        </div>
+        #end #end #foreach($element in $orders) #if($element.order.status!='待付款')
+        <div id="$element.order.id" class="item" onclick="toDetail('/order/findOrderDetail/$element.order.id')">
+            <div class="line0">
+                #if($element.pickallgiftornot == true)
+                <i></i> #end
+                <div class="poster" id="poster"><img src="/product/getProductTitleImg/$element.order.productId" width="100%" height="100%" /></div>
+                <div class="cc">
+                    <div class="title" id="title">$element.order.productName</div>
+                    <span class="orderid" id="orderid">订单号：$element.order.id</span></br>
+                    <span class="date" id="date">$date.format("yyyy-MM-dd E",$element.order.createdDate)<span class="time" id="time">$date.format("HH:mm:ss",$element.order.createdDate)</span></span>
+                </div>
+            </div>
+            <div class="bar">
+                <span class="amount">$element.order.status</span>
+            </div>
+        </div>
+        #end #end
+    </div>
+</body>
+
+</html>
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript">
+if ($("#list").children().length > 0) {
+    $("#no_order").hide();
+}
+
+function toPay(payUrl) {
+    common.goto(payUrl);
+}
+
+function toCancelPay(event, orderId, name) {
+    event.stopPropagation();
+    common.post("/order/cancle", {
+        id: orderId
+    }, function(result) {
+        common.showAlert("您<span style='color:#E77600'>" + name + "</span>的订单已取消", function() {
+            common.refresh();
+        });
+    });
+}
+
+function toDetail(orderDetail) {
+    common.goto(orderDetail);
+}
+
+var leftSecond = [];
+
+function start() {
+    $('.surplus_time').each(function(index) {
+        var orderTime = $(this).attr('data-time'); //下单时间
+        var limit = 900;
+        var timeout = new Date(Date.parse(orderTime.replace(/-/g, "/"))).getTime() / 1000 + limit;
+        var now = new Date().getTime() / 1000;
+        leftSecond[index] = parseInt(timeout - now);
+    });
+    onTimer();
+}
+
+function onTimer() {
+    for (var i = 0; i < leftSecond.length; i++) {
+        leftSecond[i]--;
+        var surplus_time = $('.surplus_time:eq(' + i + ')');
+        if (leftSecond[i] < 0) {
+            surplus_time.parent().html("已撤单");
+            leftSecond.splice(i, 1);
+            //撤销订单
+            cancleOrder(surplus_time.attr('data-id'));
+        } else {
+            var minute = parseInt(leftSecond[i] / 60);
+            if (minute < 10) {
+                minute = "0" + minute;
+            }
+            var second = leftSecond[i] % 60;
+            if (second < 10) {
+                second = "0" + second;
+            }
+            surplus_time.html(minute + ":" + second);
+
+        }
+    }
+    if (leftSecond && leftSecond.length) {
+        setTimeout(onTimer, 1000);
+    }
+}
+
+function cancleOrder(id) {
+    common.post("/order/cancle", {
+        id: id
+    }, function(data) {
+        $('#' + id).remove();
+    });
+}
+start();
+</script>

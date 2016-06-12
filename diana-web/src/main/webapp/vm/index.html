@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>票务交易系统</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <script type='text/javascript'>
+    window.BWEUM || (BWEUM = {});
+    BWEUM.info = {
+        "stand": true,
+        "agentType": "browser",
+        "agent": "bi-collector.oneapm.com/static/js/bw-send-411.4.5.js",
+        "beaconUrl": "bi-collector.oneapm.com/beacon",
+        "licenseKey": "mYF7B~e73nNvIjMv",
+        "applicationID": 2273714
+    };
+    </script>
+    <script type="text/javascript" src="//bi-collector.oneapm.com/static/js/bw-loader-411.4.5.js"></script>
+    <link rel="stylesheet" type="text/css" href="../scss/base.scss">
+    <link rel="stylesheet" type="text/css" href="../scss/index.scss">
+</head>
+
+<body>
+    <div id="banner">
+        <div class="b" id="b0"></div>
+    </div>
+    <div class="box">
+        <div class="t0">玩电影</div>
+        <div class="t1">享电影投资人权益</div>
+        <div>
+            <div class="view0">
+                <a id="v0" href="javascript:void(0)" onclick="single()"></a>
+                <a id="v1" href="javascript:void(0)" onclick="toGiftCard()"></a>
+            </div>
+            <div class="view1">
+                <a id="v2" href="/product/ticket_combo"></a>
+                <a id="v3" href="javascript:void(0)" onclick="toVip()"></a>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div id="window">
+        #foreach($element in $list)
+        <a href="/product/$element.productId">
+            <div class="img"><img src="/product/getProductTitleImg/$element.productId" width="100%" height="100%"></div>
+        </a>
+        #end
+    </div>
+    <div class="bar">
+        <a class="f" id="play_0" href="/product/howToPlay"></a>
+        <a class="f" id="play_1" href="/product/whatToPlay"></a>
+    </div>
+    <div class="clear"></div>
+    <div class="blank"></div>
+    <div id="notification" class="mask" style="display:none" onclick="toCloseNotification()"></div>
+    <div id="dialog" style="display:none">
+        <div class="p0">VIP包场请咨询</div>
+        <div class="p1">400-6196-828</div>
+        <div class="btn_bar">
+            <a class="btn0" href="javascript:void(0)" onclick="toCloseNotification()">取消</a>
+            <a class="btn1" href="javascript:void(0)" onclick="click_right()">联系我们</a>
+        </div>
+        <div class="clear"></div>
+        <div class="p2">客服工作时间 9:00-17:30</div>
+    </div>
+</body>
+
+</html>
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript">
+function toGiftCard() {
+    common.showAlert("礼品卡即将隆重登场，敬请期待！");
+}
+
+function toVip() {
+    $("#notification").show();
+    $("#dialog").show();
+    $("#giftCard").hide();
+}
+
+function toCloseNotification() {
+    $("#notification").hide();
+    $("#dialog").hide();
+    $("#giftCard").hide();
+}
+
+function click_right() {
+    toCloseNotification();
+    common.goto('tel://400-6196-828');
+}
+
+function single() {
+    common.post('/product/danshen', {}, function(result) {
+        common.goto('/product/' + result.data.id);
+    });
+}
+</script>

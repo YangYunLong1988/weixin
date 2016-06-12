@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <script type='text/javascript'>window.BWEUM||(BWEUM={});BWEUM.info = {"stand":true,"agentType":"browser","agent":"bi-collector.oneapm.com/static/js/bw-send-411.4.5.js","beaconUrl":"bi-collector.oneapm.com/beacon","licenseKey":"mYF7B~e73nNvIjMv","applicationID":2273714};</script><script type="text/javascript" src="//bi-collector.oneapm.com/static/js/bw-loader-411.4.5.js"></script>
+    <title>票务交易系统</title>
+    <link rel="stylesheet" type="text/css" href="../scss/base.scss">
+    <link rel="stylesheet" type="text/css" href="../scss/gift_detail.scss">
+    <link rel="stylesheet" type="text/css" href="../scss/gift.scss">
+</head>
+
+<body>
+    <div class="page">
+        <div id="banner"></div>
+        <div class="simple_introduct">
+            <div id="detailname"></div>
+            <div id="simpleintro"></div>
+        </div>
+        <div class="title">礼品介绍</div>
+        <div class="detail">
+            <div id="name"></div>
+            <div id="list1"></div>
+            <div class="detail3" id="td">产品特点 </div>
+            <div id="list2"></div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript" src="../js/config.js"></script>
+<script type="text/javascript">
+function fillData(index) {
+    var gift_introduction = movie_gifts[index];
+    var html1 = "";
+    for (var i = 0; i < gift_introduction["list1"].length; i++) {
+        var item = "";
+        item = '<a class="detail2">' + gift_introduction["list1"][i] + '</a>';
+        html1 += item;
+    }
+    var container = document.getElementById("list1");
+    container.innerHTML = html1;
+
+    var html2 = "";
+    for (var i = 0; i < gift_introduction["list2"].length; i++) {
+        var item = "";
+        item = '<a class="detail4" id="td1"><span></span>' + gift_introduction["list2"][i] + '</a>';
+        html2 += item;
+    }
+    var container = document.getElementById("list2");
+    container.innerHTML = html2;
+
+    var name = document.getElementById("name");
+    name.innerHTML = gift_introduction["name"];
+
+    var detailname = document.getElementById("detailname");
+    detailname.innerHTML = gift_introduction["detailname"]
+
+    var simpleintro = document.getElementById("simpleintro");
+    simpleintro.innerHTML = gift_introduction["simpleintro"];
+
+    $("#banner").addClass(gift_introduction["img"]);
+}
+
+function start() {
+    fillData($index);
+}
+start();
+</script>

@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <title>票务交易系统</title><meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="css/bootstrap.min.css" />
+	<link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
+    <link rel="stylesheet" href="css/matrix-login.css" />
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
+	<link rel='shortcut icon' type='image/x-icon' href='img/diana_favicon.ico' /> 
+ </head>
+
+  <body>
+
+    <div id="loginbox">            
+            <form id="loginform" class="form-vertical" action="/login" method="post" name="loginform">
+				 <div class="control-group normal_text"> <h3><img src="img/logo1.png" alt="Logo" />票务交易系统</h3></div>
+                <div class="control-group">
+                    <div class="controls">
+                        <div class="main_input_box">
+                            <span class="add-on bg_lg"><i class="icon-user"></i></span><input type="text" placeholder="登录邮箱" name="username" class="email"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <div class="main_input_box">
+                            <span class="add-on bg_ly"><i class="icon-lock"></i></span><input type="password" placeholder="登录密码" name="password" class="pwd"/>
+                        </div>
+                        <div class="main_input_box">
+                            <span class="" style="color:red;">
+                            	#if($loginMessage)  
+					             	用户名或密码错误
+					            #end 
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <!--<span class="pull-left"><a href="javscript:void(0)" class="flip-link btn btn-info" id="to-recover">忘记密码</a></span>-->
+                    <span class="" style="margin-left:240px;"><a type="submit" href="#" class="btn btn-success" id="login"/> 登  录 </a></span>
+                </div>
+            </form>
+            
+            <form id="recoverform" action="#" class="form-vertical">
+				<p class="normal_text">输入您的登录邮箱，我们将发送邮件到您的邮箱进行密码重置。</p>
+				
+                    <div class="controls">
+                        <div class="main_input_box">
+                            <span class="add-on bg_lo"><i class="icon-envelope"></i></span><input type="text" placeholder="输入您的登陆邮箱" />
+                        </div>
+                    </div>
+               
+                <div class="form-actions">
+                    <span class="pull-left"><a href="#" class="flip-link btn btn-success" id="to-login">&laquo; 返回登录</a></span>
+                    <span class="pull-right"><a class="btn btn-info"/>发送</a></span>
+                </div>
+            </form>
+        </div>
+        
+        <script src="http://cdn.bootcss.com/jquery/2.1.4/jquery.js"></script>
+        <script src="/js/bootstrap.min.js"></script> 
+		<script src="/js/matrix.js"></script> 
+		<script src="/js/common.js"></script> 
+		<script src="/js/extendsAlert.js"></script>
+        <script type="text/javascript">
+        	$(function(){
+        	  var message = '$loginMessage';
+        	  
+			  $("#login").click(function(){
+			    var email = $(".email").val();
+			    var pwd =$(".pwd").val();
+			    //邮箱正则
+			    var reg=/^\w+@\w+(\.[a-zA-Z]{2,3}){1,2}$/;
+			    if(email==""){
+			    	alert("登录邮箱不能为空");
+			    	return false;
+			    }
+			    
+			    if(reg.test(email)==false){
+			    	alert("登录邮箱格式不正确");
+			    	return false;
+			    }
+			    			    
+			    if(pwd==""){
+			    	alert("密码不能为空");
+			    	return false;
+			    }
+			    
+			    $("#loginform").submit();
+			  });
+			})
+        </script> 
+        
+    </body>
+</html>

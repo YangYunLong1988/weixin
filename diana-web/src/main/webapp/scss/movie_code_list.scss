@@ -1,0 +1,663 @@
+@import "compass/css3";
+@import "compass/typography/text/ellipsis";
+@import "_config.scss";
+.page {
+    width: 32rem;
+    text-align: center;
+}
+
+.blank {
+    width: 32rem;
+    height: 1rem;
+}
+
+.blank2 {
+    height: 5rem;
+}
+
+#ticket_list {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    .yw3 {
+        display: inline-block;
+        width: 29.2rem;
+        height: 9.5rem;
+        padding-left: 8.8rem;
+        margin-bottom: 1rem;
+        background-size: 29.2rem 9.5rem;
+        background-image: url(../img/exchangecode/t_yewei3@2x.png);
+        text-align: left;
+        .title {
+            background-size: 2rem 2.2rem;
+            background-repeat: no-repeat;
+            line-height: 2.2rem;
+            height: 2.2rem;
+            color: $color_white;
+            margin-top: 2.2rem;
+        }
+        .desc {
+            margin-top: 1.1rem;
+            padding-left: 1rem;
+            line-height: 1.8rem;
+            font-size: 1.2rem;
+            color: $color_white;
+        }
+        .aqy {
+            padding-left: 3rem;
+            background-image: url(../img/exchangecode/t3rd_aqy_s@2x.png);
+        }
+        .my {
+            padding-left: 3rem;
+            background-image: url(../img/exchangecode/t3rd_my_s@2x.png);
+        }
+        .dzdp {
+            padding-left: 3rem;
+            background-image: url(../img/exchangecode/t3rd_dzdp_s@2x.png);
+        }
+    }
+}
+
+.bigbox {
+    width: 32rem;
+    background-color: $color_white;
+}
+
+#has_ticket {
+    .tip_line {
+        width: 32rem;
+        height: 4rem;
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
+        .title {
+            display: inline-block;
+            width: 29.2rem;
+            height: 1.6rem;
+            line-height: 1.6rem;
+            padding-left: 0.7rem;
+            color: $color_6;
+            text-align: left;
+            font-size: 1.4rem;
+            border-left: 0.2rem solid $color_2;
+            a {
+                float: right;
+                text-align: right;
+                color: $color_2;
+                font-size: 1.2rem;
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
+#codes .one {
+    display: inline-block;
+    width: 29.3rem;
+    height: 5.7rem;
+    background-size: 29.3rem 5.7rem;
+    background-repeat: no-repeat;
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+.cl {
+    width: 29rem;
+    margin-top: 1.5rem;
+    text-align: left;
+    padding-left: 8rem;
+    font-size: 1.2rem;
+    color: $color_3;
+}
+
+.cr {
+    width: 29rem;
+    margin-top: 0.8rem;
+    padding-left: 2rem;
+    text-align: left;
+    padding-left: 8rem;
+    font-size: 1.2rem;
+    color: $color_9;
+}
+
+.cr2 {
+    display: table-cell;
+    padding-left: 2rem;
+    text-align: left;
+    font-size: 1.2rem;
+    line-height: 1.4rem;
+    vertical-align: middle;
+    color: $color_6;
+    background-size: 1rem 0.9rem;
+    background-image: url(../img/exchangecode/star@2x.png);
+    background-repeat: no-repeat;
+    background-position: 1rem 3.7rem;
+}
+
+.cr2 span {
+    font-size: 0.9rem;
+}
+
+.code00 {
+    background-image: url(../img/exchangecode/code00@2x.png);
+    color: $color_3;
+}
+
+.code01 {
+    background-image: url(../img/exchangecode/code01@2x.png);
+    color: #3ca5d4;
+}
+
+.code02 {
+    background-image: url(../img/exchangecode/code02@2x.png);
+    color: #cecece;
+}
+
+.code10 {
+    background-image: url(../img/exchangecode/code10@2x.png);
+    color: $color_3;
+}
+
+.code11 {
+    background-image: url(../img/exchangecode/code11@2x.png);
+    color: #3ca5d4;
+}
+
+.code12 {
+    background-image: url(../img/exchangecode/code12@2x.png);
+    color: #cecece;
+}
+
+.code02 .cr,
+.code12 .cr {
+    color: #cecece;
+}
+
+#actionBar {
+    margin-top: 1rem;
+    text-align: center;
+    #filmBtn {
+        display: inline-block;
+        width: 13.5rem;
+        height: 4rem;
+        border-radius: 0.4rem;
+        text-align: center;
+        font-size: 1.6rem;
+        color: $color_white;
+        line-height: 4rem;
+        text-decoration: none;
+        margin-left:1rem;
+    }
+    #giftBtn {
+        display: inline-block;
+        width: 13.5rem;
+        height: 4rem;
+        border-radius: 0.4rem;
+        text-align: center;
+        font-size: 1.6rem;
+        color: #e77600;
+        line-height: 4rem;
+        text-decoration: none;
+        margin-right:1rem;
+    }
+    .getgift {
+        border:1px solid #e77600;
+    }
+    .getfilm {
+        background-color: #e77600;
+    }
+    .btn_off {
+        background-color: $color_9;
+    }
+}
+
+#film_header {
+    width: 32rem;
+    height: 4rem;
+    line-height: 4rem;
+    text-align: center;
+    a {
+        width: 10rem;
+        color: $color_9;
+        font-size: 1.2rem;
+    }
+    #arrows {
+        display: inline-block;
+        width: 1rem;
+        height: 1rem;
+        margin-left: 0.6rem;
+        background-size: 1rem 1rem;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    .arrows_up {
+        background-image: url(../img/arrows_up@2x.png);
+    }
+    .arrows_down {
+        background-image: url(../img/arrows_down@2x.png);
+    }
+}
+
+#film_list {
+    .film {
+        display: inline-block;
+        width: 29.2rem;
+        height: 12.65rem;
+        background-size: 29.2rem 12.65rem;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    #film_title {
+        width: 32rem;
+        height: 3rem;
+        line-height: 3rem;
+        padding-left: 1.4rem;
+        text-align: left;
+        font-size: 1.4rem;
+        color: $color_3;
+    }
+    #film_date {
+        width: 32rem;
+        line-height: 1.8rem;
+        padding-left: 1.4rem;
+        text-align: left;
+        font-size: 1.2rem;
+        color: $color_3;
+    }
+    #film_content {
+        width: 32rem;
+        line-height: 1.8rem;
+        padding-left: 1.4rem;
+        padding-right: 1.4rem;
+        text-align: left;
+        font-size: 1.2rem;
+        color: $color_3;
+        padding-bottom: 1.4rem;
+        text-align: justify;
+        text-justify: inter-ideograph;
+    }
+}
+
+.gift_box {
+    background-color: $color_white;
+    %gift_content {
+        display: inline-block;
+        width: 29.2rem;
+        height: 17.8rem;
+        margin-bottom: 1.4rem;
+        background-size: 29.2rem 17.8rem;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    >div {
+        @extend %gift_content;
+    }
+    >.user_gift_show_parent {
+        @extend %gift_content;
+         div:nth-child(3) {
+            display: inline-block;
+            width: 29.2rem;
+            height: 2.3rem;
+            line-height: 2.3rem;
+            margin-top: 15.5rem;
+            font-size: 1.2rem;
+            text-align: center;
+            color: $color_white;
+        }
+    }
+    .user_gift_show_parent div:nth-child(1)  {
+        display: inline-block;
+        width: 100%;
+        padding: 0 0.8rem;
+        height: 3rem;
+        line-height: 3rem;
+        margin-top: 14.8rem;
+        color: $color_white;
+        background-color: rgba(0, 0, 0, 0.5);
+        @include ellipsis(true);
+    }
+    .user_gift_show_parent div:nth-child(2)  {
+        display: inline-block;
+        width: 29.2rem;
+        color: $color_3;
+        margin-top: 13.5rem;
+    }
+    .off {
+        font-size: 1.4rem;
+    }
+    .on {
+        font-size: 2rem;
+    }
+}
+
+.un_receive {
+    background-image: url(../img/exchangecode/gift_un_receive@2x.png);
+}
+
+.gift0 {
+    background-image: url(../img/gifts/img1@2x.jpg);
+}
+
+#film0 {
+    background-image: url(../img/exchangecode/film_yewen_1@2x.jpg);
+}
+
+#film1 {
+    background-image: url(../img/exchangecode/film_shw@2x.jpg);
+}
+
+#film2 {
+    background-image: url(../img/exchangecode/film_dhz@2x.jpg);
+}
+
+#film3 {
+    background-image: url(../img/exchangecode/film_qgj@2x.jpg);
+}
+
+.tip0 {
+    color: #bcbcbc;
+    margin-bottom: 1.4rem;
+    font-size: 1.2rem;
+}
+
+#dialog {
+    position: fixed;
+    left: 0rem;
+    top: 0rem;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+#dc {
+    position: fixed;
+    margin: auto;
+    width: 32rem;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+#dc_title {
+    background-color: $color_black;
+    color: $color_white;
+    line-height: 4rem;
+    padding-left: 1.4rem;
+    border-top: 0.1rem solid $color_3;
+    text-align: left;
+}
+
+#dc_title a {
+    display: inline-block;
+    float: right;
+    width: 4.4rem;
+    height: 4rem;
+    background-size: 1.4rem 1.3rem;
+    background-image: url(../img/exchangecode/close@2x.png);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#dc_content {
+    background-color: $color_white;
+    color: $color_3;
+    line-height: 1.8rem;
+    font-size: 1.2rem;
+    padding: 1.4rem;
+    text-align: left;
+}
+
+#no_ticket .img {
+    height: 5.3rem;
+    margin-top: 4rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 6.4rem 5.3rem;
+    background-image: url(../img/exchangecode/no_ticket@2x.png);
+}
+
+#no_ticket .txt {
+    margin-top: 1.7rem;
+    font-size: 1.4rem;
+    color: $color_9;
+}
+
+#unpay {
+    position: fixed;
+    display: block;
+    margin: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 32rem;
+    height: 4.4rem;
+    line-height: 4.4rem;
+    .un_left {
+        display: inline-block;
+        height: 4.4rem;
+        float: left;
+        width: 23rem;
+        background-color: #e6e6e6;
+        color: $color_6;
+        span {
+            color: $color_2;
+        }
+    }
+    .un_right {
+        display: inline-block;
+        height: 4.4rem;
+        float: right;
+        width: 9rem;
+        background-color: $color_2;
+        color: $color_white;
+    }
+}
+
+#book {
+    display: inline-block;
+    width: 29.2rem;
+    height: 4rem;
+    background-size: 29.2rem 4rem;
+    background-image: url(../img/exchangecode/book@2x.png);
+    margin-top: 1rem;
+}
+
+#book_info {
+    display: inline-block;
+    width: 26.8rem;
+    background-color: #f0e0c4;
+    padding: 1rem;
+    margin-top: 1rem;
+    .white {
+        background-color: $color_background;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+        padding-top: 2.7rem;
+        padding-bottom: 3rem;
+        .icon {
+            height: 9.2rem;
+            background-size: 9.4rem 9.2rem;
+            background-image: url(../img/exchangecode/book_icon@2x.png);
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        .bt0 {
+            font-size: 1.5rem;
+            color: $color_3;
+            margin-top: 2.8rem;
+        }
+        .bt1 {
+            font-size: 1.2rem;
+            color: $color_6;
+            margin-top: 2.1rem;
+            text-align: left;
+            text-indent: 2.4rem;
+            line-height: 2rem;
+        }
+        .bt2 {
+            font-size: 1.4rem;
+            color: $color_9;
+            margin-top: 1.5rem;
+        }
+        .money {
+            font-size: 3rem;
+            color: $color_2;
+            margin-top: 1.5rem;
+        }
+    }
+}
+
+#box2 {
+    position: fixed;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 100%;
+    width: 32rem;
+    height: 25rem;
+    padding: 0 1rem;
+    background-color: $color_white;
+    .t {
+        float: left;
+        width: 28.4rem;
+        height: 3rem;
+        line-height: 3rem;
+        text-align: center;
+        text-indent: 1.6rem;
+        font-size: 1.5rem;
+        color: $color_3;
+    }
+    .close {
+        float: right;
+        display: block;
+        width: 1.6rem;
+        height: 3rem;
+        background-size: 1.6rem 1.6rem;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-image: url(../img/close@2x.png);
+    }
+    .tt {
+        height: 3rem;
+        font-size: 1.4rem;
+        color: #e77600;
+    }
+    .toTransform {
+        display: inline-block;
+        width: 30rem;
+        height: 4rem;
+        line-height: 4rem;
+        text-align: center;
+        font-size: 1.6rem;
+        color: $color_white;
+        letter-spacing: 0.2rem;
+        border-radius: 0.4rem;
+        background-color: #e77600;
+    }
+    .separation_bar {
+        margin-top: 3rem;
+        text-align: left;
+        span {
+            display: inline-block;
+            width: 5rem;
+            height: 0.5rem;
+            border-top: 0.1rem solid $color_9;
+        }
+        .sp {
+            width: 17rem;
+            height: auto;
+            margin: 0 1rem;
+            text-align: center;
+            font-size: 1.3rem;
+            color: $color_3;
+            border: 0;
+        }
+    }
+    .platforms_bar {
+        margin-top: 3rem;
+        a {
+            float: left;
+            display: block;
+            width: 7.5rem;
+            height: 7.7rem;
+            margin-left: 4rem;
+            margin-right: 2.5rem;
+            background-size: 7.5rem 7.7rem;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        #w0 {
+            background-image: url(../img//exchangecode/qiy_0@2x.png);
+        }
+        #w1 {
+            background-image: url(../img//exchangecode/maoyan_0@2x.png);
+        }
+        #w2 {
+            width: 30rem;
+            height: 5rem;
+            margin: 0;
+            border-radius: 0.4rem;
+            border: 0.1rem solid #e77600;
+            background-size: 7.3rem 2.45rem;
+            background-image: url(../img//exchangecode/dianping@2x.jpg);
+        }
+    }
+}
+
+#tip_box2 {
+    position: absolute;
+    display: inline-block;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 30rem;
+    height: 32rem;
+    line-height: 1.5rem;
+    padding: 1rem;
+    text-align: left;
+    color: $color_3;
+    border-radius: 0.5rem;
+    background-color: $color_white;
+    .w {
+        height: 3.7rem;
+        background-size: 10.6rem 3.7rem;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-image: url(../img//exchangecode/dianping_rule@2x.jpg);
+    }
+    .p0 {
+        text-align: center;
+        font-size: 1.5rem;
+    }
+    span {
+        color: #e77600;
+    }
+    .p1 {
+        font-size: 1.3rem;
+    }
+    .p2 {
+        margin-top: 2rem;
+    }
+    %tip_btn {
+        display: block;
+        float: left;
+        width: 8rem;
+        height: 3rem;
+        line-height: 3rem;
+        margin-top: 2rem;
+        margin-left: 4rem;
+        text-align: center;
+        border-radius: 0.4rem;
+        border: 0.1rem solid #e77600;
+    }
+    .no {
+        @extend %tip_btn;
+        color: #e77600;
+    }
+    .yes {
+        @extend %tip_btn;
+        color: $color_white;
+        background-color: #e77600;
+    }
+}

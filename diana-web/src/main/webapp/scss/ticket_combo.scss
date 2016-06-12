@@ -1,0 +1,181 @@
+@import "compass/css3";
+@import "_config.scss";
+.top {
+    margin-top: 2.5rem;
+    text-indent: 1rem;
+    color: $color_3;
+    font-size: 1.2rem;
+}
+
+.list {
+    padding-left: 1.4rem;
+    %checked {
+        float: left;
+        display: inline-block;
+        width: 14.5rem;
+        height: 7.6rem;
+        margin-top: 1rem;
+        margin-right: 0.3rem;
+        background-size: 14.5rem 7.6rem;
+        background-repeat: no-repeat;
+        background-position: center;
+        text-align: center;
+    }
+    .checked_on {
+        @extend %checked;
+        background-image: url(../img/ticket/checked_on@2x.png);
+    }
+    .checked_off {
+        @extend %checked;
+        background-image: url(../img/ticket/checked_off@2x.png);
+    }
+}
+
+.ticket {
+    height: 7.6rem;
+    background-size: 12rem 6.1rem;
+    background-repeat: no-repeat;
+    background-position: center 0.8rem;
+    .price {
+        padding-top: 1.3rem;
+        margin-right: 2.6rem;
+        font-size: 1.2rem;
+        text-align: right;
+        color: $color_9;
+    }
+    .name {
+        font-size: 1.2rem;
+        padding-left: 1rem;
+        color: $color_2;
+        margin-top: 1rem;
+    }
+    .text {
+        margin-top: 0.8rem;
+        font-size: 1rem;
+        text-align: center;
+        color: #FF946B;
+    }
+}
+
+.w0 {
+    background-image: url(../img/ticket/w0@2x.jpg);
+}
+
+.w1 {
+    background-image: url(../img/ticket/w1@2x.jpg);
+}
+
+.w2 {
+    background-image: url(../img/ticket/w2@2x.jpg);
+}
+
+.w3 {
+    background-image: url(../img/ticket/w3@2x.jpg);
+}
+
+.w4 {
+    background-image: url(../img/ticket/w4@2x.jpg);
+}
+
+%raffle {
+    display: block;
+    width: 14.05rem;
+    height: 3.4rem;
+    margin: 0 auto;
+    background-size: 14.05rem 3.4rem;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.raffle {
+    height: 3.4rem;
+    margin-top: 5rem;
+    .raffle_on {
+        @extend %raffle;
+        background-image: url(../img/ticket/raffle_on@2x.png);
+    }
+    .raffle_off {
+        @extend %raffle;
+        background-image: url(../img/ticket/raffle_off@2x.png);
+    }
+}
+
+.tip {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    text-align: center;
+    color: $color_9;
+}
+
+.blank {
+    height: 10rem;
+}
+
+.fix {
+    position: fixed;
+    width: 32rem;
+    height: 5rem;
+    left: 0;
+    bottom: 0;
+    background-color: $color_white;
+    a {
+        display: block;
+        float: left;
+        width: 14rem;
+        height: 4rem;
+        line-height: 4rem;
+        margin-top: 0.5rem;
+        margin-left: 1rem;
+        margin-right: 0.5rem;
+        font-size: 1.8rem;
+        text-align: center;
+        border-radius: 0.2rem;
+        // border: 0.1rem solid $color_2;
+    }
+    .btn0 {}
+    .btn1 {
+        color: $color_white;
+        background-color: $color_2;
+    }
+}
+
+#tipX {
+    .tx_dialog {
+        position: absolute;
+        margin: auto;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 28rem;
+        height: 15rem;
+        background-color: $color_white;
+        text-align: center;
+        border-radius: 0.4rem;
+        padding-top: 2rem;
+        .tx_title {
+            color: $color_6;
+        }
+        #tx_value {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            height: 4.7rem;
+            line-height: 4.7rem;
+            background-size: 12.7rem 4.7rem;
+            background-image: url(../img/ticket/tt@2x.jpg);
+            background-position: center;
+            background-repeat: no-repeat;
+            color: $color_2;
+        }
+        a {
+            display: inline-block;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            padding-left: 2rem;
+            padding-right: 2rem;
+            background-color: $color_2;
+            color: $color_white;
+            border-radius: 0.6rem;
+        }
+    }
+}

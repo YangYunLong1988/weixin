@@ -1,0 +1,113 @@
+@import "compass/css3";
+@import "_config.scss";
+#no_order {
+    position: absolute;
+    width: 32rem;
+    top: 6.2rem;
+    left: 0;
+    text-align: center;
+    #img {
+        height: 6rem;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 5.9rem 6rem;
+    }
+    .img0 {
+        background-image: url(../img/diana/no_order@2x.png);
+    }
+    .txt {
+        margin-top: 2.3rem;
+        font-size: 1.4rem;
+        color: $color_9;
+    }
+}
+
+.gift_on {
+    background-image: url(../img/gift_card/gift_on@2x.jpg);
+    .p1 {
+        margin-top: 1.3rem;
+        font-size: 1.2rem;
+        color: #FF8802;
+    }
+}
+
+.gift_off {
+    background-image: url(../img/gift_card/gift_off@2x.jpg);
+    .p1 {
+        margin-top: 1.3rem;
+        font-size: 1.2rem;
+        color: $color_9;
+    }
+}
+
+.box {
+    width: 29.3rem;
+    height: 11.4rem;
+    margin-top: 1rem;
+    margin-left: 1.4rem;
+    padding-left: 1.3rem;
+    border-radius: 0.2rem;
+    background-color: $color_white;
+    background-size: 10.55rem 9rem;
+    background-repeat: no-repeat;
+    background-position: right center;
+    border: 0.1rem solid $color_white;
+    .flag {
+        float: left;
+        width: 1.95rem;
+        height: 1.95rem;
+        margin-top: 2.2rem;
+        background-size: 1.95rem 1.95rem;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-image: url(../img/gift_card/choose_on@2x.png);
+    }
+    .p {
+        float: left;
+        display: inline-block;
+        margin-left: 1.3rem;
+        .p0 {
+            margin-top: 2.5rem;
+            font-size: 1.4rem;
+            color: $color_6;
+        }
+    }
+}
+
+.choose_on {
+    border: 0.1rem solid #FF8802;
+}
+
+.blank {
+    height: 10rem;
+}
+
+.fix {
+    position: fixed;
+    width: 32rem;
+    height: 5rem;
+    left: 0;
+    bottom: 0;
+    background-color: $color_white;
+    a {
+        display: block;
+        float: left;
+        width: 14rem;
+        height: 4rem;
+        line-height: 4rem;
+        margin-top: 0.5rem;
+        margin-left: 1.4rem;
+        font-size: 1.8rem;
+        text-align: center;
+        border-radius: 0.2rem;
+        border: 0.1rem solid $color_2;
+    }
+    .btn0 {
+        color: $color_2;
+        background-color: $color_white;
+    }
+    .btn1 {
+        color: $color_white;
+        background-color: $color_2;
+    }
+}

@@ -1,0 +1,2 @@
+p12证书保护密码=s7ix3bp5yr6i    
+truststore保护密码=server123456

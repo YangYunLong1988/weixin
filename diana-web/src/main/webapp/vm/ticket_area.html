@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <script type='text/javascript'>window.BWEUM||(BWEUM={});BWEUM.info = {"stand":true,"agentType":"browser","agent":"bi-collector.oneapm.com/static/js/bw-send-411.4.5.js","beaconUrl":"bi-collector.oneapm.com/beacon","licenseKey":"mYF7B~e73nNvIjMv","applicationID":2273714};</script><script type="text/javascript" src="//bi-collector.oneapm.com/static/js/bw-loader-411.4.5.js"></script>
+    <title>票务交易系统</title>
+    <link rel="stylesheet" type="text/css" href="../scss/base.scss">
+    <link rel="stylesheet" type="text/css" href="../scss/ticket_area.scss">
+</head>
+
+<body>
+    <div class="line"></div>
+    <div class="title">选择时间</div>
+    <div class="option" id="times"></div>
+    <div class="line"></div>
+    <div class="title">区域位置</div>
+    <div class="option" id="areas"></div>
+    <div class="line"></div>
+    <div class="option1">
+        <span class="title1">票价</span>
+        <span class="value" id="price"></span>
+    </div>
+    <a id="next" class="next_on" href="javascript:void(0)" onclick="toNext()">下一步</a>
+</body>
+
+</html>
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript">
+var times = null;
+var selectedTime = null;
+var areas = null;
+var selectedArea = null;
+
+function start() {
+    common.post("/product/getTicketTime", {
+        id: $id
+    }, function(result) {
+        times = result.data;
+        var def = -1;
+        for (var i = 0; i < times.length; i++) {
+            var item = times[i];
+            if (item.valid) {
+                item.display = $('<a class="off" href="javascript:void(0)" onclick="selectTime(' + i + ')">' + item.value + '</a>');
+                if (def < 0) {
+                    def = i;
+                }
+            } else {
+                item.display = $('<a class="over" href="javascript:void(0)" onclick="selectTime(' + i + ')">' + item.value + '</a>');
+            }
+            $("#times").append(item.display);
+        }
+        if (def >= 0) {
+            selectTime(def);
+        }
+    });
+}
+
+function selectTime(i) {
+    var item = times[i];
+    if (item.valid) {
+        if (selectedTime != null) {
+            selectedTime.display.removeClass('on').addClass('off');
+        }
+        selectedTime = item;
+        selectedTime.display.removeClass('off').addClass('on');
+
+        common.post("/product/getTicketArea", {
+            id: $id,
+            time: item.key
+        }, function(result) {
+            areas = result.data;
+            selectArea = null;
+            var def = -1;
+            $("#areas").empty();
+            for (var i = 0; i < areas.length; i++) {
+                var item = areas[i];
+                if (item.valid) {
+                    item.display = $('<a class="off" href="javascript:void(0)" onclick="selectPlace(' + i + ')">' + item.value + '</a>');
+                    if (def < 0) {
+                        def = i;
+                    }
+                } else {
+                    item.display = $('<a class="over" href="javascript:void(0)" onclick="selectPlace(' + i + ')">' + item.value + '</a>');
+                }
+                $("#areas").append(item.display);
+            }
+            if (def >= 0) {
+                selectPlace(def);
+            }
+        });
+    }
+}
+
+function selectPlace(i) {
+    var item = areas[i];
+    if (item.valid) {
+        if (selectedArea != null) {
+            selectedArea.display.removeClass('on').addClass('off');
+        }
+        selectedArea = item;
+        selectedArea.display.removeClass('off').addClass('on');
+        $("#price").html('￥' + item.price + '<span>.00</span>');
+    }
+}
+
+function toNext() {
+    if (selectedTime != null && selectedArea != null) {
+        common.goto("/product/ticketOrder?id=$id&time=" + selectedTime.key + "&area=" + selectedArea.key);
+    }
+}
+start();
+</script>
